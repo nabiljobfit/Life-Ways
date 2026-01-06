@@ -1,0 +1,1694 @@
+
+        /* --- 1. SETTING DASAR & VARIABEL --- */
+        :root {
+            --primary-grad: linear-gradient(135deg, #0f766e 0%, #2dd4bf 100%); /* Teal Premium */
+            --bg-grad: linear-gradient(135deg, #134e4a 0%, #115e59 40%, #0d9488 100%); /* Background Utama Gelap Elegan */
+            --card-glass: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.2);
+            --text-white: #ffffff;
+            --text-muted: #ccfbf1;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+      /* --- 1. SETTING BODY DENGAN ANIMASI GRADASI --- */
+        body {
+            /* Kombinasi 4 Warna Premium yang Selaras:
+               1. Dark Slate (#0f172a) - Gelap elegan
+               2. Deep Teal (#134e4a) - Warna utama kita
+               3. Medium Teal (#0f766e) - Sedikit lebih terang
+               4. Deep Green (#042f2e) - Hijau sangat tua
+            */
+            background: linear-gradient(-45deg, #0f172a, #134e4a, #0f766e, #042f2e);
+            
+            /* Memperbesar ukuran background agar bisa digerakkan */
+            
+            /* Menjalankan animasi 'gradientBG' selama 15 detik, berulang selamanya */
+          
+            
+            /* Properti Layout Tetap Sama */
+            min-height: 100vh;
+            color: var(--text-white);
+            
+            height: 100vh; /* Paksa tinggi website setinggi layar saja */
+        overflow: hidden; /* Hilangkan scrollbar di body */
+        display: flex; /* Gunakan Flexbox untuk membagi Sidebar & Konten */
+        }
+
+        /* Definisi Animasi Pergerakan Warna */
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* --- 2. LAYOUT UTAMA --- */
+       
+
+        /* --- SIDEBAR PREMIUM STYLE --- */
+    .sidebar {
+        width: 260px;
+        /* Gradasi Background Gelap yang Elegan (Deep Teal to Midnight) */
+        background: linear-gradient(180deg, #0f3d3e 0%, #042f2e 100%);
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
+        z-index: 100;
+        box-shadow: 5px 0 25px rgba(0,0,0,0.2);
+    }
+
+    .brand {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        letter-spacing: -0.5px;
+        text-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
+    }
+
+    /* Scrollable Area jika menu terlalu panjang */
+    .sidebar-content {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 5px; /* Space for scrollbar */
+    }
+
+    /* Custom Scrollbar yang Tipis & Elegan */
+    .sidebar-content::-webkit-scrollbar { width: 4px; }
+    .sidebar-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    .sidebar-content::-webkit-scrollbar-track { background: transparent; }
+
+    /* Wrapper per Kategori */
+    .nav-group {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .nav-group:last-child { border-bottom: none; }
+
+    /* Judul Kategori (Penegas) */
+    .nav-title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #94a3b8; /* Slate color */
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 0.8rem;
+        padding-left: 12px;
+        opacity: 0.8;
+    }
+
+    /* Item Menu */
+    .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #cbd5e1; /* Off-white tekstur lembut */
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-bottom: 4px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .menu-item i {
+        font-size: 1.2rem;
+        color: #94a3b8;
+        transition: color 0.3s ease;
+    }
+
+    /* Hover Effect (Halus) */
+    .menu-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        transform: translateX(3px);
+    }
+    .menu-item:hover i { color: #2dd4bf; }
+
+    /* ACTIVE STATE (Highlight Premium) */
+    .menu-item.active {
+        /* Gradasi Teal ke Emerald */
+        background: linear-gradient(90deg, rgba(20, 184, 166, 0.15) 0%, rgba(13, 148, 136, 0.05) 100%);
+        color: #fff;
+        border-left: 3px solid #2dd4bf; /* Aksen garis di kiri */
+        border-radius: 4px 12px 12px 4px; /* Unik border radius */
+        box-shadow: 0 4px 15px rgba(45, 212, 191, 0.1); /* Glow halus */
+    }
+
+    .menu-item.active i {
+        color: #2dd4bf; /* Warna ikon nyala */
+        filter: drop-shadow(0 0 5px rgba(45, 212, 191, 0.5));
+    }
+
+        .main-content {
+            flex: 1;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+        main {
+        flex: 1; /* Mengisi sisa ruang di sebelah kanan sidebar */
+        height: 100%; /* Tinggi penuh */
+        
+        /* [PENTING] Pindahkan scrollbar ke sini */
+        overflow-y: auto; 
+        
+        padding: 2rem 3rem; /* Spasi dalam konten */
+        box-sizing: border-box;
+        position: relative;
+        /* Mendorong konten ke kanan agar tidak tertutup sidebar */
+        margin-left: 260px; 
+        
+        /* Memastikan lebar konten pas (100% layar dikurangi lebar sidebar) */
+        width: calc(100% - 260px); 
+        
+        /* Memberikan ruang napas di dalam konten */
+        padding: 2rem 3rem; 
+        
+        /* Transisi halus jika sidebar berubah ukuran nanti */
+        
+        /* Pastikan background tetap sesuai tema */
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+    .header {
+        max-width: 1200px;
+        margin-bottom: 2rem;
+    }
+
+
+    /* Optional: Mempercantik Scrollbar di Chrome/Edge */
+    main::-webkit-scrollbar {
+        width: 8px;
+    }
+    main::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    main::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+    }
+    main::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.4);
+    }
+
+        /* --- 3. DASHBOARD HEADER --- */
+        .header { margin-bottom: 3rem; }
+        .header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .header p { color: var(--text-muted); font-weight: 300; }
+
+        .actions { margin-top: 2rem; display: flex; gap: 1rem; }
+
+        .btn-primary {
+            background: var(--primary-grad);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(45, 212, 191, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45, 212, 191, 0.6); }
+
+        /* --- 4. GRID KARTU (Cards) --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding-bottom: 4rem;
+        }
+/* --- REVISI TAMPILAN DESKRIPSI & NOTES --- */
+
+        /* 1. Bagian Deskripsi */
+        #viewDesc {
+            margin-bottom: 1.5rem;
+            color: #e0e7ff; 
+            
+            /* Agar Rata Kanan Kiri */
+            text-align: justify; 
+            
+            /* Agar spasi dan enter yang diinput user terbaca sesuai aslinya */
+            white-space: pre-wrap; 
+            
+            /* Agar kata super panjang (tanpa spasi) dipaksa turun ke bawah */
+            word-break: break-word; 
+            overflow-wrap: break-word;
+            
+            /* Jarak antar baris biar enak dibaca */
+            line-height: 1.8; 
+            font-size: 0.95rem;
+        }
+
+        /* 2. Bagian Notes / Catatan Khusus */
+      /* REVISI DESAIN NOTES YANG LEBIH ELEGAN */
+        #viewNotes {
+            position: relative;
+            
+            /* Background Gradient Halus & Glass Effect */
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(10px); /* Efek blur di belakang */
+            
+            /* Border tipis & Shadow lembut */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+            
+            padding: 1.8rem 2rem 1.8rem 2.5rem; /* Padding lebih lega */
+            border-radius: 16px; /* Sudut lebih membulat */
+            margin-bottom: 2rem;
+            
+            /* Typography */
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-weight: 300; /* Font sedikit lebih tipis agar elegan */
+            font-style: normal; /* Kita buat normal saja biar lebih modern (bukan italic) */
+            letter-spacing: 0.3px;
+            
+            /* Text Layout Fixes */
+            text-align: justify;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            
+            /* Dekorasi Transisi */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden; /* Agar dekorasi tidak keluar kotak */
+        }
+
+        /* Hover Effect: Sedikit terangkat saat disentuh mouse */
+        #viewNotes:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Elemen Dekorasi 1: Garis Aksen Emas di Kiri */
+        #viewNotes::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            /* Gradasi Emas ke Oranye */
+            
+        }
+
+        /* Elemen Dekorasi 2: Ikon Tanda Kutip Raksasa Transparan */
+        #viewNotes::after {
+            content: '\201C'; /* Kode unicode untuk tanda kutip buka */
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 6rem;
+            line-height: 1;
+            font-family: serif; /* Font serif agar kutipnya estetik */
+            color: rgba(255, 255, 255, 0.04); /* Sangat transparan */
+            pointer-events: none;
+        }
+        .card {
+            background: var(--card-glass);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            height: 400px; /* Tinggi tetap agar rapi */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card-img {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer; /* Menandakan bisa diklik untuk detail */
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            align-self: flex-start;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.4; }
+       .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            
+            /* Logic membatasi hanya 2 baris */
+            display: -webkit-box;
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            
+            /* --- PERBAIKAN UTAMA --- */
+            /* Agar kata panjang tanpa spasi (hshshs...) bisa turun ke bawah */
+            word-break: break-word; 
+            overflow-wrap: break-word;
+            
+            /* Agar kartu terlihat rapi & sejajar walau teksnya sedikit */
+            min-height: 2.7em; /* Tinggi paksa setara 2 baris */
+            line-height: 1.5; /* Jarak antar baris agar mudah dibaca */
+            
+            margin-bottom: auto;
+        } 
+        .card-footer {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+        }
+
+        /* Action Buttons di Card (Floating) */
+        .card-actions-float {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover .card-actions-float { opacity: 1; }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: 0.2s;
+        }
+
+        .btn-dup { background: rgba(255, 255, 255, 0.2); color: white; }
+        .btn-dup:hover { background: rgba(255, 255, 255, 0.4); }
+        .btn-del { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .btn-del:hover { background: #ef4444; color: white; }
+
+        /* --- 5. MODAL FORM & DETAIL (Complex) --- */
+      
+
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+        .modal-box {
+            background: linear-gradient(145deg, #175e58, #0f3f3b);
+            width: 600px;
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 24px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+/* --- FIX MODAL FLASHING --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Gelap transparan */
+    z-index: 9999; /* Paling depan */
+    display: flex;
+        justify-content: center; /* Tengah Horizontal */
+        align-items: center;     /* Tengah Vertikal */
+    /* KUNCI SUPAYA TIDAK KILAT PUTIH: */
+    opacity: 0; 
+    visibility: hidden; 
+    pointer-events: none; /* Supaya tidak bisa diklik saat sembunyi */
+    
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+/* Saat kelas 'active' ditambahkan oleh JS, baru muncul */
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+        .modal-overlay.active .modal-box { transform: scale(1); }
+
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Styling Form yang Kompleks */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        
+        label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
+        
+        input, select, textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--card-border);
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            color: white;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #2dd4bf;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+        }
+
+        textarea { resize: vertical; min-height: 100px; }
+
+        /* Detail View Styling */
+        .detail-view h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .detail-meta { display: flex; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-muted); }
+        .detail-img { width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem; }
+        .detail-content { line-height: 1.8; color: #e0e7ff; white-space: pre-wrap; }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .btn-cancel { background: transparent; border: 1px solid var(--card-border); color: white; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; }
+        .btn-save { background: var(--primary-grad); border: none; color: white; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        
+        /* Utility */
+        .hidden { display: none; }
+        /* --- STYLE SEARCH & FILTER BAR --- */
+        
+        /* Wrapper Input Search */
+        /* --- REVISI SEARCH BAR (LEBIH LEBAR & CLEAN) --- */
+        /* --- UTILITY CLASS (WAJIB ADA) --- */
+    .hidden {
+        display: none !important;
+    }
+        /* 1. Wrapper Search Bar */
+        .search-box-wrapper {
+            flex: 2; /* Prioritas lebih lebar daripada tombol lain */
+            min-width: 640px; /* Ukuran fix diperlebar signifikan */
+            height: 50px; /* Tinggi fix agar terlihat gagah */
+            
+            background: rgba(0, 0, 0, 0.2); /* Background transparan gelap */
+            backdrop-filter: blur(5px);
+            
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Border awal tipis */
+            border-radius: 50px;
+            
+            padding: 0 1.5rem; /* Ruang dalam lebih lega */
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            
+            transition: all 0.3s ease; /* Transisi halus */
+        }
+        
+        /* 2. Efek Saat Fokus (Dibersihkan) */
+        .search-box-wrapper:focus-within {
+            background: rgba(0, 0, 0, 0.4); /* Lebih gelap dikit biar teks jelas */
+            border-color: #2dd4bf; /* Ganti warna border jadi Teal (Tanpa Glow Aneh) */
+            
+            /* PENTING: Menghapus shadow/glow yang bikin efek 'kotor' */
+            box-shadow: none; 
+            outline: none;
+            border-radius: 50px;
+        }
+
+        /* 3. Input Field di dalamnya */
+        .search-box-wrapper input {
+            background: transparent;
+            border: none;
+            padding: 0;
+            color: #ffffff;
+            width: 100%;
+            height: 100%;
+            
+            /* PENTING: Mematikan outline biru bawaan browser */
+            outline: none; 
+            
+            font-size: 1rem; /* Ukuran font lebih pas */
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* Styling Placeholder (Teks 'Cari nama tugas...') */
+        .search-box-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 300;
+        }
+
+        .search-icon { 
+            color: rgba(255, 255, 255, 0.6); 
+            font-size: 1.3rem; 
+            transition: 0.3s;
+        }
+        
+        /* Saat fokus, ikon ikut menyala */
+        .search-box-wrapper:focus-within .search-icon {
+            color: #2dd4bf;
+        }
+
+        .search-icon { color: var(--text-muted); font-size: 1.2rem; }
+
+        /* Wrapper Filter Select */
+        .filter-box-wrapper {
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            transition: 0.3s;
+        }
+        
+        .filter-box-wrapper:hover { background: rgba(0,0,0,0.3); }
+
+        .filter-icon {
+            position: absolute;
+            left: 1rem;
+            color: #2dd4bf;
+            font-size: 1.2rem;
+            pointer-events: none; /* Supaya klik tembus ke select */
+        }
+
+        .filter-box-wrapper select {
+            appearance: none; /* Hilangkan panah default browser */
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem 0.8rem 2.2rem; /* Padding kiri buat ikon */
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            width: 100%;
+        }
+
+        /* Styling Option (Dropdown bawaan browser, warna gelap) */
+        .filter-box-wrapper select option {
+            background: #111827; /* Dark BG */
+            color: white;
+            padding: 10px;
+        }
+        /* --- STYLING KHUSUS PLANS --- */
+        
+     /* --- REVISI CARD PLANS (FULL IMAGE STYLE) --- */
+        .plan-card {
+            /* Gradient Background */
+            background: linear-gradient(160deg, rgba(49, 46, 129, 0.6) 0%, rgba(30, 27, 75, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 20px;
+            
+            /* [PENTING] Hapus Padding agar gambar menempel ke tepi */
+            padding: 0; 
+            overflow: hidden; /* Agar sudut gambar ikut melengkung */
+            
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            min-height: 320px; /* Sedikit lebih tinggi */
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(167, 139, 250, 0.5);
+            box-shadow: 0 15px 40px -10px rgba(76, 29, 149, 0.5);
+        }
+        
+        /* Area Konten Teks (Judul, Desc, dll) dikasih padding terpisah */
+        .plan-card-body {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Mengisi sisa ruang */
+        }
+        /* Hiasan Dekoratif di Background Card */
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 150px; height: 150px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .plan-status-badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 30px;
+            align-self: flex-start;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        /* Status Colors */
+        .status-draft { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.3); }
+        .status-track { background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+        .status-risk { background: rgba(248, 113, 113, 0.2); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
+        .status-done { background: rgba(96, 165, 250, 0.2); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.3); }
+
+        .plan-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #fff, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .plan-goal {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: auto; /* Push footer ke bawah */
+            
+            /* Text Truncate & Wrapping Fix */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .plan-footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        /* Style Khusus Modal Plan */
+.btn-gen-purple {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    border: none; color: white; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer;
+}
+.dynamic-wrapper { display: flex; flex-direction: column; gap: 1rem; }
+.dynamic-item {
+    background: rgba(255,255,255,0.05);
+    padding: 1rem; border-radius: 8px;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    position: relative;
+}
+.dynamic-item input, .dynamic-item textarea { margin-bottom: 5px; font-size: 0.9rem; }
+/* --- 1. REVISI SCROLLBAR TIPIS (Agar sama dengan Ideas) --- */
+    /* Target seluruh modal body agar scrollbarnya tipis */
+    .modal-body::-webkit-scrollbar {
+        width: 6px; /* Lebar tipis */
+    }
+    .modal-body::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1); 
+    }
+    .modal-body::-webkit-scrollbar-thumb {
+        background: rgba(167, 139, 250, 0.3); /* Warna Ungu Transparan */
+        border-radius: 10px;
+    }
+    .modal-body::-webkit-scrollbar-thumb:hover {
+        background: rgba(167, 139, 250, 0.6);
+    }
+
+    /* --- 2. REVISI LABEL STATUS (Badge Style Premium) --- */
+    #viewPlanStatusBadge {
+        display: inline-block; /* Agar kotak mengikuti konten */
+        padding: 6px 16px;
+        border-radius: 50px; /* Bentuk Pill/Lonjong */
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Sedikit bayangan */
+        border: 1px solid transparent; /* Persiapan border */
+    }
+    /* --- STYLE CARD JOURNAL (WARM SUNSET) --- */
+    .journal-card {
+        /* Gradient Warm: Red/Orange/Dark */
+        background: linear-gradient(160deg, rgba(127, 29, 29, 0.6) 0%, rgba(69, 10, 10, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(251, 113, 133, 0.2);
+        border-radius: 20px;
+        padding: 0; /* Full Bleed Image */
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        min-height: 340px;
+    }
+
+    .journal-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(251, 113, 133, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(190, 18, 60, 0.5);
+    }
+
+    .journal-card-body {
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    /* Style Badge di Journal */
+    .badge-j-prio {
+        font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        border-radius: 20px; padding: 4px 10px;
+    }
+    .badge-j-stat {
+        font-size: 0.75rem; font-weight: 600; 
+        border-radius: 6px; padding: 4px 12px; background: rgba(0,0,0,0.3);
+    }
+    /* --- STYLE DASHBOARD EXTRAS --- */
+    .stat-badge {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        color: #94a3b8;
+        backdrop-filter: blur(5px);
+    }
+    
+    /* Type Badge (Penanda Asal Kartu) */
+    .card-source-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        backdrop-filter: blur(4px);
+    }
+    
+    /* Warna Badge per Tipe */
+    .badge-src-idea { background: rgba(16, 185, 129, 0.8); }   /* Green */
+    .badge-src-plan { background: rgba(139, 92, 246, 0.8); }    /* Purple */
+    .badge-src-journal { background: rgba(244, 63, 94, 0.8); }  /* Red/Pink */
+    /* --- STYLE NOTULENSI CARD (OCEANIC THEME) --- */
+    .notulensi-card {
+        /* Gradient Navy/Blue */
+        background: linear-gradient(160deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 58, 138, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        min-height: 340px;
+    }
+    .notulensi-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(56, 189, 248, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(29, 78, 216, 0.5);
+    }
+    .notulensi-card-body {
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    .badge-n-imp {
+        font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        border-radius: 20px; padding: 4px 10px;
+    }
+    .badge-n-stat {
+        font-size: 0.75rem; font-weight: 600; 
+        border-radius: 6px; padding: 4px 12px; background: rgba(0,0,0,0.3);
+    }
+    /* Warna Badge Source Notulensi di Dashboard */
+    .badge-src-notulensi { background: rgba(14, 165, 233, 0.8); } /* Sky Blue */
+    /* --- CSS BARU UNTUK DETAIL NOTULENSI --- */
+    
+    /* Grid Info Utama */
+/* --- GRID INFO 3 KOLOM --- */
+    .detail-grid-box {
+        display: grid; 
+        
+        /* [REVISI] Mengubah dari 4 kolom (1fr 1fr 1fr 1fr) menjadi 3 kolom */
+        grid-template-columns: 1fr 1fr 1fr; 
+        
+        gap: 1.5rem; 
+        background: rgba(15, 23, 42, 0.6); 
+        padding: 1.5rem; 
+        border-radius: 16px; 
+        border: 1px solid rgba(56, 189, 248, 0.2); 
+        margin-bottom: 1.5rem;
+    }
+
+    /* Responsif: Di layar HP (kecil) jadi 2 kolom atau 1 kolom */
+    @media (max-width: 768px) {
+        .detail-grid-box { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+        .detail-grid-box { grid-template-columns: 1fr; }
+    }
+    .detail-grid-box small { color: #64748b; display: block; margin-bottom: 5px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .text-highlight { color: #38bdf8; font-weight: 600; }
+    .text-white { color: #f1f5f9; font-weight: 500; }
+    .link-styled { color: #f43f5e; text-decoration: underline; cursor: pointer; }
+
+    /* Content Box (Pembungkus Deskripsi, Agenda, dll) */
+    .detail-content-box {
+        background: rgba(255, 255, 255, 0.03); /* Background transparan halus */
+        border: 1px solid rgba(255, 255, 255, 0.1); /* Border tipis sekeliling */
+        border-radius: 12px; /* Sudut tumpul */
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: 0.3s;
+    }
+    .detail-content-box:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    /* Khusus Box Keputusan (Sedikit beda biar menonjol) */
+    .highlight-box {
+        background: rgba(250, 204, 21, 0.05); /* Yellow tint */
+        border: 1px solid rgba(250, 204, 21, 0.3);
+    }
+
+    .box-label {
+        color: #7dd3fc; 
+        margin-bottom: 0.8rem; 
+        font-size: 0.95rem; 
+        display: flex; 
+        align-items: center; 
+        gap: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .content-text {
+        color: #cbd5e1;
+        line-height: 1.7;
+        white-space: pre-line; /* Agar enter terbaca */
+        text-align: justify;
+    }
+
+    /* Badge Styles */
+    .badge-pill-stat { padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .badge-pill-type { padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; background: rgba(255,255,255,0.1); color: #cbd5e1; }
+
+    /* Responsif untuk Grid */
+    @media (max-width: 768px) {
+        .detail-grid-box { grid-template-columns: 1fr 1fr; }
+    }
+ 
+    .modal-box {
+        /* Hapus margin jika ada, karena kita pakai flexbox */
+        margin: 0;
+         padding: 0 !important; /* INI KUNCINYA */
+       
+        width: 600px;
+        max-width: 90%;
+        max-height: 90vh; /* Agar tidak melebihi tinggi layar */
+        
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        
+        /* Animasi Zoom In */
+        transform: scale(0.9);
+        transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        
+        /* Pastikan background diatur di HTML masing-masing atau di sini */
+        background: #1e293b; 
+    }
+
+    .modal-overlay.active .modal-box {
+        transform: scale(1);
+    }
+    .modal-body {
+        padding: 0 1.5rem 1.5rem 1.5rem; /* Padding konten di sini */
+        overflow-y: auto; flex: 1;
+    }
+    .modal-footer {
+        width: 100%; padding: 1.2rem 1.5rem; flex-shrink: 0;
+        /* ...style lain... */
+    }
+ /* --- STYLE LOMBA (VICTORY THEME) --- */
+    .form-section-title {
+        color: #e879f9; 
+        margin-top: 1.5rem; 
+        margin-bottom: 0.8rem; 
+        border-bottom: 1px dashed rgba(232, 121, 249, 0.3); 
+        padding-bottom: 5px;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .lomba-card {
+        background: linear-gradient(160deg, rgba(30, 27, 75, 0.7) 0%, rgba(88, 28, 135, 0.6) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(167, 139, 250, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 360px;
+    }
+    .lomba-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(232, 121, 249, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(124, 58, 237, 0.5);
+    }
+    .lomba-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+    
+    .text-highlight-gold { color: #fbbf24; font-weight:700; }
+    .text-highlight-pink { color: #f472b6; font-weight:700; }
+    
+    .badge-pill-status { background: rgba(255,255,255,0.1); padding:4px 10px; border-radius:4px; font-size:0.7rem; color:white; border:1px solid rgba(255,255,255,0.2); }
+    .badge-pill-stage { background: rgba(232, 121, 249, 0.2); color:#e879f9; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(232, 121, 249, 0.4); }
+
+    .highlight-box-gold {
+        background: rgba(251, 191, 36, 0.05);
+        border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+    .detail-badge-float {
+        position: absolute; bottom: 10px; right: 10px;
+        background: rgba(0,0,0,0.6); backdrop-filter:blur(5px);
+        padding: 5px 15px; border-radius: 20px;
+        color: #fbbf24; font-weight: bold; border: 1px solid #fbbf24;
+    }
+    .badge-src-lomba { background: rgba(219, 39, 119, 0.8); } /* Pink for Dashboard */
+/* --- STYLE SPORT (ENERGETIC THEME) --- */
+    .sport-card {
+        /* Gradient Lime-Teal Dark */
+        background: linear-gradient(160deg, rgba(20, 83, 45, 0.7) 0%, rgba(6, 78, 59, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(132, 204, 22, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 360px;
+    }
+    .sport-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(163, 230, 53, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(101, 163, 13, 0.5);
+    }
+    .sport-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-lime { color: #a3e635; font-weight:700; }
+    
+    .badge-pill-sport-stat { background: rgba(34, 211, 238, 0.2); color:#22d3ee; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(34, 211, 238, 0.4); }
+    .badge-pill-sport-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-sport { background: rgba(132, 204, 22, 0.8); } /* Lime for Dashboard */
+    /* --- STYLE FOOD (SAVORY THEME) --- */
+    .food-card {
+        /* Gradient Dark Orange to Maroon */
+        background: linear-gradient(160deg, rgba(67, 20, 7, 0.7) 0%, rgba(131, 24, 67, 0.7) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(249, 115, 22, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 360px;
+    }
+    .food-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(253, 186, 116, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(194, 65, 12, 0.5);
+    }
+    .food-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-orange { color: #fdba74; font-weight:700; }
+    
+    .badge-pill-food-stat { background: rgba(249, 115, 22, 0.2); color:#fdba74; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(249, 115, 22, 0.4); }
+    .badge-pill-food-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-food { background: rgba(234, 88, 12, 0.8); } /* Orange for Dashboard */
+    /* --- REVISI STYLE DETAIL FOOD --- */
+    
+    /* Kotak Jurnal yang Lebih Estetik */
+    .food-journal-box {
+        background: rgba(255, 255, 255, 0.05); /* Transparan halus */
+        border: 1px solid rgba(236, 72, 153, 0.3); /* Border pink tipis keliling */
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    /* Ikon kutip untuk mempercantik */
+
+
+    /* Label Section di Detail */
+    .detail-section-label {
+        color: #fdba74; /* Orange lembut */
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .detail-text-content {
+        color: #fff;
+        line-height: 1.6;
+        font-size: 0.95rem;
+        white-space: pre-line;
+    }
+    /* --- STYLE VACATION (TROPICAL THEME) --- */
+    .vacation-card {
+        /* Gradient Teal to Purple */
+        background: linear-gradient(160deg, rgba(19, 78, 74, 0.7) 0%, rgba(74, 4, 78, 0.7) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(45, 212, 191, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 360px;
+    }
+    .vacation-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(94, 234, 212, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(13, 148, 136, 0.5);
+    }
+    .vacation-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-teal { color: #5eead4; font-weight:700; }
+    .text-highlight-pink { color: #f0abfc; font-weight:700; }
+    
+    .badge-pill-vacation-stat { background: rgba(45, 212, 191, 0.2); color:#5eead4; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(45, 212, 191, 0.4); }
+    .badge-pill-vacation-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-vacation { background: rgba(13, 148, 136, 0.8); } /* Teal for Dashboard */
+
+    /* Kotak Jurnal Clean */
+    .vacation-journal-box {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(232, 121, 249, 0.3);
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+        /* Tidak ada elemen ::before sesuai request */
+    }
+    /* --- STYLE WORSHIP (DIVINE THEME) --- */
+    .worship-card {
+        /* Gradient Indigo to Dark Gold */
+        background: linear-gradient(160deg, rgba(49, 46, 129, 0.7) 0%, rgba(69, 26, 3, 0.7) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(250, 204, 21, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 360px;
+    }
+    .worship-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(250, 204, 21, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(202, 138, 4, 0.4);
+    }
+    .worship-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-gold { color: #facc15; font-weight:700; }
+    
+    .badge-pill-worship-stat { background: rgba(250, 204, 21, 0.2); color:#facc15; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(250, 204, 21, 0.4); }
+    .badge-pill-worship-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-worship { background: rgba(202, 138, 4, 0.8); } /* Gold for Dashboard */
+
+    /* Kotak Jurnal Clean */
+    .worship-journal-box {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(250, 204, 21, 0.3);
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    /* --- STYLE PROJECT (EXECUTIVE THEME) --- */
+    .project-card {
+        /* Gradient Slate to Indigo */
+        background: linear-gradient(160deg, rgba(30, 41, 59, 0.7) 0%, rgba(49, 46, 129, 0.7) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 360px;
+    }
+    .project-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(129, 140, 248, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(71, 85, 105, 0.5);
+    }
+    .project-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-slate { color: #818cf8; font-weight:700; }
+    
+    .badge-pill-project-stat { background: rgba(148, 163, 184, 0.2); color:#cbd5e1; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(148, 163, 184, 0.4); }
+    .badge-pill-project-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-project { background: rgba(71, 85, 105, 0.8); } /* Slate for Dashboard */
+
+    /* Kotak Jurnal Clean */
+    .project-journal-box {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Progress Bar Mini di Card */
+    .mini-progress-bar {
+        width: 100%; height: 4px; background: rgba(255,255,255,0.1);
+        border-radius: 10px; margin-top: 10px; overflow: hidden;
+    }
+    .mini-progress-fill {
+        height: 100%; background: #818cf8; border-radius: 10px;
+    }
+    /* --- STYLE EDUCATION (ACADEMIC THEME) --- */
+    .education-card {
+        /* Gradient Dark Slate to Blue */
+        background: linear-gradient(160deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 58, 138, 0.7) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 360px;
+    }
+    .education-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(125, 211, 252, 0.5);
+        box-shadow: 0 15px 40px -10px rgba(2, 132, 199, 0.5);
+    }
+    .education-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-azure { color: #38bdf8; font-weight:700; }
+    
+    .badge-pill-education-stat { background: rgba(56, 189, 248, 0.2); color:#7dd3fc; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(56, 189, 248, 0.4); }
+    .badge-pill-education-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-education { background: rgba(3, 105, 161, 0.8); } /* Blue for Dashboard */
+
+    /* Kotak Jurnal Clean */
+    .education-journal-box {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    /* --- STYLE BUSINESS (CORPORATE THEME) --- */
+    .business-card {
+        /* Gradient Midnight Blue to Dark Slate */
+        background: linear-gradient(160deg, rgba(15, 23, 42, 0.85) 0%, rgba(51, 65, 85, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 360px;
+    }
+    .business-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(251, 191, 36, 0.4); /* Gold Glow */
+        box-shadow: 0 15px 40px -10px rgba(15, 23, 42, 0.6);
+    }
+    .business-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-gold { color: #fbbf24; font-weight:700; }
+    .text-highlight-silver { color: #e2e8f0; font-weight:700; }
+    
+    .badge-pill-business-stat { background: rgba(148, 163, 184, 0.2); color:#e2e8f0; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(148, 163, 184, 0.4); }
+    .badge-pill-business-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-business { background: rgba(71, 85, 105, 0.8); } /* Slate for Dashboard */
+
+    /* Kotak Jurnal Clean */
+    .business-journal-box {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    /* --- STYLE FINANCE (EMERALD WEALTH THEME) --- */
+    .finance-card {
+        /* Gradient Dark Green to Deep Teal */
+        background: linear-gradient(160deg, rgba(2, 44, 34, 0.85) 0%, rgba(6, 78, 59, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px; /* Sedikit lebih pendek dari project */
+    }
+    .finance-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(251, 191, 36, 0.5); /* Gold Border */
+        box-shadow: 0 15px 40px -10px rgba(6, 78, 59, 0.6);
+    }
+    .finance-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-gold { color: #fbbf24; font-weight:700; }
+    
+    .badge-pill-finance-stat { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    .badge-pill-finance-type { font-weight:bold; padding:4px 10px; border-radius:4px; font-size:0.7rem; text-transform:uppercase; letter-spacing:1px;}
+    
+    .badge-src-finance { background: rgba(217, 119, 6, 0.8); } /* Gold for Dashboard */
+    /* --- STYLE SUBSCRIPTION (ELECTRIC VIOLET) --- */
+    .subscription-card {
+        /* Gradient Deep Violet to Neon Purple */
+        background: linear-gradient(160deg, rgba(30, 27, 75, 0.85) 0%, rgba(88, 28, 135, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(167, 139, 250, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .subscription-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(216, 180, 254, 0.5); /* Lavender Glow */
+        box-shadow: 0 15px 40px -10px rgba(107, 33, 168, 0.6);
+    }
+    .subscription-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-neon { color: #e879f9; font-weight:700; }
+    
+    .badge-pill-sub-stat { background: rgba(167, 139, 250, 0.2); color:#e9d5ff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(167, 139, 250, 0.4); }
+    .badge-pill-sub-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-sub { background: rgba(147, 51, 234, 0.8); } /* Purple for Dashboard */
+    /* --- STYLE INVESTMENT (BULLISH BLUE) --- */
+    /* --- STYLE INVESTMENT (BULLISH BLUE) --- */
+    .invest-card {
+        /* Gradient Sky Blue to Forest Green */
+        background: linear-gradient(160deg, rgba(12, 74, 110, 0.85) 0%, rgba(6, 78, 59, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(14, 165, 233, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .invest-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(74, 222, 128, 0.5); /* Green Glow */
+        box-shadow: 0 15px 40px -10px rgba(3, 105, 161, 0.6);
+    }
+    .invest-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-bull { color: #4ade80; font-weight:700; }
+    .text-highlight-bear { color: #f87171; font-weight:700; }
+    
+    .badge-pill-invest-stat { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    .badge-pill-invest-type { background: rgba(14, 165, 233, 0.2); color:#7dd3fc; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(14, 165, 233, 0.4); }
+    
+    .badge-src-invest { background: rgba(22, 163, 74, 0.8); } /* Green for Dashboard */
+    /* --- STYLE SKILL (CYBER CYAN THEME) --- */
+    .skill-card {
+        /* Gradient Dark Cyan to Royal Blue */
+        background: linear-gradient(160deg, rgba(8, 51, 68, 0.85) 0%, rgba(23, 37, 84, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(34, 211, 238, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .skill-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(34, 211, 238, 0.6); /* Cyan Glow */
+        box-shadow: 0 15px 40px -10px rgba(8, 145, 178, 0.6);
+    }
+    .skill-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-cyan { color: #22d3ee; font-weight:700; }
+    
+    .badge-pill-skill-stat { background: rgba(34, 211, 238, 0.2); color:#cffafe; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(34, 211, 238, 0.4); }
+    .badge-pill-skill-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-skill { background: rgba(6, 182, 212, 0.8); } /* Cyan for Dashboard */
+    /* --- STYLE READING (CLASSIC BROWN THEME) --- */
+    .reading-card {
+        /* Gradient Dark Leather to Deep Brown */
+        background: linear-gradient(160deg, rgba(43, 17, 3, 0.9) 0%, rgba(69, 26, 3, 0.85) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(217, 119, 6, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 340px;
+    }
+    .reading-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(251, 191, 36, 0.5); /* Amber Glow */
+        box-shadow: 0 15px 40px -10px rgba(120, 53, 15, 0.6);
+    }
+    .reading-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-brown { color: #fbbf24; font-weight:700; }
+    
+    .badge-pill-reading-stat { background: rgba(251, 191, 36, 0.15); color:#fcd34d; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(251, 191, 36, 0.3); }
+    .badge-pill-reading-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-reading { background: rgba(180, 83, 9, 0.8); } /* Brown for Dashboard */
+    /* --- STYLE HABIT (FRESH MINT THEME) --- */
+    .habit-card {
+        /* Gradient Deep Forest to Mint */
+        background: linear-gradient(160deg, rgba(2, 44, 34, 0.9) 0%, rgba(6, 78, 59, 0.85) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(110, 231, 183, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .habit-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(52, 211, 153, 0.5); /* Emerald Glow */
+        box-shadow: 0 15px 40px -10px rgba(6, 78, 59, 0.6);
+    }
+    .habit-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-mint { color: #6ee7b7; font-weight:700; }
+    
+    .badge-pill-habit-stat { background: rgba(16, 185, 129, 0.2); color:#a7f3d0; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(16, 185, 129, 0.4); }
+    .badge-pill-habit-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-habit { background: rgba(5, 150, 105, 0.8); } /* Emerald for Dashboard */
+    /* --- STYLE CERTIFICATION (ROYAL GOLD THEME) --- */
+    .cert-card {
+        /* Gradient Black to Dark Gold */
+        background: linear-gradient(160deg, rgba(0, 0, 0, 0.9) 0%, rgba(66, 32, 6, 0.85) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(245, 158, 11, 0.3); /* Gold Border */
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 340px;
+    }
+    .cert-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(252, 211, 77, 0.6); /* Bright Gold Glow */
+        box-shadow: 0 15px 40px -10px rgba(180, 83, 9, 0.5);
+    }
+    .cert-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-royal { color: #fbbf24; font-weight:700; }
+    
+    .badge-pill-cert-stat { background: rgba(245, 158, 11, 0.15); color:#fcd34d; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(245, 158, 11, 0.3); }
+    .badge-pill-cert-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-cert { background: rgba(180, 83, 9, 0.9); } /* Dark Gold for Dashboard */
+    /* --- STYLE CONTENT (INSTA SUNSET THEME) --- */
+    .content-card {
+        /* Gradient Dark Red-Pink-Purple */
+        background: linear-gradient(160deg, rgba(67, 20, 7, 0.8) 0%, rgba(88, 28, 135, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(236, 72, 153, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 340px;
+    }
+    .content-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(244, 114, 182, 0.5); /* Pink Glow */
+        box-shadow: 0 15px 40px -10px rgba(190, 24, 93, 0.5);
+    }
+    .content-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-sunset { color: #f472b6; font-weight:700; }
+    
+    .badge-pill-content-stat { background: rgba(236, 72, 153, 0.2); color:#fbcfe8; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(236, 72, 153, 0.4); }
+    .badge-pill-content-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); }
+    
+    .badge-src-content { background: rgba(190, 24, 93, 0.8); } /* Pink/Red for Dashboard */
+    /* --- STYLE PORTFOLIO (CREATIVE CORAL THEME) --- */
+    .port-card {
+        /* Gradient Deep Red to Coral */
+        background: linear-gradient(160deg, rgba(80, 7, 36, 0.85) 0%, rgba(136, 19, 55, 0.8) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(251, 113, 133, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 350px;
+    }
+    .port-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(253, 164, 175, 0.5); /* Pink Glow */
+        box-shadow: 0 15px 40px -10px rgba(190, 18, 60, 0.6);
+    }
+    .port-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-coral { color: #fb7185; font-weight:700; }
+    
+    .badge-pill-port-tool { background: rgba(251, 113, 133, 0.2); color:#fecdd3; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(251, 113, 133, 0.4); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+    .badge-pill-port-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); text-transform:uppercase; font-weight:600;}
+    
+    .badge-src-port { background: rgba(225, 29, 72, 0.8); } /* Red/Coral for Dashboard */
+    /* --- STYLE VIDEO IDEAS (YOUTUBE RED THEME) --- */
+    .video-card {
+        /* Gradient Dark Red to Black */
+        background: linear-gradient(160deg, rgba(69, 10, 10, 0.9) 0%, rgba(26, 5, 5, 0.95) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(239, 68, 68, 0.25);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 340px;
+    }
+    .video-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(248, 113, 113, 0.6); /* Red Glow */
+        box-shadow: 0 15px 40px -10px rgba(185, 28, 28, 0.7);
+    }
+    .video-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-red { color: #ef4444; font-weight:700; }
+    
+    .badge-pill-video-stat { background: rgba(239, 68, 68, 0.15); color:#fca5a5; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(239, 68, 68, 0.3); }
+    .badge-pill-video-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); text-transform:uppercase; font-weight:600; }
+    
+    .badge-src-video { background: rgba(185, 28, 28, 0.9); } /* Dark Red for Dashboard */
+    /* --- STYLE WATCHLIST (CINEMA DARK THEME) --- */
+    .watchlist-card {
+        /* Gradient Black to Deep Maroon */
+        background: linear-gradient(160deg, rgba(15, 15, 15, 0.95) 0%, rgba(69, 10, 10, 0.9) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(127, 29, 29, 0.3);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 350px;
+    }
+    .watchlist-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(248, 113, 113, 0.5); /* Red Glow */
+        box-shadow: 0 15px 40px -10px rgba(127, 29, 29, 0.6);
+    }
+    .watchlist-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-cinema { color: #f87171; font-weight:700; }
+    
+    .badge-pill-watch-stat { background: rgba(127, 29, 29, 0.3); color:#fca5a5; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(127, 29, 29, 0.5); }
+    .badge-pill-watch-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); text-transform:uppercase; font-weight:600; }
+    
+    .badge-src-watch { background: rgba(153, 27, 27, 0.9); } /* Maroon for Dashboard */
+    /* --- STYLE CRM (PROFESSIONAL BLUE THEME) --- */
+    .crm-card {
+        /* Gradient Navy to Slate */
+        background: linear-gradient(160deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 280px;
+    }
+    .crm-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(96, 165, 250, 0.5); /* Blue Glow */
+        box-shadow: 0 15px 40px -10px rgba(30, 58, 138, 0.5);
+    }
+    .crm-card-body { padding: 1.5rem; flex: 1; display:flex; flex-direction:column; text-align:center; }
+
+    .text-highlight-blue { color: #60a5fa; font-weight:700; }
+    
+    .badge-pill-crm-type { background: rgba(56, 189, 248, 0.15); color:#7dd3fc; padding:4px 12px; border-radius:20px; font-size:0.75rem; border:1px solid rgba(56, 189, 248, 0.3); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;}
+    .badge-pill-crm-dob { background: rgba(255,255,255,0.05); color:#94a3b8; padding:4px 10px; border-radius:20px; font-size:0.75rem; border:1px solid rgba(255,255,255,0.1); }
+    
+    .badge-src-crm { background: rgba(30, 58, 138, 0.9); } /* Navy for Dashboard */
+    
+    /* Avatar di Card */
+    .crm-avatar {
+        width: 80px; height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #60a5fa;
+        margin: 0 auto 1rem auto;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    /* --- STYLE EVENT ORGANIZER (PARTY PURPLE THEME) --- */
+    .event-card {
+        /* Gradient Deep Purple to Magenta */
+        background: linear-gradient(160deg, rgba(74, 4, 78, 0.9) 0%, rgba(131, 24, 67, 0.85) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(232, 121, 249, 0.25);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 340px;
+    }
+    .event-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(244, 114, 182, 0.6); /* Pink Glow */
+        box-shadow: 0 15px 40px -10px rgba(192, 38, 211, 0.6);
+    }
+    .event-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-party { color: #e879f9; font-weight:700; }
+    
+    .badge-pill-event-stat { background: rgba(232, 121, 249, 0.15); color:#f5d0fe; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(232, 121, 249, 0.3); }
+    .badge-pill-event-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); text-transform:uppercase; font-weight:600; }
+    
+    .badge-src-event { background: rgba(192, 38, 211, 0.9); } /* Purple for Dashboard */
