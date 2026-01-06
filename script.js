@@ -9612,8 +9612,11 @@ else if(item.dataType === 'food') {
     }
 // --- LOGIKA FITUR MEETING LOG ---
 
-    let meetings = JSON.parse(localStorage.getItem('myMeetings')) || [];
-// --- ASSETS TIPE MEETING (BARU) ---
+   // =========================================
+    // FITUR: MEETING LOG (FULL INTEGRATED FIX)
+    // =========================================
+
+    // 1. ASSETS TIPE MEETING
     const meetTypeAssets = {
         "Internal Team": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
         "Client Meeting": "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
@@ -9627,7 +9630,7 @@ else if(item.dataType === 'food') {
         return meetTypeAssets[type] || meetTypeAssets["Lainnya"];
     }
     
-    // Populate Dropdown (Pastikan ini ada)
+    // Populate Dropdown Form
     const meTypeSelect = document.getElementById('inpMeType');
     if(meTypeSelect) {
         meTypeSelect.innerHTML = '';
@@ -9637,49 +9640,11 @@ else if(item.dataType === 'food') {
             meTypeSelect.appendChild(opt);
         });
     }
-    // 1. RENDER MEETING (List Style Card)
-  // --- PASTE INI DI FILE JAVASCRIPT ANDA ---
 
-    // 1. Definisikan Data Meeting (Cek LocalStorage)
-    
-    // 2. Fungsi Membuka Modal (Solusi Error openMeetModal is not defined)
-    function openMeetModal() {
-        // Reset Form
-        const form = document.getElementById('meetForm');
-        if(form) form.reset();
-        
-        // Reset ID (biar jadi mode "New", bukan "Edit")
-        const idInput = document.getElementById('meetId');
-        if(idInput) idInput.value = '';
+    // 2. DEFINISI DATA (HANYA SEKALI DEKLARASI)
+    let meetings = JSON.parse(localStorage.getItem('myMeetings')) || [];
 
-        // Ganti Judul Modal
-        const title = document.getElementById('meetModalTitle');
-        if(title) title.innerText = "Agenda Rapat";
-
-        // Tampilkan Form, Sembunyikan Detail
-        const formEl = document.getElementById('meetForm');
-        const detailEl = document.getElementById('meetDetailView');
-        const formAct = document.getElementById('meetFormActions');
-        const detailAct = document.getElementById('meetDetailActions');
-
-        if(formEl) formEl.classList.remove('hidden');
-        if(detailEl) detailEl.classList.add('hidden');
-        if(formAct) formAct.classList.remove('hidden');
-        if(detailAct) detailAct.classList.add('hidden');
-
-        // Munculkan Overlay
-        const overlay = document.getElementById('meetModalOverlay');
-        if(overlay) overlay.classList.add('active');
-    }
-
-    // 3. Fungsi Menutup Modal
-    function closeMeetModal() { 
-        const overlay = document.getElementById('meetModalOverlay');
-        if(overlay) overlay.classList.remove('active'); 
-    }
-
-    // 4. Fungsi Render Meeting (Solusi Error renderMeeting is not defined)
-    // --- 1. RENDER MEETING (REVISI ELEGANT CARD) ---
+    // 3. RENDER MEETING (CARD ELEGAN)
     function renderMeeting() {
         const container = document.getElementById('meetContainer');
         if(!container) return;
@@ -9708,17 +9673,13 @@ else if(item.dataType === 'food') {
             const card = document.createElement('div');
             card.className = 'meet-card';
             
-            // Image & Colors
             const bgImage = getMeetImage(m.type);
-            let statColor = '#fbbf24'; // Scheduled
+            let statColor = '#fbbf24'; 
             if(m.status === 'Completed') statColor = '#94a3b8';
             if(m.status === 'Cancelled') statColor = '#ef4444';
 
-            // Date Format
             const dateObj = new Date(m.date);
             const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
-            
-            // Deskripsi (Ringkasan Diskusi)
             const descText = m.points || "Belum ada ringkasan diskusi.";
 
             card.innerHTML = `
@@ -9749,7 +9710,6 @@ else if(item.dataType === 'food') {
                     
                     <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
                          <span style="color:${statColor}; font-weight:bold; font-size:0.75rem; text-transform:uppercase;">${m.status}</span>
-                         
                          <span style="font-size:0.85rem; color:#94a3b8; display:flex; align-items:center; gap:5px;">
                             <i class="ph ph-map-pin" style="color:#d97706;"></i> ${m.loc || 'Online'}
                          </span>
@@ -9761,7 +9721,7 @@ else if(item.dataType === 'food') {
         });
     }
 
-    // 3. SAVE MEETING
+    // 4. SAVE MEETING
     function saveMeeting() {
         const id = document.getElementById('meetId').value;
         const now = new Date().toLocaleString();
@@ -9774,12 +9734,10 @@ else if(item.dataType === 'food') {
             title: document.getElementById('inpMeTitle').value,
             type: document.getElementById('inpMeType').value,
             loc: document.getElementById('inpMeLoc').value,
-            
             date: document.getElementById('inpMeDate').value,
             time: document.getElementById('inpMeTime').value,
             attendees: document.getElementById('inpMeAttendees').value,
             status: document.getElementById('inpMeStatus').value,
-            
             points: document.getElementById('inpMePoints').value,
             action: document.getElementById('inpMeAction').value,
             link: document.getElementById('inpMeLink').value
@@ -9799,8 +9757,7 @@ else if(item.dataType === 'food') {
         renderDashboard();
     }
 
-    // 4. DETAIL VIEW (MOM STYLE)
-// --- 4. DETAIL VIEW (REVISI DENGAN GAMBAR HEADER) ---
+    // 5. OPEN DETAIL (HEADER GAMBAR)
     let currentMeetId = null;
     function openMeetDetail(id) {
         const m = meetings.find(x => x.id === id);
@@ -9811,25 +9768,23 @@ else if(item.dataType === 'food') {
         const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
         const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; el.onerror = function() { this.src = meetTypeAssets["Lainnya"]; }; } };
 
-        // SET GAMBAR COVER (BARU)
         setImg('viewMeCover', getMeetImage(m.type));
-
         setTxt('viewMeTitle', m.title);
         setTxt('viewMeType', m.type);
         setTxt('viewMeLoc', m.loc || 'Online');
         setTxt('viewMeAttendees', m.attendees);
         
-        // Date Time
         const dateObj = new Date(m.date);
         setTxt('viewMeDate', dateObj.toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'}));
         setTxt('viewMeTime', m.time);
         
-        // Status Badge Style
         const statB = document.getElementById('viewMeStatus');
-        statB.innerText = m.status;
-        if(m.status === 'Completed') statB.style.cssText = "color:#94a3b8; border-color:#94a3b8; background:rgba(255,255,255,0.05)";
-        else if(m.status === 'Scheduled') statB.style.cssText = "color:#fbbf24; border-color:#fbbf24; background:rgba(217, 119, 6, 0.2)";
-        else statB.style.cssText = "color:#ef4444; border-color:#ef4444; background:rgba(220, 38, 38, 0.2)";
+        if(statB) {
+            statB.innerText = m.status;
+            if(m.status === 'Completed') statB.style.cssText = "color:#94a3b8; border-color:#94a3b8; background:rgba(255,255,255,0.05)";
+            else if(m.status === 'Scheduled') statB.style.cssText = "color:#fbbf24; border-color:#fbbf24; background:rgba(217, 119, 6, 0.2)";
+            else statB.style.cssText = "color:#ef4444; border-color:#ef4444; background:rgba(220, 38, 38, 0.2)";
+        }
 
         setTxt('viewMePoints', m.points || "Tidak ada notulensi.");
         setTxt('viewMeAction', m.action || "Tidak ada action items.");
@@ -9845,30 +9800,12 @@ else if(item.dataType === 'food') {
         document.getElementById('meetDetailView').classList.remove('hidden');
         document.getElementById('meetFormActions').classList.add('hidden');
         document.getElementById('meetDetailActions').classList.remove('hidden');
-        document.getElementById('meetModalOverlay').classList.add('active');
+        
+        const overlay = document.getElementById('meetModalOverlay');
+        if(overlay) overlay.classList.add('active');
     }
- 
-    // 5. UTILS
-    function deleteMeeting(id, e) {
-        e.stopPropagation();
-        if(confirm("Hapus catatan rapat ini?")) {
-            meetings = meetings.filter(x => x.id !== id);
-            localStorage.setItem('myMeetings', JSON.stringify(meetings));
-            renderMeeting();
-            renderDashboard();
-        }
-    }
-    function duplicateMeeting(id, e) {
-        e.stopPropagation();
-        const origin = meetings.find(x => x.id === id);
-        if(origin) {
-            const copy = { ...origin, id: Date.now(), title: origin.title + " (Follow Up)", createdAt: new Date().toLocaleString() };
-            meetings.push(copy);
-            localStorage.setItem('myMeetings', JSON.stringify(meetings));
-            renderMeeting();
-            renderDashboard();
-        }
-    }
+
+    // 6. UTILS (OPEN/CLOSE/DELETE/DUPLICATE)
     function openMeetModal() {
         document.getElementById('meetForm').reset();
         document.getElementById('meetId').value = '';
@@ -9877,9 +9814,15 @@ else if(item.dataType === 'food') {
         document.getElementById('meetDetailView').classList.add('hidden');
         document.getElementById('meetFormActions').classList.remove('hidden');
         document.getElementById('meetDetailActions').classList.add('hidden');
-        document.getElementById('meetModalOverlay').classList.add('active');
+        const overlay = document.getElementById('meetModalOverlay');
+        if(overlay) overlay.classList.add('active');
     }
-    function closeMeetModal() { document.getElementById('meetModalOverlay').classList.remove('active'); }
+
+    function closeMeetModal() { 
+        const overlay = document.getElementById('meetModalOverlay');
+        if(overlay) overlay.classList.remove('active'); 
+    }
+
     function editMeeting() {
         const m = meetings.find(x => x.id === currentMeetId);
         if(!m) return;
@@ -9902,6 +9845,27 @@ else if(item.dataType === 'food') {
         document.getElementById('meetFormActions').classList.remove('hidden');
     }
 
+    function deleteMeeting(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus catatan rapat ini?")) {
+            meetings = meetings.filter(x => x.id !== id);
+            localStorage.setItem('myMeetings', JSON.stringify(meetings));
+            renderMeeting();
+            renderDashboard();
+        }
+    }
+
+    function duplicateMeeting(id, e) {
+        e.stopPropagation();
+        const origin = meetings.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), title: origin.title + " (Follow Up)", createdAt: new Date().toLocaleString() };
+            meetings.push(copy);
+            localStorage.setItem('myMeetings', JSON.stringify(meetings));
+            renderMeeting();
+            renderDashboard();
+        }
+    }
     renderWatchlist()
 renderIdeas();    // Render kartu Ideas
     renderPlans();    // Render kartu Plans
