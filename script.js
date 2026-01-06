@@ -1983,6 +1983,7 @@ const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => 
             // --- X. JIKA TIPE EVENT (DASHBOARD) ---
                 // --- Y. JIKA TIPE MEETING (DASHBOARD) ---
            // --- Y. JIKA TIPE MEETING (DASHBOARD REVISI ELEGANT) ---
+          // --- Y. JIKA TIPE MEETING (DASHBOARD REVISI: LABEL BAWAH) ---
             else if(item.dataType === 'meeting') {
                 card.className = 'meet-card';
                 const bgImage = getMeetImage(item.type || 'Lainnya');
@@ -1996,7 +1997,7 @@ const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => 
                 const descText = item.points || "Belum ada ringkasan diskusi.";
 
                 card.innerHTML = `
-                    <div style="height:140px; width:100%; position:relative;">
+                    <div style="height:160px; width:100%; position:relative;">
                         <span class="card-source-badge badge-src-meet">Meeting</span>
                         <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80';">
                         
@@ -2005,15 +2006,16 @@ const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => 
                              <button onclick="deleteMeeting(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
                         </div>
                         
-                        <div style="position:absolute; bottom:10px; left:10px;">
-                            <span class="badge-pill-meet-type">${item.type}</span>
                         </div>
-                    </div>
                     
                     <div class="meet-card-body">
-                        <div style="text-align:right; margin-bottom:5px; font-size:0.85rem;">
-                            <span style="font-weight:bold; color:#fbbf24;">${dateStr}</span>
-                            <span style="color:#94a3b8;"> • ${item.time}</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span class="badge-pill-meet-type">${item.type}</span>
+                            
+                            <div style="text-align:right; font-size:0.75rem;">
+                                <span style="font-weight:bold; color:#fbbf24;">${dateStr}</span>
+                                <span style="color:#94a3b8;"> • ${item.time}</span>
+                            </div>
                         </div>
 
                         <h3 style="font-size:1.3rem; margin-bottom:0.3rem; line-height:1.3; color:white;">${item.title}</h3>
@@ -9683,7 +9685,7 @@ else if(item.dataType === 'food') {
             const descText = m.points || "Belum ada ringkasan diskusi.";
 
             card.innerHTML = `
-                <div style="height:140px; width:100%; position:relative;">
+                <div style="height:160px; width:100%; position:relative;">
                     <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80';">
                     
                     <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
@@ -9691,15 +9693,16 @@ else if(item.dataType === 'food') {
                          <button onclick="deleteMeeting(${m.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
                     </div>
                     
-                    <div style="position:absolute; bottom:10px; left:10px;">
-                        <span class="badge-pill-meet-type">${m.type}</span>
                     </div>
-                </div>
                 
                 <div class="meet-card-body">
-                    <div style="text-align:right; margin-bottom:5px; font-size:0.85rem;">
-                        <span style="font-weight:bold; color:#fbbf24;">${dateStr}</span>
-                        <span style="color:#94a3b8;"> • ${m.time}</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span class="badge-pill-meet-type">${m.type}</span>
+                        
+                        <div style="text-align:right; font-size:0.75rem;">
+                            <span style="font-weight:bold; color:#fbbf24;">${dateStr}</span>
+                            <span style="color:#94a3b8;"> • ${m.time}</span>
+                        </div>
                     </div>
 
                     <h3 style="font-size:1.3rem; margin-bottom:0.3rem; line-height:1.3; color:white;">${m.title}</h3>
@@ -9710,6 +9713,7 @@ else if(item.dataType === 'food') {
                     
                     <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
                          <span style="color:${statColor}; font-weight:bold; font-size:0.75rem; text-transform:uppercase;">${m.status}</span>
+                         
                          <span style="font-size:0.85rem; color:#94a3b8; display:flex; align-items:center; gap:5px;">
                             <i class="ph ph-map-pin" style="color:#d97706;"></i> ${m.loc || 'Online'}
                          </span>
