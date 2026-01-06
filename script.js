@@ -128,6 +128,7 @@
             if(pageId === 'watchlist') renderWatchlist()
               if(pageId === 'crm') renderCrm()
                  if(pageId === 'event')  renderEvent()
+            if(pageId === 'meeting')  renderMeeting()
         }
     }
     // --- FITUR SAPAAN DINAMIS (DYNAMIC GREETING) ---
@@ -1768,11 +1769,12 @@ const allPorts = (JSON.parse(localStorage.getItem('myPortfolios')) || []).map(p 
 const allVideos = (JSON.parse(localStorage.getItem('myVideoIdeas')) || []).map(v => ({...v, dataType: 'video'}));
 const allWatch = (JSON.parse(localStorage.getItem('myWatchlist')) || []).map(w => ({...w, dataType: 'watchlist'}));
 const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => ({...e, dataType: 'event'}));
+        const allMeets = (JSON.parse(localStorage.getItem('myMeetings')) || []).map(m => ({...m, dataType: 'meeting'}));
          // 2. GABUNGKAN SEMUA DATA
         let masterData = [
             ...allIdeas, ...allPlans, ...allJournals, ...allNotulensis, 
             ...allLombas, ...allSports, ...allFoods, ...allVacations, ...allWorships, ...allProjects, ...allEducations, ...allBusinesses, ...allFinances, ...allSubs, ...allInvests, ...allSkills, ...allReadings,
-            ...allHabits, ...allCerts, ...allContents, ...allPorts, ...allVideos, ...allWatch, ...allCrm, ...allEvents 
+            ...allHabits, ...allCerts, ...allContents, ...allPorts, ...allVideos, ...allWatch, ...allCrm, ...allEvents, ...allMeets 
         ];
         if(searchTerm) {
             masterData = masterData.filter(item => item.title.toLowerCase().includes(searchTerm));
@@ -1979,6 +1981,45 @@ const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => 
                 card.onclick = (e) => { if(!e.target.closest('button')) openWatchDetail(item.id); };
             }
             // --- X. JIKA TIPE EVENT (DASHBOARD) ---
+                // --- Y. JIKA TIPE MEETING (DASHBOARD) ---
+            else if(item.dataType === 'meeting') {
+                card.className = 'meet-card';
+                // Date Format
+                const dateObj = new Date(item.date);
+                const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short'});
+                
+                // Urgency Color
+                let statColor = '#94a3b8';
+                if(item.status === 'Scheduled') {
+                    const today = new Date();
+                    const meetDate = new Date(item.date);
+                    if(meetDate >= today) statColor = '#fbbf24'; // Upcoming
+                    else statColor = '#ef4444'; // Overdue
+                }
+
+                card.innerHTML = `
+                    <div class="meet-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:1rem;">
+                            <span class="card-source-badge" style="background:rgba(217, 119, 6, 0.9); position:static;">Meeting</span>
+                            <div style="text-align:right;">
+                                <div style="font-weight:bold; color:${statColor}; font-size:1.1rem;">${dateStr}</div>
+                                <div style="color:#d97706; font-size:0.9rem;">${item.time}</div>
+                            </div>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.5rem; color:#f1f5f9; line-height:1.3;">${item.title}</h3>
+                        
+                        <div style="margin-bottom:1rem; font-size:0.85rem; color:#64748b;">
+                            ${item.type} • ${item.loc || 'Online'}
+                        </div>
+                        
+                        <p style="font-size:0.85rem; color:#cbd5e1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px; font-style:italic;">
+                            ${item.action ? 'Action: ' + item.action : 'No urgent action items.'}
+                        </p>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openMeetDetail(item.id); };
+            }
          // --- X. JIKA TIPE EVENT (DASHBOARD REVISI: DESC/VENDOR) ---
             else if(item.dataType === 'event') {
                 card.className = 'event-card';
@@ -9556,6 +9597,220 @@ else if(item.dataType === 'food') {
         document.getElementById('eventDetailActions').classList.add('hidden');
         document.getElementById('eventFormActions').classList.remove('hidden');
     }
+// --- LOGIKA FITUR MEETING LOG ---
+
+    let meetings = JSON.parse(localStorage.getItem('myMeetings')) || [];
+
+    // 1. RENDER MEETING (List Style Card)
+    function renderMeeting() {
+        const container = document.getElementById('meetContainer');
+        const searchTerm = document.getElementById('inpSearchMeet') ? document.getElementById('inpSearchMeet').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpMeetFilter') ? document.getElementById('inpMeetFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = meetings.filter(m => m.title.toLowerCase().includes(searchTerm) || m.attendees.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => new Date(a.date) - new Date(b.date));
+        if(filterVal === 'type_internal') filtered = filtered.filter(m => m.type.includes('Internal'));
+        if(filterVal === 'type_client') filtered = filtered.filter(m => m.type.includes('Client'));
+        if(filterVal === 'stat_scheduled') filtered = filtered.filter(m => m.status === 'Scheduled');
+        if(filterVal === 'stat_completed') filtered = filtered.filter(m => m.status === 'Completed');
+        if(filterVal === 'needs_action') filtered = filtered.filter(m => m.action && m.action.length > 5);
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada catatan rapat.</div>';
+            return;
+        }
+
+        filtered.forEach(m => {
+            const card = document.createElement('div');
+            card.className = 'meet-card';
+            
+            // Logic Status Color
+            let statColor = '#fbbf24'; // Scheduled (Gold)
+            if(m.status === 'Completed') statColor = '#94a3b8'; // Grey
+            if(m.status === 'Cancelled') statColor = '#ef4444'; // Red
+
+            // Date Format
+            const dateObj = new Date(m.date);
+            const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+            
+            // Action Item Teaser
+            let actionTeaser = m.action ? `Action: ${m.action}` : 'No immediate action items.';
+
+            card.innerHTML = `
+                <div class="meet-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:1rem;">
+                        <div>
+                            <span class="badge-pill-meet-type">${m.type}</span>
+                            <div style="color:#64748b; font-size:0.8rem; margin-top:8px;">
+                                <i class="ph ph-map-pin"></i> ${m.loc || 'Online'}
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-weight:bold; color:#fff; font-size:1.1rem;">${dateStr}</div>
+                            <div style="color:#d97706; font-size:0.9rem;">${m.time}</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="font-size:1.4rem; margin-bottom:0.5rem; color:#f1f5f9; line-height:1.3;">${m.title}</h3>
+                    
+                    <div style="margin-bottom:1rem; font-size:0.85rem; color:#94a3b8;">
+                        <i class="ph ph-users"></i> ${m.attendees || '-'}
+                    </div>
+                    
+                    <p style="font-size:0.85rem; color:#cbd5e1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px; font-style:italic;">
+                        ${actionTeaser}
+                    </p>
+                    
+                    <div style="margin-top:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                         <span style="color:${statColor}; font-weight:bold; font-size:0.8rem; text-transform:uppercase;">${m.status}</span>
+                         <span style="font-size:1.2rem; color:#94a3b8;"><i class="ph ph-caret-right"></i></span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openMeetDetail(m.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 3. SAVE MEETING
+    function saveMeeting() {
+        const id = document.getElementById('meetId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (meetings.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            title: document.getElementById('inpMeTitle').value,
+            type: document.getElementById('inpMeType').value,
+            loc: document.getElementById('inpMeLoc').value,
+            
+            date: document.getElementById('inpMeDate').value,
+            time: document.getElementById('inpMeTime').value,
+            attendees: document.getElementById('inpMeAttendees').value,
+            status: document.getElementById('inpMeStatus').value,
+            
+            points: document.getElementById('inpMePoints').value,
+            action: document.getElementById('inpMeAction').value,
+            link: document.getElementById('inpMeLink').value
+        };
+
+        if(!dataObj.title) { alert("Judul rapat wajib diisi!"); return; }
+
+        if(id) {
+            const idx = meetings.findIndex(x => x.id == id);
+            meetings[idx] = dataObj;
+        } else {
+            meetings.push(dataObj);
+        }
+        localStorage.setItem('myMeetings', JSON.stringify(meetings));
+        closeMeetModal();
+        renderMeeting();
+        renderDashboard();
+    }
+
+    // 4. DETAIL VIEW (MOM STYLE)
+    let currentMeetId = null;
+    function openMeetDetail(id) {
+        const m = meetings.find(x => x.id === id);
+        if(!m) return;
+        currentMeetId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+
+        setTxt('viewMeTitle', m.title);
+        setTxt('viewMeType', m.type);
+        setTxt('viewMeLoc', m.loc);
+        setTxt('viewMeAttendees', m.attendees);
+        
+        // Date Time
+        const dateObj = new Date(m.date);
+        setTxt('viewMeDate', dateObj.toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'}));
+        setTxt('viewMeTime', m.time);
+        
+        // Status Badge Style
+        const statB = document.getElementById('viewMeStatus');
+        statB.innerText = m.status;
+        if(m.status === 'Completed') statB.style.cssText = "color:#94a3b8; border-color:#94a3b8; background:rgba(255,255,255,0.05)";
+        else if(m.status === 'Scheduled') statB.style.cssText = "color:#fbbf24; border-color:#fbbf24; background:rgba(217, 119, 6, 0.2)";
+        else statB.style.cssText = "color:#ef4444; border-color:#ef4444; background:rgba(220, 38, 38, 0.2)";
+
+        setTxt('viewMePoints', m.points || "Tidak ada notulensi.");
+        setTxt('viewMeAction', m.action || "Tidak ada action items.");
+
+        const lnk = document.getElementById('viewMeLink');
+        if(lnk) { if(m.link) { lnk.href = m.link; lnk.style.display='flex'; } else { lnk.style.display='none'; } }
+
+        setTxt('viewMeCreated', "Created: " + m.createdAt);
+        setTxt('viewMeUpdated', "Last Update: " + m.updatedAt);
+
+        document.getElementById('meetModalTitle').innerText = "Meeting Detail";
+        document.getElementById('meetForm').classList.add('hidden');
+        document.getElementById('meetDetailView').classList.remove('hidden');
+        document.getElementById('meetFormActions').classList.add('hidden');
+        document.getElementById('meetDetailActions').classList.remove('hidden');
+        document.getElementById('meetModalOverlay').classList.add('active');
+    }
+
+    // 5. UTILS
+    function deleteMeeting(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus catatan rapat ini?")) {
+            meetings = meetings.filter(x => x.id !== id);
+            localStorage.setItem('myMeetings', JSON.stringify(meetings));
+            renderMeeting();
+            renderDashboard();
+        }
+    }
+    function duplicateMeeting(id, e) {
+        e.stopPropagation();
+        const origin = meetings.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), title: origin.title + " (Follow Up)", createdAt: new Date().toLocaleString() };
+            meetings.push(copy);
+            localStorage.setItem('myMeetings', JSON.stringify(meetings));
+            renderMeeting();
+            renderDashboard();
+        }
+    }
+    function openMeetModal() {
+        document.getElementById('meetForm').reset();
+        document.getElementById('meetId').value = '';
+        document.getElementById('meetModalTitle').innerText = "Agenda Rapat";
+        document.getElementById('meetForm').classList.remove('hidden');
+        document.getElementById('meetDetailView').classList.add('hidden');
+        document.getElementById('meetFormActions').classList.remove('hidden');
+        document.getElementById('meetDetailActions').classList.add('hidden');
+        document.getElementById('meetModalOverlay').classList.add('active');
+    }
+    function closeMeetModal() { document.getElementById('meetModalOverlay').classList.remove('active'); }
+    function editMeeting() {
+        const m = meetings.find(x => x.id === currentMeetId);
+        if(!m) return;
+        document.getElementById('meetId').value = m.id;
+        document.getElementById('inpMeTitle').value = m.title;
+        document.getElementById('inpMeType').value = m.type;
+        document.getElementById('inpMeLoc').value = m.loc;
+        document.getElementById('inpMeDate').value = m.date;
+        document.getElementById('inpMeTime').value = m.time;
+        document.getElementById('inpMeAttendees').value = m.attendees;
+        document.getElementById('inpMeStatus').value = m.status;
+        document.getElementById('inpMePoints').value = m.points;
+        document.getElementById('inpMeAction').value = m.action;
+        document.getElementById('inpMeLink').value = m.link;
+
+        document.getElementById('meetModalTitle').innerText = "Edit Agenda";
+        document.getElementById('meetDetailView').classList.add('hidden');
+        document.getElementById('meetForm').classList.remove('hidden');
+        document.getElementById('meetDetailActions').classList.add('hidden');
+        document.getElementById('meetFormActions').classList.remove('hidden');
+    }
+
     renderWatchlist()
 renderIdeas();    // Render kartu Ideas
     renderPlans();    // Render kartu Plans
@@ -9583,3 +9838,4 @@ renderPortfolio();
 renderVideoIdeas();
 renderCrm();
 renderEvent();
+renderMeeting();
