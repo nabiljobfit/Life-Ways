@@ -1982,40 +1982,53 @@ const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => 
             }
             // --- X. JIKA TIPE EVENT (DASHBOARD) ---
                 // --- Y. JIKA TIPE MEETING (DASHBOARD) ---
+           // --- Y. JIKA TIPE MEETING (DASHBOARD REVISI ELEGANT) ---
             else if(item.dataType === 'meeting') {
                 card.className = 'meet-card';
-                // Date Format
-                const dateObj = new Date(item.date);
-                const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short'});
+                const bgImage = getMeetImage(item.type || 'Lainnya');
                 
-                // Urgency Color
-                let statColor = '#94a3b8';
-                if(item.status === 'Scheduled') {
-                    const today = new Date();
-                    const meetDate = new Date(item.date);
-                    if(meetDate >= today) statColor = '#fbbf24'; // Upcoming
-                    else statColor = '#ef4444'; // Overdue
-                }
+                let statColor = '#fbbf24';
+                if(item.status === 'Completed') statColor = '#94a3b8';
+                if(item.status === 'Cancelled') statColor = '#ef4444';
+
+                const dateObj = new Date(item.date);
+                const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+                const descText = item.points || "Belum ada ringkasan diskusi.";
 
                 card.innerHTML = `
+                    <div style="height:140px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-meet">Meeting</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80';">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateMeeting(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteMeeting(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-meet-type">${item.type}</span>
+                        </div>
+                    </div>
+                    
                     <div class="meet-card-body">
-                        <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:1rem;">
-                            <span class="card-source-badge" style="background:rgba(217, 119, 6, 0.9); position:static;">Meeting</span>
-                            <div style="text-align:right;">
-                                <div style="font-weight:bold; color:${statColor}; font-size:1.1rem;">${dateStr}</div>
-                                <div style="color:#d97706; font-size:0.9rem;">${item.time}</div>
-                            </div>
+                        <div style="text-align:right; margin-bottom:5px; font-size:0.85rem;">
+                            <span style="font-weight:bold; color:#fbbf24;">${dateStr}</span>
+                            <span style="color:#94a3b8;"> • ${item.time}</span>
                         </div>
+
+                        <h3 style="font-size:1.3rem; margin-bottom:0.3rem; line-height:1.3; color:white;">${item.title}</h3>
                         
-                        <h3 style="font-size:1.3rem; margin-bottom:0.5rem; color:#f1f5f9; line-height:1.3;">${item.title}</h3>
-                        
-                        <div style="margin-bottom:1rem; font-size:0.85rem; color:#64748b;">
-                            ${item.type} • ${item.loc || 'Online'}
-                        </div>
-                        
-                        <p style="font-size:0.85rem; color:#cbd5e1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px; font-style:italic;">
-                            ${item.action ? 'Action: ' + item.action : 'No urgent action items.'}
+                        <p style="font-size:0.9rem; color:#cbd5e1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                            ${descText}
                         </p>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                             <span style="color:${statColor}; font-weight:bold; font-size:0.75rem; text-transform:uppercase;">${item.status}</span>
+                             
+                             <span style="font-size:0.85rem; color:#94a3b8; display:flex; align-items:center; gap:5px;">
+                                <i class="ph ph-map-pin" style="color:#d97706;"></i> ${item.loc || 'Online'}
+                             </span>
+                        </div>
                     </div>
                 `;
                 card.onclick = (e) => { if(!e.target.closest('button')) openMeetDetail(item.id); };
@@ -9600,7 +9613,30 @@ else if(item.dataType === 'food') {
 // --- LOGIKA FITUR MEETING LOG ---
 
     let meetings = JSON.parse(localStorage.getItem('myMeetings')) || [];
+// --- ASSETS TIPE MEETING (BARU) ---
+    const meetTypeAssets = {
+        "Internal Team": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+        "Client Meeting": "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
+        "Brainstorming": "https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?w=800&q=80",
+        "Review": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+        "Interview": "https://images.unsplash.com/photo-1573497491769-d40747c79366?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80"
+    };
 
+    function getMeetImage(type) {
+        return meetTypeAssets[type] || meetTypeAssets["Lainnya"];
+    }
+    
+    // Populate Dropdown (Pastikan ini ada)
+    const meTypeSelect = document.getElementById('inpMeType');
+    if(meTypeSelect) {
+        meTypeSelect.innerHTML = '';
+        Object.keys(meetTypeAssets).sort().forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t; opt.innerText = t;
+            meTypeSelect.appendChild(opt);
+        });
+    }
     // 1. RENDER MEETING (List Style Card)
   // --- PASTE INI DI FILE JAVASCRIPT ANDA ---
 
@@ -9644,22 +9680,19 @@ else if(item.dataType === 'food') {
     }
 
     // 4. Fungsi Render Meeting (Solusi Error renderMeeting is not defined)
+    // --- 1. RENDER MEETING (REVISI ELEGANT CARD) ---
     function renderMeeting() {
         const container = document.getElementById('meetContainer');
-        if(!container) return; // Stop jika container tidak ada (misal di halaman lain)
+        if(!container) return;
 
         const searchEl = document.getElementById('inpSearchMeet');
         const filterEl = document.getElementById('inpMeetFilter');
-        
         const searchTerm = searchEl ? searchEl.value.toLowerCase() : "";
         const filterVal = filterEl ? filterEl.value : "newest";
         
         container.innerHTML = '';
-        
-        // Filter Data
         let filtered = meetings.filter(m => m.title.toLowerCase().includes(searchTerm) || m.attendees.toLowerCase().includes(searchTerm));
 
-        // Logic Sorting/Filter
         if(filterVal === 'newest') filtered.sort((a,b) => new Date(a.date) - new Date(b.date));
         if(filterVal === 'type_internal') filtered = filtered.filter(m => m.type.includes('Internal'));
         if(filterVal === 'type_client') filtered = filtered.filter(m => m.type.includes('Client'));
@@ -9667,53 +9700,63 @@ else if(item.dataType === 'food') {
         if(filterVal === 'stat_completed') filtered = filtered.filter(m => m.status === 'Completed');
         if(filterVal === 'needs_action') filtered = filtered.filter(m => m.action && m.action.length > 5);
 
-        // Jika Kosong
         if(filtered.length === 0) {
             container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada catatan rapat.</div>';
             return;
         }
 
-        // Loop Render Card
         filtered.forEach(m => {
             const card = document.createElement('div');
             card.className = 'meet-card';
             
-            let statColor = '#fbbf24'; 
-            if(m.status === 'Completed') statColor = '#94a3b8'; 
-            if(m.status === 'Cancelled') statColor = '#ef4444'; 
+            // Image & Colors
+            const bgImage = getMeetImage(m.type);
+            let statColor = '#fbbf24'; // Scheduled
+            if(m.status === 'Completed') statColor = '#94a3b8';
+            if(m.status === 'Cancelled') statColor = '#ef4444';
 
+            // Date Format
             const dateObj = new Date(m.date);
             const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
-            let actionTeaser = m.action ? `Action: ${m.action}` : 'No immediate action items.';
+            
+            // Deskripsi (Ringkasan Diskusi)
+            const descText = m.points || "Belum ada ringkasan diskusi.";
 
             card.innerHTML = `
+                <div style="height:140px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80';">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateMeeting(${m.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteMeeting(${m.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-meet-type">${m.type}</span>
+                    </div>
+                </div>
+                
                 <div class="meet-card-body">
-                    <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:1rem;">
-                        <div>
-                            <span class="badge-pill-meet-type">${m.type}</span>
-                            <div style="color:#64748b; font-size:0.8rem; margin-top:8px;">
-                                <i class="ph ph-map-pin"></i> ${m.loc || 'Online'}
-                            </div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div style="font-weight:bold; color:#fff; font-size:1.1rem;">${dateStr}</div>
-                            <div style="color:#d97706; font-size:0.9rem;">${m.time}</div>
-                        </div>
+                    <div style="text-align:right; margin-bottom:5px; font-size:0.85rem;">
+                        <span style="font-weight:bold; color:#fbbf24;">${dateStr}</span>
+                        <span style="color:#94a3b8;"> • ${m.time}</span>
                     </div>
-                    <h3 style="font-size:1.4rem; margin-bottom:0.5rem; color:#f1f5f9; line-height:1.3;">${m.title}</h3>
-                    <div style="margin-bottom:1rem; font-size:0.85rem; color:#94a3b8;">
-                        <i class="ph ph-users"></i> ${m.attendees || '-'}
-                    </div>
-                    <p style="font-size:0.85rem; color:#cbd5e1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px; font-style:italic;">
-                        ${actionTeaser}
+
+                    <h3 style="font-size:1.3rem; margin-bottom:0.3rem; line-height:1.3; color:white;">${m.title}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#cbd5e1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                        ${descText}
                     </p>
-                    <div style="margin-top:1.5rem; display:flex; justify-content:space-between; align-items:center;">
-                         <span style="color:${statColor}; font-weight:bold; font-size:0.8rem; text-transform:uppercase;">${m.status}</span>
-                         <span style="font-size:1.2rem; color:#94a3b8;"><i class="ph ph-caret-right"></i></span>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <span style="color:${statColor}; font-weight:bold; font-size:0.75rem; text-transform:uppercase;">${m.status}</span>
+                         
+                         <span style="font-size:0.85rem; color:#94a3b8; display:flex; align-items:center; gap:5px;">
+                            <i class="ph ph-map-pin" style="color:#d97706;"></i> ${m.loc || 'Online'}
+                         </span>
                     </div>
                 </div>
             `;
-            // Pastikan openMeetDetail juga sudah ada di JS Anda
             card.onclick = (e) => { if(!e.target.closest('button')) openMeetDetail(m.id); };
             container.appendChild(card);
         });
@@ -9758,6 +9801,53 @@ else if(item.dataType === 'food') {
     }
 
     // 4. DETAIL VIEW (MOM STYLE)
+// --- 4. DETAIL VIEW (REVISI DENGAN GAMBAR HEADER) ---
+    let currentMeetId = null;
+    function openMeetDetail(id) {
+        const m = meetings.find(x => x.id === id);
+        if(!m) return;
+        currentMeetId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; el.onerror = function() { this.src = meetTypeAssets["Lainnya"]; }; } };
+
+        // SET GAMBAR COVER (BARU)
+        setImg('viewMeCover', getMeetImage(m.type));
+
+        setTxt('viewMeTitle', m.title);
+        setTxt('viewMeType', m.type);
+        setTxt('viewMeLoc', m.loc || 'Online');
+        setTxt('viewMeAttendees', m.attendees);
+        
+        // Date Time
+        const dateObj = new Date(m.date);
+        setTxt('viewMeDate', dateObj.toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'}));
+        setTxt('viewMeTime', m.time);
+        
+        // Status Badge Style
+        const statB = document.getElementById('viewMeStatus');
+        statB.innerText = m.status;
+        if(m.status === 'Completed') statB.style.cssText = "color:#94a3b8; border-color:#94a3b8; background:rgba(255,255,255,0.05)";
+        else if(m.status === 'Scheduled') statB.style.cssText = "color:#fbbf24; border-color:#fbbf24; background:rgba(217, 119, 6, 0.2)";
+        else statB.style.cssText = "color:#ef4444; border-color:#ef4444; background:rgba(220, 38, 38, 0.2)";
+
+        setTxt('viewMePoints', m.points || "Tidak ada notulensi.");
+        setTxt('viewMeAction', m.action || "Tidak ada action items.");
+
+        const lnk = document.getElementById('viewMeLink');
+        if(lnk) { if(m.link) { lnk.href = m.link; lnk.style.display='flex'; } else { lnk.style.display='none'; } }
+
+        setTxt('viewMeCreated', "Created: " + m.createdAt);
+        setTxt('viewMeUpdated', "Last Update: " + m.updatedAt);
+
+        document.getElementById('meetModalTitle').innerText = "Meeting Detail";
+        document.getElementById('meetForm').classList.add('hidden');
+        document.getElementById('meetDetailView').classList.remove('hidden');
+        document.getElementById('meetFormActions').classList.add('hidden');
+        document.getElementById('meetDetailActions').classList.remove('hidden');
+        document.getElementById('meetModalOverlay').classList.add('active');
+    }
  
     // 5. UTILS
     function deleteMeeting(id, e) {
