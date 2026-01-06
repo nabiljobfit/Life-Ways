@@ -9641,8 +9641,7 @@ else if(item.dataType === 'food') {
   // --- PASTE INI DI FILE JAVASCRIPT ANDA ---
 
     // 1. Definisikan Data Meeting (Cek LocalStorage)
-    let meetings = JSON.parse(localStorage.getItem('myMeetings')) || [];
-
+    
     // 2. Fungsi Membuka Modal (Solusi Error openMeetModal is not defined)
     function openMeetModal() {
         // Reset Form
