@@ -129,7 +129,20 @@
               if(pageId === 'crm') renderCrm()
                  if(pageId === 'event')  renderEvent()
             if(pageId === 'meeting')  renderMeeting()
+                if(pageId === 'job')  renderJob()
+                     if(pageId === 'client')  renderClient()
+                           if(pageId === 'course') renderCourse()
+                              if(pageId === 'thesis') renderThesis()
+       if(pageId === 'skin') renderSkin()
+    
+                                if(pageId === 'med') renderMeds()
+
+        if(pageId === 'vehicle') renderVehicle()
+            if(pageId === 'cafe') renderCafe()
+         if(pageId === 'music') renderMusic()
+            if(pageId === 'password') renderPass()
         }
+
     }
     // --- FITUR SAPAAN DINAMIS (DYNAMIC GREETING) ---
     function updateGreeting() {
@@ -663,11 +676,7 @@ document.getElementById('viewTimezone').innerText = tz;
         document.getElementById('formActions').classList.add('hidden');
         document.getElementById('detailActions').classList.remove('hidden');
         document.getElementById('modalOverlay').classList.add('active');
-    }
-
-
-
-    
+    }    
     // --- 6. EDIT MODE RE-POPULATE ---
     function switchToEditMode() {
         const item = ideas.find(x => x.id === currentDetailId);
@@ -1770,11 +1779,23 @@ const allVideos = (JSON.parse(localStorage.getItem('myVideoIdeas')) || []).map(v
 const allWatch = (JSON.parse(localStorage.getItem('myWatchlist')) || []).map(w => ({...w, dataType: 'watchlist'}));
 const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => ({...e, dataType: 'event'}));
         const allMeets = (JSON.parse(localStorage.getItem('myMeetings')) || []).map(m => ({...m, dataType: 'meeting'}));
-         // 2. GABUNGKAN SEMUA DATA
+        const allJobs = (JSON.parse(localStorage.getItem('myJobs')) || []).map(j => ({...j, dataType: 'job'}));
+        const allClients = (JSON.parse(localStorage.getItem('myClients')) || []).map(c => ({...c, dataType: 'client'}));
+      const allCourses = (JSON.parse(localStorage.getItem('myCourses')) || []).map(c => ({...c, dataType: 'course'}));
+      const allTheses = (JSON.parse(localStorage.getItem('myTheses')) || []).map(t => ({...t, dataType: 'thesis'}));
+      const allMeds = (JSON.parse(localStorage.getItem('myMeds')) || []).map(m => ({...m, dataType: 'med'}));
+      const allSkins = (JSON.parse(localStorage.getItem('mySkins')) || []).map(s => ({...s, dataType: 'skin'}));
+const allVehicles = (JSON.parse(localStorage.getItem('myVehicles')) || []).map(v => ({...v, dataType: 'vehicle'}));
+const allCafes = (JSON.parse(localStorage.getItem('myCafes')) || []).map(c => ({...c, dataType: 'cafe'}));
+const allMusic = (JSON.parse(localStorage.getItem('myMusic')) || []).map(m => ({...m, dataType: 'music'}));
+const allPasswords = (JSON.parse(localStorage.getItem('myPasswords')) || []).map(p => ({...p, dataType: 'password'}));
+
+        // 2. GABUNGKAN SEMUA DATA
         let masterData = [
             ...allIdeas, ...allPlans, ...allJournals, ...allNotulensis, 
             ...allLombas, ...allSports, ...allFoods, ...allVacations, ...allWorships, ...allProjects, ...allEducations, ...allBusinesses, ...allFinances, ...allSubs, ...allInvests, ...allSkills, ...allReadings,
-            ...allHabits, ...allCerts, ...allContents, ...allPorts, ...allVideos, ...allWatch, ...allCrm, ...allEvents, ...allMeets 
+            ...allHabits, ...allCerts, ...allContents, ...allPorts, ...allVideos, ...allWatch, ...allCrm, ...allEvents, ...allMeets, ...allJobs, ...allClients, ...allCourses, ...allTheses, ...allMeds, ...allSkins,
+            ...allVehicles, ...allCafes, ...allMusic, ...allPasswords 
         ];
         if(searchTerm) {
             masterData = masterData.filter(item => item.title.toLowerCase().includes(searchTerm));
@@ -1980,6 +2001,420 @@ const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => 
                 `;
                 card.onclick = (e) => { if(!e.target.closest('button')) openWatchDetail(item.id); };
             }
+            // --- Z. JIKA TIPE JOB (DASHBOARD) ---
+           // --- Z. JIKA TIPE JOB (DASHBOARD REVISI: DESC DI BAWAH JUDUL) ---
+            else if(item.dataType === 'job') {
+                card.className = 'job-card';
+                const bgImage = getJobImage(item.platform || 'Lainnya');
+                
+                let statColor = '#94a3b8';
+                let statBg = 'rgba(148, 163, 184, 0.15)';
+                if(item.status === 'Offer') { statColor = '#10b981'; statBg = 'rgba(16, 185, 129, 0.2)'; }
+                else if(item.status.includes('Interview')) { statColor = '#fbbf24'; statBg = 'rgba(251, 191, 36, 0.2)'; }
+                else if(item.status === 'Rejected') { statColor = '#ef4444'; statBg = 'rgba(239, 68, 68, 0.2)'; }
+
+                const dateObj = new Date(item.date);
+                const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-job">Career</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&q=80';">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateJob(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteJob(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-job-plat">${item.platform}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="job-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span style="font-size:0.75rem; font-weight:bold; color:${statColor}; background:${statBg}; padding:4px 10px; border-radius:4px; border:1px solid ${statColor}44; text-transform:uppercase;">${item.status}</span>
+                            <span style="font-size:0.75rem; color:#94a3b8;">${dateStr}</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.role}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#cbd5e1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                            ${item.notes || 'Belum ada catatan.'}
+                        </p>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                             <span style="font-size:0.85rem; color:#60a5fa; font-weight:600;">${item.company}</span>
+                             <span style="font-size:0.8rem; color:#94a3b8;"><i class="ph ph-map-pin"></i> ${item.loc || '-'}</span>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openJobDetail(item.id); };
+            }
+            // --- AA. JIKA TIPE CLIENT (DASHBOARD) ---
+            else if(item.dataType === 'client') {
+                card.className = 'client-card';
+                const bgImage = getClientImage(item.industry || 'Lainnya');
+                
+                let statColor = '#fbbf24'; 
+                if(item.status.includes('Lunas')) statColor = '#34d399';
+                if(item.status === 'Overdue') statColor = '#ef4444';
+                if(item.status === 'DP Received') statColor = '#60a5fa';
+
+                const dateObj = new Date(item.deadline);
+                const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+                const descText = item.notes || "Belum ada detail brief.";
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-client">Client</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80';">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateClient(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteClient(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-client-stat" style="color:${statColor}; background:rgba(0,0,0,0.7); border-color:${statColor};">${item.status}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="client-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span style="font-size:0.75rem; color:#94a3b8; font-weight:600;">${item.clientName}</span>
+                            <span style="font-size:0.75rem; color:#d1fae5;">Deadline: ${dateStr}</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.project}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#a7f3d0; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                            ${descText}
+                        </p>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                             <span style="font-size:1rem; color:#fbbf24; font-weight:bold;">${formatRupiah(item.value)}</span>
+                             
+                             <a href="https://wa.me/${item.wa ? item.wa.replace(/^0/,'62').replace(/\D/g,'') : ''}" target="_blank" onclick="event.stopPropagation()" style="font-size:1.2rem; color:#25d366; cursor:pointer; background:rgba(37, 211, 102, 0.2); padding:5px; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center;">
+                                <i class="ph ph-whatsapp-logo"></i>
+                             </a>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button') && !e.target.closest('a')) openClientDetail(item.id); };
+            }
+            // --- CC. JIKA TIPE THESIS (DASHBOARD) ---
+            else if(item.dataType === 'thesis') {
+                card.className = 'thesis-card';
+                const bgImage = getThesisImage(item.id);
+                
+                let statColor = '#fdba74'; 
+                if(item.status.includes('Cited') || item.status.includes('Dikutip')) statColor = '#22c55e';
+                if(item.status === 'Belum Dibaca') statColor = '#94a3b8';
+
+                const descText = item.abstract || "Tidak ada abstrak.";
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-thesis">Research</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateThesis(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteThesis(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-thesis-stat" style="color:${statColor}; border-color:${statColor};">${item.status}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="thesis-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span style="font-size:0.75rem; color:#fdba74; font-weight:bold;">${item.author}</span>
+                            <span style="font-size:0.75rem; color:#cbd5e1;">${item.year}</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.2rem; margin-bottom:0.2rem; line-height:1.4; color:white;">${item.title}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#fdba74; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:1rem; line-height:1.6; opacity:0.8;">
+                            ${descText}
+                        </p>
+                        
+                        <div style="margin-top:auto; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                             <span style="font-size:0.8rem; color:#9ca3af;">PDF Available</span>
+                             <span style="color:#ea580c;"><i class="ph ph-file-text"></i></span>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openThesisDetail(item.id); };
+            }
+            // --- BB. JIKA TIPE COURSE (DASHBOARD) ---
+            else if(item.dataType === 'course') {
+                card.className = 'course-card';
+                const bgImage = getCourseImage(item.platform || 'Lainnya');
+                
+                // Logic Progress Color
+                let progColor = '#60a5fa'; 
+                if(item.progress > 50) progColor = '#fbbf24';
+                if(item.progress == 100) progColor = '#34d399';
+
+                const descText = item.notes || "Belum ada catatan.";
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-course">Learning</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=80';">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateCourse(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteCourse(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-course-plat">${item.platform}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span style="font-size:0.75rem; color:#bfdbfe;">Progress</span>
+                            <span style="font-size:0.75rem; color:#fcd34d; font-weight:bold;">${item.hours} Hours</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#93c5fd; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:1rem; line-height:1.6;">
+                            ${descText}
+                        </p>
+                        
+                        <div style="margin-top:auto;">
+                            <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#fff; margin-bottom:4px;">
+                                <span>${item.progress === 100 ? 'Completed' : 'Ongoing'}</span>
+                                <span style="font-weight:bold; color:${progColor}">${item.progress}%</span>
+                            </div>
+                            <div class="mini-progress-track">
+                                <div class="mini-progress-fill" style="width:${item.progress}%; background:${progColor};"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openCourseDetail(item.id); };
+            }
+            // --- DD. JIKA TIPE MEDS (DASHBOARD) ---
+            else if(item.dataType === 'med') {
+                card.className = 'med-card';
+                const bgImage = getMedImage(item.type || 'Lainnya');
+                
+                let stockColor = '#5eead4';
+                let stockText = `${item.stock} Left`;
+                if(item.stock <= 5) { stockColor = '#fbbf24'; stockText = 'Low'; }
+                if(item.stock === 0) { stockColor = '#ef4444'; stockText = 'Empty'; }
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-med">Health</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1585435557343-3b092031a831?w=800&q=80';">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateMed(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteMed(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-med-type">${item.type}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="med-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span style="font-size:0.75rem; color:#99f6e4;">${item.dose}</span>
+                            <span style="font-size:0.75rem; font-weight:bold; color:${stockColor}; border:1px solid ${stockColor}; padding:2px 8px; border-radius:10px;">${stockText}</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#ccfbf1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                            ${item.purpose || 'Suplemen'}
+                        </p>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:8px;">
+                             <i class="ph ph-clock" style="color:#5eead4;"></i>
+                             <span style="font-size:0.85rem; color:#fff;">${item.time}</span>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openMedDetail(item.id); };
+            }
+            // --- HH. JIKA TIPE MUSIC (DASHBOARD) ---
+            else if(item.dataType === 'music') {
+                card.className = 'music-card';
+                const bgImage = getMusicImage(item.genre || 'Lainnya');
+                
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-music">Audio</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateMusic(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteMusic(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                       
+<div class="card-play-btn">
+    <i class="ph ph-play-circle" style="color:#000; font-size:1.5rem;"></i>
+</div>
+                    </div>
+                    
+                    <div class="music-card-body">
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.title}</h3>
+                        
+                        <div style="color:#bbf7d0; font-size:0.9rem; margin-bottom:auto;">
+                            ${item.artist}
+                        </div>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                             <span style="font-size:0.8rem; color:#86efac; opacity:0.8;">${item.year}</span>
+                             <span style="font-size:0.75rem; color:#fff; opacity:0.6;">${item.mood.split(' ')[0]}</span>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openMusicDetail(item.id); };
+            }
+            // --- II. JIKA TIPE PASSWORD (DASHBOARD) ---
+            else if(item.dataType === 'password') {
+                card.className = 'pass-card';
+                const bgImage = getPassImage(item.category || 'Lainnya');
+                
+                // Logic 2FA
+                let faColor = '#fbbf24';
+                if(item.twoFA === 'Inactive') faColor = '#ef4444';
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-pass">Vault</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicatePass(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deletePass(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-pass-cat">${item.category}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pass-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span style="font-size:0.7rem; color:#bfdbfe;"><i class="ph ph-user"></i> ${item.username || 'No User'}</span>
+                            <span style="font-size:0.65rem; color:${faColor}; border:1px solid ${faColor}; padding:2px 6px; border-radius:4px;">${item.twoFA}</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.service}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#93c5fd; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                            Hint tersedia (Klik untuk melihat)
+                        </p>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:5px;">
+                             <i class="ph ph-shield-check" style="color:#fbbf24;"></i>
+                             <span style="font-size:0.75rem; color:#e2e8f0;">Secured</span>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openPassDetail(item.id); };
+            }
+            // --- GG. JIKA TIPE CAFE (DASHBOARD) ---
+            else if(item.dataType === 'cafe') {
+                card.className = 'cafe-card';
+                const bgImage = getCafeImage(item.cat || 'Lainnya');
+                
+                // Stars
+                let stars = '';
+                for(let i=0; i<5; i++) {
+                    stars += i < item.rating ? '<i class="ph ph-star-fill" style="color:#d4a373;"></i>' : '<i class="ph ph-star" style="color:rgba(255,255,255,0.2);"></i>';
+                }
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-cafe">Foodie</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateCafe(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteCafe(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-cafe-cat">${item.cat}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="cafe-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                             <div style="display:flex; gap:2px; font-size:0.7rem;">${stars}</div>
+                             <span style="font-size:0.7rem; color:#faedcd;"><i class="ph ph-wifi-high"></i> ${item.wifi.split(' ')[0]}</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#d4a373; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6; font-style:italic;">
+                            "Must Try: ${item.menu || '-'}"
+                        </p>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                             <span style="font-size:1rem; color:#faedcd; font-weight:bold;">${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(item.price)}</span>
+                             <span style="font-size:0.75rem; color:#8d6e63;">/ pax</span>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openCafeDetail(item.id); };
+            }
+            // --- FF. JIKA TIPE VEHICLE (DASHBOARD) ---
+            else if(item.dataType === 'vehicle') {
+                card.className = 'vehicle-card';
+                const bgImage = getVehicleImage(item.type || 'Lainnya');
+                const kmStr = item.km ? new Intl.NumberFormat('id-ID').format(item.km) + " KM" : "0 KM";
+                const dateObj = new Date(item.date);
+                const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-ve">Garage</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateVehicle(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteVehicle(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-ve-type">${item.type}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="vehicle-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span style="font-size:0.75rem; color:#ef4444; font-weight:bold;">${dateStr}</span>
+                            <span style="font-size:0.75rem; color:#a1a1aa; font-family:'Courier New', monospace;">${kmStr}</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#d4d4d8; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                            ${item.action || 'Servis Rutin'}
+                        </p>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                             <span style="font-size:1rem; color:#fff; font-weight:bold;">${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(item.cost)}</span>
+                             <span style="font-size:0.8rem; color:#71717a;">${item.shop || '-'}</span>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openVehicleDetail(item.id); };
+            }
             // --- X. JIKA TIPE EVENT (DASHBOARD) ---
                 // --- Y. JIKA TIPE MEETING (DASHBOARD) ---
            // --- Y. JIKA TIPE MEETING (DASHBOARD REVISI ELEGANT) ---
@@ -2080,6 +2515,65 @@ const allEvents = (JSON.parse(localStorage.getItem('myEvents')) || []).map(e => 
                     </div>
                 `;
                 card.onclick = (e) => { if(!e.target.closest('button')) openEventDetail(item.id); };
+            }
+            // --- EE. JIKA TIPE SKIN (DASHBOARD) ---
+          // --- EE. JIKA TIPE SKIN (DASHBOARD REVISI: DESC DI BAWAH JUDUL) ---
+            else if(item.dataType === 'skin') {
+                card.className = 'skin-card';
+                const bgImage = getSkinImage(item.type || 'Lainnya');
+                
+                // Logic PAO
+                let paoText = "New";
+                if(item.openDate) {
+                    const open = new Date(item.openDate);
+                    const today = new Date();
+                    const diffTime = Math.abs(today - open);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                    paoText = `${diffDays}d Open`;
+                }
+
+                let stars = '';
+                for(let i=0; i<5; i++) {
+                    stars += i < item.rating ? '<i class="ph ph-star-fill" style="color:#fbbf24;"></i>' : '<i class="ph ph-star" style="color:rgba(255,255,255,0.3);"></i>';
+                }
+                
+                // Deskripsi Singkat
+                const descText = item.notes || "Belum ada review efek.";
+
+                card.innerHTML = `
+                    <div style="height:160px; width:100%; position:relative;">
+                        <span class="card-source-badge badge-src-skin">Beauty</span>
+                        <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                        
+                        <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                             <button onclick="duplicateSkin(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                             <button onclick="deleteSkin(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                        
+                        <div style="position:absolute; bottom:10px; left:10px;">
+                            <span class="badge-pill-skin-type">${item.type}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skin-card-body">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                            <span style="font-size:0.7rem; color:#fbcfe8; background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:10px;">STEP ${item.step || '-'}</span>
+                            <span style="font-size:0.7rem; color:#fde68a;">${paoText}</span>
+                        </div>
+                        
+                        <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                        
+                        <p style="font-size:0.9rem; color:#fbcfe8; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                            ${descText}
+                        </p>
+                        
+                        <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                             <div style="display:flex; gap:2px; font-size:0.8rem;">${stars}</div>
+                             <span style="font-size:0.75rem; color:#fce7f3; opacity:0.8;">${item.time}</span>
+                        </div>
+                    </div>
+                `;
+                card.onclick = (e) => { if(!e.target.closest('button')) openSkinDetail(item.id); };
             }
             // --- T. JIKA TIPE PORTFOLIO (DASHBOARD) ---
             else if(item.dataType === 'portfolio') {
@@ -5517,46 +6011,53 @@ else if(item.dataType === 'food') {
             return;
         }
 
-        filtered.forEach(e => {
-            const card = document.createElement('div');
-            card.className = 'education-card';
-            
-            const bgImage = getEducationImage(e.category);
-            
-            let statCol = '#cbd5e1';
-            if(e.status === 'Selesai') statCol = '#34d399';
-            if(e.status === 'Dilakukan') statCol = '#38bdf8';
+     // Change 'e' to 'item' in the loop
+filtered.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'education-card';
+    
+    const bgImage = getEducationImage(item.category);
+    
+    let statCol = '#cbd5e1';
+    if(item.status === 'Selesai') statCol = '#34d399';
+    if(item.status === 'Dilakukan') statCol = '#38bdf8';
 
-            card.innerHTML = `
-                <div style="height:160px; width:100%; position:relative;">
-                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
-                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
-                         <button onclick="duplicateEducation(${e.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
-                         <button onclick="deleteEducation(${e.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
-                    </div>
-                    <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.6); padding:2px 8px; border-radius:4px; font-size:0.7rem; color:#fff;">${e.status}</div>
-                </div>
-                <div class="education-card-body">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
-                        <span style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; background:rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:20px;">${e.category}</span>
-                        <span style="font-size:0.7rem; font-weight:700; color:${statCol}; text-transform:uppercase;">${e.imp}</span>
-                    </div>
-                    
-                    <h3 style="font-size:1.3rem; margin-bottom:0.5rem; line-height:1.3; color:white;">${e.title}</h3>
-                    
-                    <p style="font-size:0.9rem; color:#f1f5f9; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
-                        ${e.desc || '...'}
-                    </p>
-                    
-                    <div style="margin-top:1.5rem; padding-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
-                         <span style="font-size:0.8rem; color:#9ca3af;"><i class="ph ph-calendar"></i> ${formatDate(e.date)}</span>
-                         <span style="font-size:0.8rem; color:#38bdf8;">${e.subject || 'Umum'}</span>
-                    </div>
-                </div>
-            `;
-            card.onclick = (e) => { if(!e.target.closest('button')) openEducationDetail(e.id); };
-            container.appendChild(card);
-        });
+    card.innerHTML = `
+        <div style="height:160px; width:100%; position:relative;">
+            <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+            <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                 <button onclick="duplicateEducation(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                 <button onclick="deleteEducation(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+            </div>
+            <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.6); padding:2px 8px; border-radius:4px; font-size:0.7rem; color:#fff;">${item.status}</div>
+        </div>
+        <div class="education-card-body">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                <span style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; background:rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:20px;">${item.category}</span>
+                <span style="font-size:0.7rem; font-weight:700; color:${statCol}; text-transform:uppercase;">${item.imp}</span>
+            </div>
+            
+            <h3 style="font-size:1.3rem; margin-bottom:0.5rem; line-height:1.3; color:white;">${item.title}</h3>
+            
+            <p style="font-size:0.9rem; color:#f1f5f9; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                ${item.desc || '...'}
+            </p>
+            
+            <div style="margin-top:1.5rem; padding-top:0.5rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                 <span style="font-size:0.8rem; color:#9ca3af;"><i class="ph ph-calendar"></i> ${formatDate(item.date)}</span>
+                 <span style="font-size:0.8rem; color:#38bdf8;">${item.subject || 'Umum'}</span>
+            </div>
+        </div>
+    `;
+    
+    // Corrected click handler:
+    // 'e' is the event, 'item.id' comes from the loop variable
+    card.onclick = (e) => { 
+        if(!e.target.closest('button')) openEducationDetail(item.id); 
+    };
+    
+    container.appendChild(card);
+});
     }
 
     // 4. SAVE EDUCATION
@@ -9398,8 +9899,12 @@ else if(item.dataType === 'food') {
     let events = JSON.parse(localStorage.getItem('myEvents')) || [];
 
     // 2. RENDER EVENT (Card: Loc & Guests)
+ // --- 2. RENDER EVENT (FIXED CLICK HANDLER) ---
     function renderEvent() {
         const container = document.getElementById('eventContainer');
+        // Safety check if container exists on current page
+        if (!container) return;
+
         const searchTerm = document.getElementById('inpSearchEvent') ? document.getElementById('inpSearchEvent').value.toLowerCase() : "";
         const filterVal = document.getElementById('inpEventFilter') ? document.getElementById('inpEventFilter').value : "soonest";
         
@@ -9417,23 +9922,21 @@ else if(item.dataType === 'food') {
             return;
         }
 
-        filtered.forEach(e => {
+        // CHANGED: Loop variable 'e' -> 'item'
+        filtered.forEach(item => {
             const card = document.createElement('div');
             card.className = 'event-card';
             
             // Image Logic
-            const bgImage = getEventImage(e.type);
+            const bgImage = getEventImage(item.type);
             
             let statColor = '#f472b6'; // Planning
-            if(e.status === 'Ready') statColor = '#34d399'; // Green
-            if(e.status === 'Completed') statColor = '#94a3b8'; // Grey
-
-            // Format Budget
-            const budgetFmt = e.budget ? "Rp " + parseInt(e.budget).toLocaleString() : "Rp -";
+            if(item.status === 'Ready') statColor = '#34d399'; // Green
+            if(item.status === 'Completed') statColor = '#94a3b8'; // Grey
 
             // Hitung Countdown
             const today = new Date();
-            const evDate = new Date(e.date);
+            const evDate = new Date(item.date);
             const diffTime = evDate - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             let dayLabel = diffDays > 0 ? `${diffDays} Hari Lagi` : (diffDays === 0 ? 'HARI INI' : 'Selesai');
@@ -9444,32 +9947,39 @@ else if(item.dataType === 'food') {
                     <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80';">
                     
                     <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
-                         <button onclick="duplicateEvent(${e.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
-                         <button onclick="deleteEvent(${e.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                         <button onclick="duplicateEvent(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteEvent(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
                     </div>
                     
-                    <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.6); padding:2px 8px; border-radius:4px; font-size:0.7rem; color:#fff;">${e.type}</div>
+                    <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.6); padding:2px 8px; border-radius:4px; font-size:0.7rem; color:#fff;">${item.type}</div>
                 </div>
                 
                 <div class="event-card-body">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
-                        <span style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; background:rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:20px;">${e.guests} PAX</span>
-                        <span style="font-size:0.7rem; font-weight:700; color:${statColor}; text-transform:uppercase;">${e.status}</span>
+                        <span style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; background:rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:20px;">${item.guests} PAX</span>
+                        <span style="font-size:0.7rem; font-weight:700; color:${statColor}; text-transform:uppercase;">${item.status}</span>
                     </div>
                     
-                    <h3 style="font-size:1.3rem; margin-bottom:0.3rem; line-height:1.3; color:white;">${e.name}</h3>
+                    <h3 style="font-size:1.3rem; margin-bottom:0.3rem; line-height:1.3; color:white;">${item.name}</h3>
                     
                     <p style="font-size:0.9rem; color:#fbcfe8; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
-                        ${e.vendors || 'Belum ada catatan vendor.'}
+                        ${item.vendors || 'Belum ada catatan vendor.'}
                     </p>
                     
                     <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
-                         <span style="font-size:0.8rem; color:#d8b4fe;"><i class="ph ph-calendar"></i> ${formatDate(e.date)}</span>
+                         <span style="font-size:0.8rem; color:#d8b4fe;"><i class="ph ph-calendar"></i> ${formatDate(item.date)}</span>
                          <span style="font-size:0.75rem; color:${dayColor}; font-weight:bold; background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">${dayLabel}</span>
                     </div>
                 </div>
             `;
-            card.onclick = (e) => { if(!e.target.closest('button')) openEventDetail(e.id); };
+            
+            // CORRECTED HANDLER:
+            // 'e' is the click event
+            // 'item.id' is the event data ID from the loop variable
+            card.onclick = (e) => { 
+                if(!e.target.closest('button')) openEventDetail(item.id); 
+            };
+            
             container.appendChild(card);
         });
     }
@@ -9870,6 +10380,2424 @@ else if(item.dataType === 'food') {
             renderDashboard();
         }
     }
+    // --- LOGIKA FITUR JOB APPLICATION ---
+
+    // 1. ASSETS PLATFORM JOB
+    const jobPlatformAssets = {
+        "LinkedIn": "https://images.unsplash.com/photo-1611944212129-2999044c58bd?w=800&q=80",
+        "JobStreet": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&q=80",
+        "Glints": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
+        "Kalibrr": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&q=80",
+        "Website Karir": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=800&q=80",
+        "Referral": "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+    };
+
+    function getJobImage(plat) {
+        return jobPlatformAssets[plat] || jobPlatformAssets["Lainnya"];
+    }
+
+    // Populate Dropdown
+    const joPlatSelect = document.getElementById('inpJoPlat');
+    if(joPlatSelect) {
+        joPlatSelect.innerHTML = '';
+        Object.keys(jobPlatformAssets).sort().forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p; opt.innerText = p;
+            joPlatSelect.appendChild(opt);
+        });
+    }
+
+    let jobs = JSON.parse(localStorage.getItem('myJobs')) || [];
+
+    // 2. RENDER JOB (Card: Salary & Status Focused)
+    function renderJob() {
+        const container = document.getElementById('jobContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchJob') ? document.getElementById('inpSearchJob').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpJobFilter') ? document.getElementById('inpJobFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = jobs.filter(j => j.role.toLowerCase().includes(searchTerm) || j.company.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
+        if(filterVal === 'salary_high') filtered.sort((a,b) => parseInt(b.salary.replace(/\D/g,'')) - parseInt(a.salary.replace(/\D/g,''))); // Basic sort logic
+        if(filterVal === 'stat_interview') filtered = filtered.filter(j => j.status.includes('Interview'));
+        if(filterVal === 'stat_offer') filtered = filtered.filter(j => j.status === 'Offer');
+        if(filterVal === 'stat_rejected') filtered = filtered.filter(j => j.status === 'Rejected');
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada lamaran kerja.</div>';
+            return;
+        }
+
+        filtered.forEach(j => {
+            const card = document.createElement('div');
+            card.className = 'job-card';
+            
+            // Image Logic
+            const bgImage = getJobImage(j.platform);
+            
+            // Status Color Logic
+            let statColor = '#94a3b8'; // Applied
+            let statBg = 'rgba(148, 163, 184, 0.15)';
+            
+            if(j.status === 'Offer') { statColor = '#10b981'; statBg = 'rgba(16, 185, 129, 0.2)'; }
+            else if(j.status.includes('Interview')) { statColor = '#fbbf24'; statBg = 'rgba(251, 191, 36, 0.2)'; }
+            else if(j.status === 'Rejected') { statColor = '#ef4444'; statBg = 'rgba(239, 68, 68, 0.2)'; }
+
+            const dateObj = new Date(j.date);
+            const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+
+         card.innerHTML = `
+                <div style="height:140px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&q=80';">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateJob(${j.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteJob(${j.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-job-plat">${j.platform}</span>
+                    </div>
+                </div>
+                
+                <div class="job-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span style="font-size:0.75rem; font-weight:bold; color:${statColor}; background:${statBg}; padding:4px 10px; border-radius:4px; border:1px solid ${statColor}44; text-transform:uppercase;">${j.status}</span>
+                        <span style="font-size:0.75rem; color:#94a3b8;">${dateStr}</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${j.role}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#cbd5e1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                        ${j.notes || 'Belum ada catatan.'}
+                    </p>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <span style="font-size:0.85rem; color:#60a5fa; font-weight:600;">${j.company}</span>
+                         <span style="font-size:0.8rem; color:#94a3b8;"><i class="ph ph-map-pin"></i> ${j.loc || '-'}</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openJobDetail(j.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 3. SAVE JOB
+    function saveJob() {
+        const id = document.getElementById('jobId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (jobs.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            role: document.getElementById('inpJoRole').value,
+            company: document.getElementById('inpJoComp').value,
+            platform: document.getElementById('inpJoPlat').value,
+            loc: document.getElementById('inpJoLoc').value,
+            
+            status: document.getElementById('inpJoStatus').value,
+            date: document.getElementById('inpJoDate').value,
+            salary: document.getElementById('inpJoSalary').value,
+            
+            link: document.getElementById('inpJoLink').value,
+            notes: document.getElementById('inpJoNotes').value
+        };
+
+        if(!dataObj.role) { alert("Posisi pekerjaan wajib diisi!"); return; }
+
+        if(id) {
+            const idx = jobs.findIndex(x => x.id == id);
+            jobs[idx] = dataObj;
+        } else {
+            jobs.push(dataObj);
+        }
+        localStorage.setItem('myJobs', JSON.stringify(jobs));
+        closeJobModal();
+        renderJob();
+        renderDashboard();
+    }
+
+    // 4. DETAIL VIEW
+    let currentJobId = null;
+    function openJobDetail(id) {
+        const j = jobs.find(x => x.id === id);
+        if(!j) return;
+        currentJobId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; el.onerror = function() { this.src = jobPlatformAssets["Lainnya"]; }; } };
+
+        setImg('viewJoCover', getJobImage(j.platform));
+        setTxt('viewJoRole', j.role);
+        setTxt('viewJoComp', j.company);
+        setTxt('viewJoPlat', j.platform);
+        setTxt('viewJoLoc', j.loc || 'Unknown Loc');
+        setTxt('viewJoSalary', j.salary || 'Undisclosed');
+        
+        // Status Badge Styling
+        const statB = document.getElementById('viewJoStatus');
+        statB.innerText = j.status;
+        if(j.status === 'Offer') { statB.style.background = '#10b981'; statB.style.color = '#fff'; }
+        else if(j.status.includes('Interview')) { statB.style.background = '#fbbf24'; statB.style.color = '#fff'; }
+        else if(j.status === 'Rejected') { statB.style.background = '#ef4444'; statB.style.color = '#fff'; }
+        else { statB.style.background = '#475569'; statB.style.color = '#cbd5e1'; }
+
+        setTxt('viewJoNotes', j.notes || "Tidak ada catatan.");
+
+        const lnk = document.getElementById('viewJoLink');
+        if(lnk) { if(j.link) { lnk.href = j.link; lnk.style.display='flex'; } else { lnk.style.display='none'; } }
+
+        setTxt('viewJoCreated', "Applied: " + j.createdAt);
+        setTxt('viewJoUpdated', "Last Update: " + j.updatedAt);
+
+        document.getElementById('jobModalTitle').innerText = "Application Detail";
+        document.getElementById('jobForm').classList.add('hidden');
+        document.getElementById('jobDetailView').classList.remove('hidden');
+        document.getElementById('jobFormActions').classList.add('hidden');
+        document.getElementById('jobDetailActions').classList.remove('hidden');
+        document.getElementById('jobModalOverlay').classList.add('active');
+    }
+
+    // 5. UTILS
+    function deleteJob(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus lamaran ini?")) {
+            jobs = jobs.filter(x => x.id !== id);
+            localStorage.setItem('myJobs', JSON.stringify(jobs));
+            renderJob();
+            renderDashboard();
+        }
+    }
+    function duplicateJob(id, e) {
+        e.stopPropagation();
+        const origin = jobs.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), role: origin.role + " (Copy)", createdAt: new Date().toLocaleString() };
+            jobs.push(copy);
+            localStorage.setItem('myJobs', JSON.stringify(jobs));
+            renderJob();
+            renderDashboard();
+        }
+    }
+    function openJobModal() {
+        document.getElementById('jobForm').reset();
+        document.getElementById('jobId').value = '';
+        document.getElementById('jobModalTitle').innerText = "Job Entry";
+        document.getElementById('jobForm').classList.remove('hidden');
+        document.getElementById('jobDetailView').classList.add('hidden');
+        document.getElementById('jobFormActions').classList.remove('hidden');
+        document.getElementById('jobDetailActions').classList.add('hidden');
+        document.getElementById('jobModalOverlay').classList.add('active');
+    }
+    function closeJobModal() { document.getElementById('jobModalOverlay').classList.remove('active'); }
+    function editJob() {
+        const j = jobs.find(x => x.id === currentJobId);
+        if(!j) return;
+        document.getElementById('jobId').value = j.id;
+        document.getElementById('inpJoRole').value = j.role;
+        document.getElementById('inpJoComp').value = j.company;
+        document.getElementById('inpJoPlat').value = j.platform;
+        document.getElementById('inpJoLoc').value = j.loc;
+        document.getElementById('inpJoStatus').value = j.status;
+        document.getElementById('inpJoDate').value = j.date;
+        document.getElementById('inpJoSalary').value = j.salary;
+        document.getElementById('inpJoLink').value = j.link;
+        document.getElementById('inpJoNotes').value = j.notes;
+
+        document.getElementById('jobModalTitle').innerText = "Edit Entry";
+        document.getElementById('jobDetailView').classList.add('hidden');
+        document.getElementById('jobForm').classList.remove('hidden');
+        document.getElementById('jobDetailActions').classList.add('hidden');
+        document.getElementById('jobFormActions').classList.remove('hidden');
+    }
+    // --- LOGIKA FITUR CLIENT MANAGEMENT ---
+
+    // 1. ASSETS INDUSTRY
+    const clientIndustryAssets = {
+        "Technology": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80",
+        "Creative/Design": "https://images.unsplash.com/photo-1626785774573-4b799312c95d?w=800&q=80",
+        "F&B (Kuliner)": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
+        "Retail/Shop": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80",
+        "Education": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
+        "Corporate": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+        "Health": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80"
+    };
+
+    function getClientImage(ind) {
+        return clientIndustryAssets[ind] || clientIndustryAssets["Lainnya"];
+    }
+
+    // Populate Dropdown
+    const cliIndSelect = document.getElementById('inpCliInd');
+    if(cliIndSelect) {
+        cliIndSelect.innerHTML = '';
+        Object.keys(clientIndustryAssets).sort().forEach(i => {
+            const opt = document.createElement('option');
+            opt.value = i; opt.innerText = i;
+            cliIndSelect.appendChild(opt);
+        });
+    }
+
+    let clients = JSON.parse(localStorage.getItem('myClients')) || [];
+
+    // Helper: Format Rupiah
+    const formatRupiah = (num) => {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+    };
+
+    // 2. RENDER CLIENT
+    function renderClient() {
+        const container = document.getElementById('clientContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchClient') ? document.getElementById('inpSearchClient').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpClientFilter') ? document.getElementById('inpClientFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = clients.filter(c => c.project.toLowerCase().includes(searchTerm) || c.clientName.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => b.id - a.id);
+        if(filterVal === 'value_high') filtered.sort((a,b) => b.value - a.value);
+        if(filterVal === 'stat_dp') filtered = filtered.filter(c => c.status === 'DP Received');
+        if(filterVal === 'stat_paid') filtered = filtered.filter(c => c.status.includes('Lunas'));
+        if(filterVal === 'stat_pending') filtered = filtered.filter(c => c.status === 'Pending');
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada proyek klien.</div>';
+            return;
+        }
+
+        filtered.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'client-card';
+            
+            const bgImage = getClientImage(c.industry);
+            
+            let statColor = '#fbbf24'; // Pending
+            let statBg = '#fbbf2433';
+            if(c.status.includes('Lunas')) { statColor = '#34d399'; statBg = '#34d39933'; }
+            if(c.status === 'Overdue') { statColor = '#ef4444'; statBg = '#ef444433'; }
+            if(c.status === 'DP Received') { statColor = '#60a5fa'; statBg = '#60a5fa33'; }
+
+            const dateObj = new Date(c.deadline);
+            const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+            
+            // Deskripsi di bawah judul
+            const descText = c.notes || "Belum ada detail brief.";
+
+            card.innerHTML = `
+                <div style="height:160px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80';">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateClient(${c.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteClient(${c.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-client-stat" style="color:${statColor}; background:rgba(0,0,0,0.7); border-color:${statColor};">${c.status}</span>
+                    </div>
+                </div>
+                
+                <div class="client-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span style="font-size:0.75rem; color:#94a3b8; font-weight:600;">${c.clientName}</span>
+                        <span style="font-size:0.75rem; color:#d1fae5;">Deadline: ${dateStr}</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${c.project}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#a7f3d0; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                        ${descText}
+                    </p>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <span style="font-size:1rem; color:#fbbf24; font-weight:bold;">${formatRupiah(c.value)}</span>
+                         
+                         <a href="https://wa.me/${c.wa ? c.wa.replace(/^0/,'62').replace(/\D/g,'') : ''}" target="_blank" onclick="event.stopPropagation()" style="font-size:1.2rem; color:#25d366; cursor:pointer; background:rgba(37, 211, 102, 0.2); padding:5px; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center;">
+                            <i class="ph ph-whatsapp-logo"></i>
+                         </a>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button') && !e.target.closest('a')) openClientDetail(c.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 3. SAVE CLIENT
+    function saveClient() {
+        const id = document.getElementById('clientId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (clients.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            project: document.getElementById('inpCliProject').value,
+            clientName: document.getElementById('inpCliName').value,
+            industry: document.getElementById('inpCliInd').value,
+            value: parseInt(document.getElementById('inpCliValue').value) || 0,
+            status: document.getElementById('inpCliStatus').value,
+            deadline: document.getElementById('inpCliDeadline').value,
+            wa: document.getElementById('inpCliWa').value,
+            notes: document.getElementById('inpCliNotes').value
+        };
+
+        if(!dataObj.project) { alert("Nama proyek wajib diisi!"); return; }
+
+        if(id) {
+            const idx = clients.findIndex(x => x.id == id);
+            clients[idx] = dataObj;
+        } else {
+            clients.push(dataObj);
+        }
+        localStorage.setItem('myClients', JSON.stringify(clients));
+        closeClientModal();
+        renderClient();
+        renderDashboard();
+    }
+
+    // 4. DETAIL VIEW
+    let currentClientId = null;
+    function openClientDetail(id) {
+        const c = clients.find(x => x.id === id);
+        if(!c) return;
+        currentClientId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; el.onerror = function() { this.src = clientIndustryAssets["Lainnya"]; }; } };
+
+        setImg('viewCliCover', getClientImage(c.industry));
+        setTxt('viewCliProject', c.project);
+        setTxt('viewCliName', c.clientName);
+        setTxt('viewCliInd', c.industry);
+        
+        // Avatar Initial
+        const avatarEl = document.getElementById('viewCliAvatar');
+        if(avatarEl) {
+            const initial = c.clientName ? c.clientName.charAt(0).toUpperCase() : '?';
+            avatarEl.innerText = initial;
+        }
+
+        setTxt('viewCliValue', formatRupiah(c.value));
+        
+        const dateObj = new Date(c.deadline);
+        setTxt('viewCliDeadline', dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'}));
+
+        // Status Badge Style
+        const statB = document.getElementById('viewCliStatus');
+        statB.innerText = c.status;
+        if(c.status.includes('Lunas')) { statB.style.background = '#34d399'; statB.style.color = '#022c22'; }
+        else if(c.status === 'DP Received') { statB.style.background = '#60a5fa'; statB.style.color = '#fff'; }
+        else if(c.status === 'Overdue') { statB.style.background = '#ef4444'; statB.style.color = '#fff'; }
+        else { statB.style.background = '#fbbf24'; statB.style.color = '#000'; }
+
+        setTxt('viewCliNotes', c.notes || "Tidak ada detail brief.");
+
+        const waLink = document.getElementById('viewCliWaLink');
+        if(waLink) { 
+            if(c.wa) { 
+                waLink.href = `https://wa.me/${c.wa.replace(/^0/,'62').replace(/\D/g,'')}`; 
+                waLink.style.display='flex'; 
+            } else { 
+                waLink.style.display='none'; 
+            } 
+        }
+
+        setTxt('viewCliCreated', "Created: " + c.createdAt);
+        setTxt('viewCliUpdated', "Last Update: " + c.updatedAt);
+
+        document.getElementById('clientModalTitle').innerText = "Project Detail";
+        document.getElementById('clientForm').classList.add('hidden');
+        document.getElementById('clientDetailView').classList.remove('hidden');
+        document.getElementById('clientFormActions').classList.add('hidden');
+        document.getElementById('clientDetailActions').classList.remove('hidden');
+        document.getElementById('clientModalOverlay').classList.add('active');
+    }
+
+    // 5. UTILS
+    function deleteClient(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus proyek ini?")) {
+            clients = clients.filter(x => x.id !== id);
+            localStorage.setItem('myClients', JSON.stringify(clients));
+            renderClient();
+            renderDashboard();
+        }
+    }
+    function duplicateClient(id, e) {
+        e.stopPropagation();
+        const origin = clients.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), project: origin.project + " (Copy)", createdAt: new Date().toLocaleString() };
+            clients.push(copy);
+            localStorage.setItem('myClients', JSON.stringify(clients));
+            renderClient();
+            renderDashboard();
+        }
+    }
+    function openClientModal() {
+        document.getElementById('clientForm').reset();
+        document.getElementById('clientId').value = '';
+        document.getElementById('clientModalTitle').innerText = "New Project";
+        document.getElementById('clientForm').classList.remove('hidden');
+        document.getElementById('clientDetailView').classList.add('hidden');
+        document.getElementById('clientFormActions').classList.remove('hidden');
+        document.getElementById('clientDetailActions').classList.add('hidden');
+        document.getElementById('clientModalOverlay').classList.add('active');
+    }
+    function closeClientModal() { document.getElementById('clientModalOverlay').classList.remove('active'); }
+    function editClient() {
+        const c = clients.find(x => x.id === currentClientId);
+        if(!c) return;
+        document.getElementById('clientId').value = c.id;
+        document.getElementById('inpCliProject').value = c.project;
+        document.getElementById('inpCliName').value = c.clientName;
+        document.getElementById('inpCliInd').value = c.industry;
+        document.getElementById('inpCliValue').value = c.value;
+        document.getElementById('inpCliStatus').value = c.status;
+        document.getElementById('inpCliDeadline').value = c.deadline;
+        document.getElementById('inpCliWa').value = c.wa;
+        document.getElementById('inpCliNotes').value = c.notes;
+
+        document.getElementById('clientModalTitle').innerText = "Edit Project";
+        document.getElementById('clientDetailView').classList.add('hidden');
+        document.getElementById('clientForm').classList.remove('hidden');
+        document.getElementById('clientDetailActions').classList.add('hidden');
+        document.getElementById('clientFormActions').classList.remove('hidden');
+    }
+    // =========================================
+    // FITUR: ONLINE COURSE TRACKER
+    // =========================================
+
+    // 1. ASSETS PLATFORM
+    const coursePlatformAssets = {
+        "Udemy": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
+        "Coursera": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80",
+        "edX": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
+        "Skillshare": "https://images.unsplash.com/photo-1513258496098-3ad244ab937d?w=800&q=80",
+        "YouTube": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
+        "Bootcamp": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=80"
+    };
+
+    function getCourseImage(plat) {
+        return coursePlatformAssets[plat] || coursePlatformAssets["Lainnya"];
+    }
+
+    // Populate Dropdown
+    const coPlatSelect = document.getElementById('inpCoPlat');
+    if(coPlatSelect) {
+        coPlatSelect.innerHTML = '';
+        Object.keys(coursePlatformAssets).sort().forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p; opt.innerText = p;
+            coPlatSelect.appendChild(opt);
+        });
+    }
+
+    // 2. DATA
+    let courses = JSON.parse(localStorage.getItem('myCourses')) || [];
+
+    // 3. RENDER COURSE
+    function renderCourse() {
+        const container = document.getElementById('courseContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchCourse') ? document.getElementById('inpSearchCourse').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpCourseFilter') ? document.getElementById('inpCourseFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = courses.filter(c => c.name.toLowerCase().includes(searchTerm) || c.platform.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => b.id - a.id);
+        if(filterVal === 'progress_high') filtered.sort((a,b) => b.progress - a.progress);
+        if(filterVal === 'stat_completed') filtered = filtered.filter(c => c.progress == 100);
+        if(filterVal === 'stat_ongoing') filtered = filtered.filter(c => c.progress < 100);
+        if(filterVal === 'plat_udemy') filtered = filtered.filter(c => c.platform === 'Udemy');
+        if(filterVal === 'plat_coursera') filtered = filtered.filter(c => c.platform === 'Coursera');
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada kursus diambil.</div>';
+            return;
+        }
+
+        filtered.forEach(item => { // GUNAKAN 'item' AGAR AMAN
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            
+            const bgImage = getCourseImage(item.platform);
+            
+            // Logic Progress Color
+            let progColor = '#60a5fa'; // Blue (Start)
+            if(item.progress > 50) progColor = '#fbbf24'; // Yellow (Half)
+            if(item.progress == 100) progColor = '#34d399'; // Green (Done)
+
+            const dateObj = new Date(item.createdAt);
+            const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short'});
+            
+            // Deskripsi Singkat dari Notes
+            const descText = item.notes || "Belum ada catatan.";
+
+            card.innerHTML = `
+                <div style="height:160px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=80';">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateCourse(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteCourse(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-course-plat">${item.platform}</span>
+                    </div>
+                </div>
+                
+                <div class="course-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span style="font-size:0.75rem; color:#bfdbfe;">Enroll: ${dateStr}</span>
+                        <span style="font-size:0.75rem; color:#fcd34d; font-weight:bold;">${item.hours} Hours</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#93c5fd; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:1rem; line-height:1.6;">
+                        ${descText}
+                    </p>
+                    
+                    <div style="margin-top:auto;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#fff; margin-bottom:4px;">
+                            <span>Progress</span>
+                            <span style="font-weight:bold; color:${progColor}">${item.progress}%</span>
+                        </div>
+                        <div class="mini-progress-track">
+                            <div class="mini-progress-fill" style="width:${item.progress}%; background:${progColor};"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openCourseDetail(item.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 4. SAVE COURSE
+    function saveCourse() {
+        const id = document.getElementById('courseId').value;
+        const now = new Date().toLocaleString();
+        
+        // Ambil nilai dari slider
+        const progSlider = document.getElementById('inpCoProgressSlider').value;
+
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (courses.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            name: document.getElementById('inpCoName').value,
+            platform: document.getElementById('inpCoPlat').value,
+            hours: parseInt(document.getElementById('inpCoHours').value) || 0,
+            progress: parseInt(progSlider) || 0,
+            
+            link: document.getElementById('inpCoLink').value,
+            notes: document.getElementById('inpCoNotes').value
+        };
+
+        if(!dataObj.name) { alert("Nama kursus wajib diisi!"); return; }
+
+        if(id) {
+            const idx = courses.findIndex(x => x.id == id);
+            courses[idx] = dataObj;
+        } else {
+            courses.push(dataObj);
+        }
+        localStorage.setItem('myCourses', JSON.stringify(courses));
+        closeCourseModal();
+        renderCourse();
+        renderDashboard();
+    }
+
+    // 5. DETAIL VIEW
+    let currentCourseId = null;
+    function openCourseDetail(id) {
+        const c = courses.find(x => x.id === id);
+        if(!c) return;
+        currentCourseId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; el.onerror = function() { this.src = coursePlatformAssets["Lainnya"]; }; } };
+
+        setImg('viewCoCover', getCourseImage(c.platform));
+        setTxt('viewCoPlat', c.platform);
+        setTxt('viewCoName', c.name);
+        setTxt('viewCoHours', c.hours + " Jam");
+        setTxt('viewCoProgressNum', c.progress + "%");
+        
+        // Progress Logic
+        const progBar = document.getElementById('viewCoProgressBar');
+        if(progBar) progBar.style.width = c.progress + "%";
+        
+        const statusText = document.getElementById('viewCoStatusText');
+        if(statusText) {
+            if(c.progress == 100) { statusText.innerText = "Completed"; statusText.style.color = "#34d399"; }
+            else if(c.progress == 0) { statusText.innerText = "Not Started"; statusText.style.color = "#94a3b8"; }
+            else { statusText.innerText = "Ongoing"; statusText.style.color = "#fcd34d"; }
+        }
+
+        setTxt('viewCoNotes', c.notes || "Tidak ada catatan.");
+
+        const lnk = document.getElementById('viewCoLink');
+        if(lnk) { if(c.link) { lnk.href = c.link; lnk.style.display='flex'; } else { lnk.style.display='none'; } }
+
+        setTxt('viewCoCreated', "Enrolled: " + c.createdAt);
+        setTxt('viewCoUpdated', "Last Update: " + c.updatedAt);
+
+        document.getElementById('courseModalTitle').innerText = "Course Detail";
+        document.getElementById('courseForm').classList.add('hidden');
+        document.getElementById('courseDetailView').classList.remove('hidden');
+        document.getElementById('courseFormActions').classList.add('hidden');
+        document.getElementById('courseDetailActions').classList.remove('hidden');
+        document.getElementById('courseModalOverlay').classList.add('active');
+    }
+
+    // 6. UTILS
+    function deleteCourse(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus kursus ini?")) {
+            courses = courses.filter(x => x.id !== id);
+            localStorage.setItem('myCourses', JSON.stringify(courses));
+            renderCourse();
+            renderDashboard();
+        }
+    }
+    function duplicateCourse(id, e) {
+        e.stopPropagation();
+        const origin = courses.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), name: origin.name + " (Copy)", progress: 0, createdAt: new Date().toLocaleString() };
+            courses.push(copy);
+            localStorage.setItem('myCourses', JSON.stringify(courses));
+            renderCourse();
+            renderDashboard();
+        }
+    }
+    function openCourseModal() {
+        document.getElementById('courseForm').reset();
+        document.getElementById('courseId').value = '';
+        document.getElementById('inpCoProgressSlider').value = 0;
+        document.getElementById('progVal').innerText = "0%";
+        
+        document.getElementById('courseModalTitle').innerText = "Course Enrollment";
+        document.getElementById('courseForm').classList.remove('hidden');
+        document.getElementById('courseDetailView').classList.add('hidden');
+        document.getElementById('courseFormActions').classList.remove('hidden');
+        document.getElementById('courseDetailActions').classList.add('hidden');
+        document.getElementById('courseModalOverlay').classList.add('active');
+    }
+    function closeCourseModal() { document.getElementById('courseModalOverlay').classList.remove('active'); }
+    function editCourse() {
+        const c = courses.find(x => x.id === currentCourseId);
+        if(!c) return;
+        document.getElementById('courseId').value = c.id;
+        document.getElementById('inpCoName').value = c.name;
+        document.getElementById('inpCoPlat').value = c.platform;
+        document.getElementById('inpCoHours').value = c.hours;
+        
+        // Set Slider
+        document.getElementById('inpCoProgressSlider').value = c.progress;
+        document.getElementById('progVal').innerText = c.progress + "%";
+
+        document.getElementById('inpCoLink').value = c.link;
+        document.getElementById('inpCoNotes').value = c.notes;
+
+        document.getElementById('courseModalTitle').innerText = "Update Progress";
+        document.getElementById('courseDetailView').classList.add('hidden');
+        document.getElementById('courseForm').classList.remove('hidden');
+        document.getElementById('courseDetailActions').classList.add('hidden');
+        document.getElementById('courseFormActions').classList.remove('hidden');
+    }
+    // =========================================
+    // FITUR: RESEARCH & THESIS (LITERATURE)
+    // =========================================
+
+    // 1. ASSETS GAMBAR (Generic Academic Theme)
+    // Karena tidak ada kategori spesifik, kita gunakan gambar abstract library
+    const thesisAssets = [
+        "https://images.unsplash.com/photo-1507842217121-9e9628d7687e?w=800&q=80", // Library
+        "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80", // Books
+        "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=800&q=80", // Open Book
+        "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80", // Study
+        "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&q=80"  // Shelf
+    ];
+
+    function getThesisImage(id) {
+        // Pilih gambar berdasarkan digit terakhir ID agar konsisten
+        const index = id % thesisAssets.length;
+        return thesisAssets[index];
+    }
+
+    // 2. DATA
+    let theses = JSON.parse(localStorage.getItem('myTheses')) || [];
+
+    // 3. RENDER THESIS
+    function renderThesis() {
+        const container = document.getElementById('thesisContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchThesis') ? document.getElementById('inpSearchThesis').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpThesisFilter') ? document.getElementById('inpThesisFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = theses.filter(t => t.title.toLowerCase().includes(searchTerm) || t.author.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => b.id - a.id);
+        if(filterVal === 'year_new') filtered.sort((a,b) => b.year - a.year);
+        if(filterVal === 'stat_unread') filtered = filtered.filter(t => t.status === 'Belum Dibaca');
+        if(filterVal === 'stat_reading') filtered = filtered.filter(t => t.status === 'Sedang Dibaca');
+        if(filterVal === 'stat_cited') filtered = filtered.filter(t => t.status.includes('Cited') || t.status.includes('Dikutip'));
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada literatur.</div>';
+            return;
+        }
+
+        filtered.forEach(item => { 
+            const card = document.createElement('div');
+            card.className = 'thesis-card';
+            
+            const bgImage = getThesisImage(item.id);
+            
+            // Logic Status Color
+            let statColor = '#fdba74'; // Default Orange
+            if(item.status.includes('Cited') || item.status.includes('Dikutip')) statColor = '#22c55e'; // Green
+            if(item.status === 'Belum Dibaca') statColor = '#94a3b8'; // Grey
+
+            const descText = item.abstract || "Tidak ada abstrak.";
+
+            card.innerHTML = `
+                <div style="height:160px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateThesis(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteThesis(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-thesis-stat" style="color:${statColor}; border-color:${statColor};">${item.status}</span>
+                    </div>
+                </div>
+                
+                <div class="thesis-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span style="font-size:0.75rem; color:#fdba74; font-weight:bold;">${item.author}</span>
+                        <span style="font-size:0.75rem; color:#cbd5e1;">${item.year}</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.2rem; margin-bottom:0.2rem; line-height:1.4; color:white;">${item.title}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#fdba74; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:1rem; line-height:1.6; opacity:0.8;">
+                        ${descText}
+                    </p>
+                    
+                    <div style="margin-top:auto; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <span style="font-size:0.8rem; color:#9ca3af;">PDF Available</span>
+                         <span style="color:#ea580c;"><i class="ph ph-file-text"></i></span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openThesisDetail(item.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 4. SAVE THESIS
+    function saveThesis() {
+        const id = document.getElementById('thesisId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (theses.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            title: document.getElementById('inpThTitle').value,
+            author: document.getElementById('inpThAuthor').value,
+            year: document.getElementById('inpThYear').value,
+            status: document.getElementById('inpThStatus').value,
+            
+            link: document.getElementById('inpThLink').value,
+            abstract: document.getElementById('inpThAbstract').value
+        };
+
+        if(!dataObj.title) { alert("Judul literatur wajib diisi!"); return; }
+
+        if(id) {
+            const idx = theses.findIndex(x => x.id == id);
+            theses[idx] = dataObj;
+        } else {
+            theses.push(dataObj);
+        }
+        localStorage.setItem('myTheses', JSON.stringify(theses));
+        closeThesisModal();
+        renderThesis();
+        renderDashboard();
+    }
+
+    // 5. DETAIL VIEW
+    let currentThesisId = null;
+    function openThesisDetail(id) {
+        const t = theses.find(x => x.id === id);
+        if(!t) return;
+        currentThesisId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; } };
+
+        setImg('viewThCover', getThesisImage(t.id));
+        setTxt('viewThTitle', t.title);
+        setTxt('viewThAuthor', t.author);
+        setTxt('viewThYearBadge', t.year || "N/A");
+        
+        // Status Badge Style
+        const statB = document.getElementById('viewThStatus');
+        statB.innerText = t.status;
+        if(t.status.includes('Cited') || t.status.includes('Dikutip')) { 
+            statB.style.background = '#22c55e'; statB.style.color = '#fff'; 
+        } else if(t.status === 'Sedang Dibaca') { 
+            statB.style.background = '#ea580c'; statB.style.color = '#fff'; 
+        } else { 
+            statB.style.background = '#475569'; statB.style.color = '#cbd5e1'; 
+        }
+
+        setTxt('viewThAbstract', t.abstract || "Tidak ada abstrak.");
+
+        const lnk = document.getElementById('viewThLink');
+        if(lnk) { if(t.link) { lnk.href = t.link; lnk.style.display='flex'; } else { lnk.style.display='none'; } }
+
+        setTxt('viewThCreated', "Added: " + t.createdAt);
+        setTxt('viewThUpdated', "Last Update: " + t.updatedAt);
+
+        document.getElementById('thesisModalTitle').innerText = "Literature Detail";
+        document.getElementById('thesisForm').classList.add('hidden');
+        document.getElementById('thesisDetailView').classList.remove('hidden');
+        document.getElementById('thesisFormActions').classList.add('hidden');
+        document.getElementById('thesisDetailActions').classList.remove('hidden');
+        document.getElementById('thesisModalOverlay').classList.add('active');
+    }
+
+    // 6. UTILS
+    function deleteThesis(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus literatur ini?")) {
+            theses = theses.filter(x => x.id !== id);
+            localStorage.setItem('myTheses', JSON.stringify(theses));
+            renderThesis();
+            renderDashboard();
+        }
+    }
+    function duplicateThesis(id, e) {
+        e.stopPropagation();
+        const origin = theses.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), title: origin.title + " (Copy)", createdAt: new Date().toLocaleString() };
+            theses.push(copy);
+            localStorage.setItem('myTheses', JSON.stringify(theses));
+            renderThesis();
+            renderDashboard();
+        }
+    }
+    function openThesisModal() {
+        document.getElementById('thesisForm').reset();
+        document.getElementById('thesisId').value = '';
+        document.getElementById('thesisModalTitle').innerText = "Reference Entry";
+        document.getElementById('thesisForm').classList.remove('hidden');
+        document.getElementById('thesisDetailView').classList.add('hidden');
+        document.getElementById('thesisFormActions').classList.remove('hidden');
+        document.getElementById('thesisDetailActions').classList.add('hidden');
+        document.getElementById('thesisModalOverlay').classList.add('active');
+    }
+    function closeThesisModal() { document.getElementById('thesisModalOverlay').classList.remove('active'); }
+    function editThesis() {
+        const t = theses.find(x => x.id === currentThesisId);
+        if(!t) return;
+        document.getElementById('thesisId').value = t.id;
+        document.getElementById('inpThTitle').value = t.title;
+        document.getElementById('inpThAuthor').value = t.author;
+        document.getElementById('inpThYear').value = t.year;
+        document.getElementById('inpThStatus').value = t.status;
+        document.getElementById('inpThLink').value = t.link;
+        document.getElementById('inpThAbstract').value = t.abstract;
+
+        document.getElementById('thesisModalTitle').innerText = "Edit Literature";
+        document.getElementById('thesisDetailView').classList.add('hidden');
+        document.getElementById('thesisForm').classList.remove('hidden');
+        document.getElementById('thesisDetailActions').classList.add('hidden');
+        document.getElementById('thesisFormActions').classList.remove('hidden');
+    }
+    // =========================================
+    // FITUR: SUPPLEMENT & MEDS (HEALTH)
+    // =========================================
+
+    // 1. ASSETS TIPE OBAT
+    const medTypeAssets = {
+        "Tablet / Kapsul": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&q=80",
+        "Sirup / Cair": "https://images.unsplash.com/photo-1624454002302-36b824d7bd0a?w=800&q=80",
+        "Suntik / Injeksi": "https://images.unsplash.com/photo-1579165466949-3180a3d056d5?w=800&q=80",
+        "Salep / Krim": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80",
+        "Vitamin": "https://images.unsplash.com/photo-1550572017-edd951aa8f72?w=800&q=80",
+        "Alat Medis": "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1585435557343-3b092031a831?w=800&q=80"
+    };
+
+    function getMedImage(type) {
+        return medTypeAssets[type] || medTypeAssets["Lainnya"];
+    }
+
+    // Populate Dropdown
+    const mdTypeSelect = document.getElementById('inpMdType');
+    if(mdTypeSelect) {
+        mdTypeSelect.innerHTML = '';
+        Object.keys(medTypeAssets).sort().forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t; opt.innerText = t;
+            mdTypeSelect.appendChild(opt);
+        });
+    }
+
+    // 2. DATA
+    let meds = JSON.parse(localStorage.getItem('myMeds')) || [];
+
+    // 3. RENDER MEDS
+    function renderMeds() {
+        const container = document.getElementById('medContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchMed') ? document.getElementById('inpSearchMed').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpMedFilter') ? document.getElementById('inpMedFilter').value : "all";
+        
+        container.innerHTML = '';
+        let filtered = meds.filter(m => m.name.toLowerCase().includes(searchTerm) || m.purpose.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'stock_low') filtered = filtered.filter(m => m.stock < 5);
+        if(filterVal === 'time_morning') filtered = filtered.filter(m => m.time.toLowerCase().includes('pagi'));
+        if(filterVal === 'time_night') filtered = filtered.filter(m => m.time.toLowerCase().includes('malam'));
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Tidak ada obat/vitamin.</div>';
+            return;
+        }
+
+        filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'med-card';
+            
+            const bgImage = getMedImage(item.type);
+            
+            // Logic Stock Color
+            let stockColor = '#5eead4'; // Teal (Aman)
+            let stockText = `${item.stock} Tersisa`;
+            if(item.stock <= 5) {
+                stockColor = '#fbbf24'; // Warning
+                stockText = `Low: ${item.stock}`;
+            }
+            if(item.stock === 0) {
+                stockColor = '#ef4444'; // Danger
+                stockText = "Habis";
+            }
+
+            card.innerHTML = `
+                <div style="height:160px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1585435557343-3b092031a831?w=800&q=80';">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateMed(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteMed(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-med-type">${item.type}</span>
+                    </div>
+                </div>
+                
+                <div class="med-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span style="font-size:0.75rem; color:#99f6e4; font-weight:600;">${item.dose}</span>
+                        <span style="font-size:0.75rem; font-weight:bold; color:${stockColor}; border:1px solid ${stockColor}; padding:2px 8px; border-radius:10px;">${stockText}</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#ccfbf1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                        ${item.purpose || 'Suplemen Kesehatan'}
+                    </p>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:8px;">
+                         <i class="ph ph-clock" style="color:#5eead4;"></i>
+                         <span style="font-size:0.85rem; color:#fff;">${item.time}</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openMedDetail(item.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 4. SAVE MED
+    function saveMed() {
+        const id = document.getElementById('medId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (meds.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            name: document.getElementById('inpMdName').value,
+            type: document.getElementById('inpMdType').value,
+            purpose: document.getElementById('inpMdPurpose').value,
+            dose: document.getElementById('inpMdDose').value,
+            time: document.getElementById('inpMdTime').value,
+            stock: parseInt(document.getElementById('inpMdStock').value) || 0,
+            doc: document.getElementById('inpMdDoc').value
+        };
+
+        if(!dataObj.name) { alert("Nama obat wajib diisi!"); return; }
+
+        if(id) {
+            const idx = meds.findIndex(x => x.id == id);
+            meds[idx] = dataObj;
+        } else {
+            meds.push(dataObj);
+        }
+        localStorage.setItem('myMeds', JSON.stringify(meds));
+        closeMedModal();
+        renderMeds();
+        renderDashboard();
+    }
+
+    // 5. DETAIL VIEW
+    let currentMedId = null;
+    function openMedDetail(id) {
+        const m = meds.find(x => x.id === id);
+        if(!m) return;
+        currentMedId = id;
+
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; el.onerror = function() { this.src = medTypeAssets["Lainnya"]; }; } };
+
+        setImg('viewMdCover', getMedImage(m.type));
+        setTxt('viewMdName', m.name);
+        setTxt('viewMdPurpose', m.purpose);
+        setTxt('viewMdDose', m.dose);
+        setTxt('viewMdTime', m.time);
+        
+        const stockBadge = document.getElementById('viewMdStockBadge');
+        if(stockBadge) {
+            stockBadge.innerText = `Sisa: ${m.stock}`;
+            if(m.stock <= 5) { stockBadge.style.background = '#ef4444'; stockBadge.style.color = 'white'; }
+            else { stockBadge.style.background = '#2dd4bf'; stockBadge.style.color = '#042f2e'; }
+        }
+
+        setTxt('viewMdDoc', m.doc || "Tidak ada data dokter.");
+
+        setTxt('viewMdCreated', "Added: " + m.createdAt);
+        setTxt('viewMdUpdated', "Last Update: " + m.updatedAt);
+
+        document.getElementById('medModalTitle').innerText = "Prescription Detail";
+        document.getElementById('medForm').classList.add('hidden');
+        document.getElementById('medDetailView').classList.remove('hidden');
+        document.getElementById('medFormActions').classList.add('hidden');
+        document.getElementById('medDetailActions').classList.remove('hidden');
+        document.getElementById('medModalOverlay').classList.add('active');
+    }
+
+    // 6. UTILS
+    function deleteMed(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus obat ini?")) {
+            meds = meds.filter(x => x.id !== id);
+            localStorage.setItem('myMeds', JSON.stringify(meds));
+            renderMeds();
+            renderDashboard();
+        }
+    }
+    function duplicateMed(id, e) {
+        e.stopPropagation();
+        const origin = meds.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), name: origin.name + " (Refill)", stock: 10, createdAt: new Date().toLocaleString() };
+            meds.push(copy);
+            localStorage.setItem('myMeds', JSON.stringify(meds));
+            renderMeds();
+            renderDashboard();
+        }
+    }
+    function openMedModal() {
+        document.getElementById('medForm').reset();
+        document.getElementById('medId').value = '';
+        document.getElementById('medModalTitle').innerText = "New Prescription";
+        document.getElementById('medForm').classList.remove('hidden');
+        document.getElementById('medDetailView').classList.add('hidden');
+        document.getElementById('medFormActions').classList.remove('hidden');
+        document.getElementById('medDetailActions').classList.add('hidden');
+        document.getElementById('medModalOverlay').classList.add('active');
+    }
+    function closeMedModal() { document.getElementById('medModalOverlay').classList.remove('active'); }
+    function editMed() {
+        const m = meds.find(x => x.id === currentMedId);
+        if(!m) return;
+        document.getElementById('medId').value = m.id;
+        document.getElementById('inpMdName').value = m.name;
+        document.getElementById('inpMdType').value = m.type;
+        document.getElementById('inpMdPurpose').value = m.purpose;
+        document.getElementById('inpMdDose').value = m.dose;
+        document.getElementById('inpMdTime').value = m.time;
+        document.getElementById('inpMdStock').value = m.stock;
+        document.getElementById('inpMdDoc').value = m.doc;
+
+        document.getElementById('medModalTitle').innerText = "Edit / Refill";
+        document.getElementById('medDetailView').classList.add('hidden');
+        document.getElementById('medForm').classList.remove('hidden');
+        document.getElementById('medDetailActions').classList.add('hidden');
+        document.getElementById('medFormActions').classList.remove('hidden');
+    }
+
+
+    // =========================================
+    // FITUR: SKINCARE ROUTINE (GLOW)
+    // =========================================
+
+    // 1. ASSETS TIPE PRODUK
+    const skinTypeAssets = {
+        "Cleanser": "https://images.unsplash.com/photo-1598460880248-71ec6d2d582b?q=80&w=1007&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "Toner": "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?w=800&q=80",
+        "Serum": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80",
+        "Moisturizer": "https://images.unsplash.com/photo-1629732047847-50219e9c5aef?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8TW9pc3R1cml6ZXJ8ZW58MHx8MHx8fDA%3D",
+        "Sunscreen": "https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=800&q=80",
+        "Mask": "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=800&q=80",
+        "Face Oil": "https://images.unsplash.com/photo-1615396899839-c99c121888b0?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1571781535606-2534570077df?w=800&q=80"
+    };
+
+   function getSkinImage(type) {
+        return skinTypeAssets[type] || skinTypeAssets["Lainnya"];
+    }
+
+    // Populate Dropdown
+    const skTypeSelect = document.getElementById('inpSkType');
+    if(skTypeSelect) {
+        skTypeSelect.innerHTML = '';
+        Object.keys(skinTypeAssets).sort().forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t; opt.innerText = t;
+            skTypeSelect.appendChild(opt);
+        });
+    }
+
+    // 2. DATA
+    let skins = JSON.parse(localStorage.getItem('mySkins')) || [];
+
+    // 3. RENDER SKINCARE
+    function renderSkin() {
+        const container = document.getElementById('skinContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchSkin') ? document.getElementById('inpSearchSkin').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpSkinFilter') ? document.getElementById('inpSkinFilter').value : "step_order";
+        
+        container.innerHTML = '';
+        let filtered = skins.filter(s => s.name.toLowerCase().includes(searchTerm) || s.type.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'step_order') filtered.sort((a,b) => (parseInt(a.step) || 99) - (parseInt(b.step) || 99));
+        if(filterVal === 'rating_high') filtered.sort((a,b) => b.rating - a.rating);
+        if(filterVal === 'time_am') filtered = filtered.filter(s => s.time.includes('Pagi'));
+        if(filterVal === 'time_pm') filtered = filtered.filter(s => s.time.includes('Malam'));
+        if(filterVal === 'type_serum') filtered = filtered.filter(s => s.type === 'Serum');
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada produk skincare.</div>';
+            return;
+        }
+
+     filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'skin-card';
+            
+            const bgImage = getSkinImage(item.type);
+            
+            // Generate Stars
+            let stars = '';
+            for(let i=0; i<5; i++) {
+                stars += i < item.rating ? '<i class="ph ph-star-fill" style="color:#fbbf24;"></i>' : '<i class="ph ph-star" style="color:rgba(255,255,255,0.3);"></i>';
+            }
+
+            // Hitung Hari Buka (PAO)
+            let paoText = "Baru Buka";
+            if(item.openDate) {
+                const open = new Date(item.openDate);
+                const today = new Date();
+                const diffTime = Math.abs(today - open);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                paoText = `${diffDays} Hari`;
+            }
+            
+            // Deskripsi Singkat (Review/Notes)
+            const descText = item.notes || "Belum ada review efek.";
+
+            card.innerHTML = `
+                <div style="height:160px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateSkin(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteSkin(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-skin-type">${item.type}</span>
+                    </div>
+                </div>
+                
+                <div class="skin-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span style="font-size:0.7rem; color:#fbcfe8; background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:10px;">STEP ${item.step || '-'}</span>
+                        <span style="font-size:0.7rem; color:#fde68a;">Opened: ${paoText}</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#fbcfe8; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                        ${descText}
+                    </p>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <div style="display:flex; gap:2px; font-size:0.8rem;">${stars}</div>
+                         <span style="font-size:0.75rem; color:#fce7f3; opacity:0.8;">${item.time}</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openSkinDetail(item.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 4. SAVE SKIN
+    // 4. SAVE SKIN (REVISI ID)
+    function saveSkin() {
+        const id = document.getElementById('skinId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (skins.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            // GANTI inpSkName JADI inpSkinProductName
+            name: document.getElementById('inpSkinProductName').value, 
+            
+            type: document.getElementById('inpSkType').value,
+            step: document.getElementById('inpSkStep').value,
+            time: document.getElementById('inpSkTime').value,
+            openDate: document.getElementById('inpSkDate').value,
+            rating: parseInt(document.getElementById('inpSkRating').value) || 0,
+            notes: document.getElementById('inpSkNotes').value
+        };
+
+        if(!dataObj.name) { alert("Nama produk wajib diisi!"); return; }
+
+        if(id) {
+            const idx = skins.findIndex(x => x.id == id);
+            skins[idx] = dataObj;
+        } else {
+            skins.push(dataObj);
+        }
+        localStorage.setItem('mySkins', JSON.stringify(skins));
+        closeSkinModal();
+        renderSkin();
+        renderDashboard();
+    }
+
+    // 5. DETAIL VIEW
+   // --- REVISI DETAIL VIEW SKINCARE (FIX GAMBAR) ---
+    let currentSkinId = null;
+    function openSkinDetail(id) {
+        const s = skins.find(x => x.id === id);
+        if(!s) return;
+        currentSkinId = id;
+
+        // Helper text setter
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        
+        // REVISI BAGIAN GAMBAR
+        const imgEl = document.getElementById('viewSkCover');
+        if(imgEl) {
+            // Coba ambil gambar berdasarkan tipe
+            let imgSrc = getSkinImage(s.type);
+            
+            // Jika imgSrc undefined/kosong, pakai default langsung
+            if(!imgSrc) imgSrc = "https://images.unsplash.com/photo-1629732097571-b042b35aa3ed?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8TW9pc3R1cml6ZXJ8ZW58MHx8MHx8fDA%3D";
+            
+            imgEl.src = imgSrc;
+            imgEl.style.display = 'block'; // Pastikan muncul
+            
+            // Handler jika link gambar rusak
+            imgEl.onerror = function() { 
+                this.src = "https://images.unsplash.com/photo-1629732097571-b042b35aa3ed?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8TW9pc3R1cml6ZXJ8ZW58MHx8MHx8fDA%3D"; // Gambar Fallback
+            };
+        }
+
+        setTxt('viewSkName', s.name);
+        setTxt('viewSkType', s.type);
+        setTxt('viewSkStep', s.step || '?');
+        setTxt('viewSkTime', s.time);
+        
+        // PAO Calc
+        if(s.openDate) {
+            const open = new Date(s.openDate);
+            const today = new Date();
+            const diffTime = Math.abs(today - open);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            
+            setTxt('viewSkOpenDate', open.toLocaleDateString('id-ID'));
+            setTxt('viewSkDuration', diffDays + " Days");
+        } else {
+            setTxt('viewSkOpenDate', '-');
+            setTxt('viewSkDuration', 'Not Set');
+        }
+
+        // Stars
+        let stars = '';
+        for(let i=0; i<5; i++) {
+            stars += i < s.rating ? '<i class="ph ph-star-fill"></i>' : '<i class="ph ph-star" style="opacity:0.3;"></i>';
+        }
+        const starContainer = document.getElementById('viewSkStars');
+        if(starContainer) starContainer.innerHTML = stars;
+
+        setTxt('viewSkNotes', s.notes || "Belum ada review.");
+
+        setTxt('viewSkCreated', "Added: " + s.createdAt);
+        setTxt('viewSkUpdated', "Last Update: " + s.updatedAt);
+
+        document.getElementById('skinModalTitle').innerText = "Product Detail";
+        document.getElementById('skinForm').classList.add('hidden');
+        document.getElementById('skinDetailView').classList.remove('hidden');
+        document.getElementById('skinFormActions').classList.add('hidden');
+        document.getElementById('skinDetailActions').classList.remove('hidden');
+        document.getElementById('skinModalOverlay').classList.add('active');
+    }
+
+    // 6. UTILS
+    function deleteSkin(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus produk ini?")) {
+            skins = skins.filter(x => x.id !== id);
+            localStorage.setItem('mySkins', JSON.stringify(skins));
+            renderSkin();
+            renderDashboard();
+        }
+    }
+    function duplicateSkin(id, e) {
+        e.stopPropagation();
+        const origin = skins.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), name: origin.name + " (Refill)", openDate: "", createdAt: new Date().toLocaleString() };
+            skins.push(copy);
+            localStorage.setItem('mySkins', JSON.stringify(skins));
+            renderSkin();
+            renderDashboard();
+        }
+    }
+    function openSkinModal() {
+        document.getElementById('skinForm').reset();
+        document.getElementById('skinId').value = '';
+        document.getElementById('skinModalTitle').innerText = "New Product";
+        document.getElementById('skinForm').classList.remove('hidden');
+        document.getElementById('skinDetailView').classList.add('hidden');
+        document.getElementById('skinFormActions').classList.remove('hidden');
+        document.getElementById('skinDetailActions').classList.add('hidden');
+        document.getElementById('skinModalOverlay').classList.add('active');
+    }
+    function closeSkinModal() { document.getElementById('skinModalOverlay').classList.remove('active'); }
+    // REVISI EDIT SKIN (Sesuaikan ID)
+    function editSkin() {
+        const s = skins.find(x => x.id === currentSkinId);
+        if(!s) return;
+        document.getElementById('skinId').value = s.id;
+        
+        // GANTI inpSkName JADI inpSkinProductName
+        document.getElementById('inpSkinProductName').value = s.name;
+        
+        document.getElementById('inpSkType').value = s.type;
+        document.getElementById('inpSkStep').value = s.step;
+        document.getElementById('inpSkTime').value = s.time;
+        document.getElementById('inpSkDate').value = s.openDate;
+        document.getElementById('inpSkRating').value = s.rating;
+        document.getElementById('inpSkNotes').value = s.notes;
+
+        document.getElementById('skinModalTitle').innerText = "Edit Product";
+        document.getElementById('skinDetailView').classList.add('hidden');
+        document.getElementById('skinForm').classList.remove('hidden');
+        document.getElementById('skinDetailActions').classList.add('hidden');
+        document.getElementById('skinFormActions').classList.remove('hidden');
+    }
+    // =========================================
+    // FITUR: VEHICLE MAINTENANCE (OTOMOTIF)
+    // =========================================
+
+    // 1. ASSETS KENDARAAN
+    const vehicleAssets = {
+        "Mobil (Car)": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&q=80", // Sports Car
+        "Motor (Bike)": "https://images.unsplash.com/photo-1558981806-ec527fa84c3d?w=800&q=80", // Motorcycle
+        "Truck/Heavy": "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80", // Truck
+        "Sepeda Listrik": "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&q=80", // E-Bike
+        "Lainnya": "https://images.unsplash.com/photo-1487754180477-db33c34545de?w=800&q=80" // Garage
+    };
+
+    function getVehicleImage(type) {
+        return vehicleAssets[type] || vehicleAssets["Lainnya"];
+    }
+
+    // 2. DATA
+    let vehicles = JSON.parse(localStorage.getItem('myVehicles')) || [];
+
+    // Helper: Format Rupiah
+    const formatIDR = (num) => {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+    };
+
+    // Helper: Format Number
+    const formatNum = (num) => {
+        return new Intl.NumberFormat('id-ID').format(num);
+    }
+
+    // 3. RENDER VEHICLE
+    function renderVehicle() {
+        const container = document.getElementById('vehicleContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchVehicle') ? document.getElementById('inpSearchVehicle').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpVehicleFilter') ? document.getElementById('inpVehicleFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = vehicles.filter(v => v.name.toLowerCase().includes(searchTerm) || v.action.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
+        if(filterVal === 'km_high') filtered.sort((a,b) => b.km - a.km);
+        if(filterVal === 'cost_high') filtered.sort((a,b) => b.cost - a.cost);
+        if(filterVal === 'type_car') filtered = filtered.filter(v => v.type.includes('Mobil'));
+        if(filterVal === 'type_moto') filtered = filtered.filter(v => v.type.includes('Motor'));
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada riwayat servis.</div>';
+            return;
+        }
+
+        filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'vehicle-card';
+            
+            const bgImage = getVehicleImage(item.type);
+            const dateObj = new Date(item.date);
+            const dateStr = dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+            
+            // Format KM
+            const kmStr = item.km ? formatNum(item.km) + " KM" : "0 KM";
+
+            card.innerHTML = `
+                <div style="height:160px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateVehicle(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteVehicle(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-ve-type">${item.type}</span>
+                    </div>
+                </div>
+                
+                <div class="vehicle-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span style="font-size:0.75rem; color:#ef4444; font-weight:bold; letter-spacing:0.5px;">${dateStr}</span>
+                        <span style="font-size:0.75rem; color:#a1a1aa; font-family:'Courier New', monospace;">${kmStr}</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#d4d4d8; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                        ${item.action || 'Servis Rutin'}
+                    </p>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <span style="font-size:1rem; color:#fff; font-weight:bold;">${formatIDR(item.cost)}</span>
+                         <span style="font-size:0.8rem; color:#71717a;"><i class="ph ph-wrench"></i> ${item.shop || '-'}</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openVehicleDetail(item.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 4. SAVE VEHICLE
+    function saveVehicle() {
+        const id = document.getElementById('vehicleId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (vehicles.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            name: document.getElementById('inpVeName').value,
+            type: document.getElementById('inpVeType').value,
+            km: parseInt(document.getElementById('inpVeKm').value) || 0,
+            date: document.getElementById('inpVeDate').value,
+            shop: document.getElementById('inpVeShop').value,
+            action: document.getElementById('inpVeAction').value,
+            cost: parseInt(document.getElementById('inpVeCost').value) || 0
+        };
+
+        if(!dataObj.name) { alert("Nama kendaraan wajib diisi!"); return; }
+
+        if(id) {
+            const idx = vehicles.findIndex(x => x.id == id);
+            vehicles[idx] = dataObj;
+        } else {
+            vehicles.push(dataObj);
+        }
+        localStorage.setItem('myVehicles', JSON.stringify(vehicles));
+        closeVehicleModal();
+        renderVehicle();
+        renderDashboard();
+    }
+
+    // 5. DETAIL VIEW
+    let currentVehicleId = null;
+    function openVehicleDetail(id) {
+        const v = vehicles.find(x => x.id === id);
+        if(!v) return;
+        currentVehicleId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; } };
+
+        setImg('viewVeCover', getVehicleImage(v.type));
+        setTxt('viewVeName', v.name);
+        setTxt('viewVeShop', v.shop || 'Bengkel Umum');
+        setTxt('viewVeAction', v.action || "Servis rutin tanpa catatan khusus.");
+        
+        const dateObj = new Date(v.date);
+        setTxt('viewVeDate', dateObj.toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'}));
+        
+        setTxt('viewVeKmBadge', formatNum(v.km) + " KM");
+        setTxt('viewVeCost', formatIDR(v.cost));
+
+        // Icon Logic
+        const iconEl = document.getElementById('viewVeIcon');
+        if(iconEl) {
+            if(v.type.includes('Motor')) iconEl.className = "ph ph-motorcycle";
+            else if(v.type.includes('Truck')) iconEl.className = "ph ph-truck";
+            else if(v.type.includes('Sepeda')) iconEl.className = "ph ph-bicycle";
+            else iconEl.className = "ph ph-car";
+        }
+
+        setTxt('viewVeCreated', "Created: " + v.createdAt);
+        setTxt('viewVeUpdated', "Last Update: " + v.updatedAt);
+
+        document.getElementById('vehicleModalTitle').innerText = "Service Detail";
+        document.getElementById('vehicleForm').classList.add('hidden');
+        document.getElementById('vehicleDetailView').classList.remove('hidden');
+        document.getElementById('vehicleFormActions').classList.add('hidden');
+        document.getElementById('vehicleDetailActions').classList.remove('hidden');
+        document.getElementById('vehicleModalOverlay').classList.add('active');
+    }
+
+    // 6. UTILS
+    function deleteVehicle(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus riwayat servis ini?")) {
+            vehicles = vehicles.filter(x => x.id !== id);
+            localStorage.setItem('myVehicles', JSON.stringify(vehicles));
+            renderVehicle();
+            renderDashboard();
+        }
+    }
+    function duplicateVehicle(id, e) {
+        e.stopPropagation();
+        const origin = vehicles.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), name: origin.name, date: new Date().toISOString().split('T')[0], createdAt: new Date().toLocaleString() };
+            vehicles.push(copy);
+            localStorage.setItem('myVehicles', JSON.stringify(vehicles));
+            renderVehicle();
+            renderDashboard();
+        }
+    }
+    function openVehicleModal() {
+        document.getElementById('vehicleForm').reset();
+        document.getElementById('vehicleId').value = '';
+        document.getElementById('vehicleModalTitle').innerText = "Service Record";
+        document.getElementById('vehicleForm').classList.remove('hidden');
+        document.getElementById('vehicleDetailView').classList.add('hidden');
+        document.getElementById('vehicleFormActions').classList.remove('hidden');
+        document.getElementById('vehicleDetailActions').classList.add('hidden');
+        document.getElementById('vehicleModalOverlay').classList.add('active');
+    }
+    function closeVehicleModal() { document.getElementById('vehicleModalOverlay').classList.remove('active'); }
+    function editVehicle() {
+        const v = vehicles.find(x => x.id === currentVehicleId);
+        if(!v) return;
+        document.getElementById('vehicleId').value = v.id;
+        document.getElementById('inpVeName').value = v.name;
+        document.getElementById('inpVeType').value = v.type;
+        document.getElementById('inpVeKm').value = v.km;
+        document.getElementById('inpVeDate').value = v.date;
+        document.getElementById('inpVeShop').value = v.shop;
+        document.getElementById('inpVeAction').value = v.action;
+        document.getElementById('inpVeCost').value = v.cost;
+
+        document.getElementById('vehicleModalTitle').innerText = "Edit Service";
+        document.getElementById('vehicleDetailView').classList.add('hidden');
+        document.getElementById('vehicleForm').classList.remove('hidden');
+        document.getElementById('vehicleDetailActions').classList.add('hidden');
+        document.getElementById('vehicleFormActions').classList.remove('hidden');
+    }
+    // =========================================
+    // FITUR: CAFE & RESTO HUNT
+    // =========================================
+
+    // 1. ASSETS KATEGORI
+    const cafeCatAssets = {
+        "Coffee Shop": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80",
+        "Restoran": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80",
+        "Bakery": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
+        "Working Space": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+        "Bar / Lounge": "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80",
+        "Street Food": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80"
+    };
+
+    function getCafeImage(cat) {
+        return cafeCatAssets[cat] || cafeCatAssets["Lainnya"];
+    }
+
+    // Populate Dropdown
+    const cfCatSelect = document.getElementById('inpCfCat');
+    if(cfCatSelect) {
+        cfCatSelect.innerHTML = '';
+        Object.keys(cafeCatAssets).sort().forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c; opt.innerText = c;
+            cfCatSelect.appendChild(opt);
+        });
+    }
+
+    // 2. DATA
+    let cafes = JSON.parse(localStorage.getItem('myCafes')) || [];
+
+    // Helper Format Rupiah
+    const formatIDR_Cafe = (num) => {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+    };
+
+    // 3. RENDER CAFE
+    function renderCafe() {
+        const container = document.getElementById('cafeContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchCafe') ? document.getElementById('inpSearchCafe').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpCafeFilter') ? document.getElementById('inpCafeFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = cafes.filter(c => c.name.toLowerCase().includes(searchTerm) || c.menu.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => b.id - a.id);
+        if(filterVal === 'rating_high') filtered.sort((a,b) => b.rating - a.rating);
+        if(filterVal === 'wifi_fast') filtered = filtered.filter(c => c.wifi.includes('Kencang'));
+        if(filterVal === 'price_low') filtered.sort((a,b) => a.price - b.price);
+        if(filterVal === 'cat_coffee') filtered = filtered.filter(c => c.cat === 'Coffee Shop');
+        if(filterVal === 'cat_resto') filtered = filtered.filter(c => c.cat === 'Restoran');
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada tempat disimpan.</div>';
+            return;
+        }
+
+        filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'cafe-card';
+            
+            // Image Fallback Logic
+            let bgImage = getCafeImage(item.cat);
+            
+            // Generate Stars
+            let stars = '';
+            for(let i=0; i<5; i++) {
+                stars += i < item.rating ? '<i class="ph ph-star-fill" style="color:#d4a373;"></i>' : '<i class="ph ph-star" style="color:rgba(255,255,255,0.2);"></i>';
+            }
+
+            // Wifi Color
+            let wifiColor = '#faedcd'; 
+            if(item.wifi.includes('Kencang')) wifiColor = '#34d399'; // Green
+            if(item.wifi.includes('Lambat')) wifiColor = '#ef4444'; // Red
+
+            card.innerHTML = `
+                <div style="height:160px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80'">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateCafe(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteCafe(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-cafe-cat">${item.cat}</span>
+                    </div>
+                </div>
+                
+                <div class="cafe-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                         <div style="display:flex; gap:2px; font-size:0.7rem;">${stars}</div>
+                         <span style="font-size:0.7rem; color:${wifiColor}; border:1px solid ${wifiColor}; padding:2px 6px; border-radius:4px;"><i class="ph ph-wifi-high"></i> ${item.wifi.split(' ')[0]}</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.name}</h3>
+                    
+                    <div style="color:#8d6e63; font-size:0.9rem; margin-bottom:0.5rem;">
+                        <i class="ph ph-map-pin"></i> ${item.loc}
+                    </div>
+
+                    <p style="font-size:0.9rem; color:#d4a373; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6; font-style:italic;">
+                        "Must Try: ${item.menu || '-'}"
+                    </p>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <span style="font-size:1rem; color:#faedcd; font-weight:bold;">${formatIDR_Cafe(item.price)}</span>
+                         <span style="font-size:0.75rem; color:#8d6e63;">/ pax</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openCafeDetail(item.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 4. SAVE CAFE
+    function saveCafe() {
+        const id = document.getElementById('cafeId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (cafes.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            name: document.getElementById('inpCfName').value,
+            loc: document.getElementById('inpCfLoc').value,
+            cat: document.getElementById('inpCfCat').value,
+            menu: document.getElementById('inpCfMenu').value,
+            price: parseInt(document.getElementById('inpCfPrice').value) || 0,
+            wifi: document.getElementById('inpCfWifi').value,
+            rating: parseInt(document.getElementById('inpCfRating').value) || 0
+        };
+
+        if(!dataObj.name) { alert("Nama tempat wajib diisi!"); return; }
+
+        if(id) {
+            const idx = cafes.findIndex(x => x.id == id);
+            cafes[idx] = dataObj;
+        } else {
+            cafes.push(dataObj);
+        }
+        localStorage.setItem('myCafes', JSON.stringify(cafes));
+        closeCafeModal();
+        renderCafe();
+        renderDashboard();
+    }
+
+    // 5. DETAIL VIEW
+    let currentCafeId = null;
+    function openCafeDetail(id) {
+        const c = cafes.find(x => x.id === id);
+        if(!c) return;
+        currentCafeId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        
+        // Image Logic with Fallback
+        const imgEl = document.getElementById('viewCfCover');
+        if(imgEl) {
+            let imgSrc = getCafeImage(c.cat);
+            if(!imgSrc) imgSrc = "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80";
+            imgEl.src = imgSrc;
+            imgEl.style.display = 'block';
+            imgEl.onerror = function() { this.src = "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80"; };
+        }
+
+        setTxt('viewCfName', c.name);
+        setTxt('viewCfLoc', c.loc || 'Unknown Location');
+        setTxt('viewCfCat', c.cat);
+        setTxt('viewCfMenu', c.menu || '-');
+        setTxt('viewCfPrice', formatIDR_Cafe(c.price));
+        setTxt('viewCfRatingNum', c.rating + ".0");
+        
+        // Wifi Badge
+        const wifiEl = document.getElementById('viewCfWifi');
+        if(wifiEl) {
+            wifiEl.innerText = c.wifi;
+            if(c.wifi.includes('Kencang')) { wifiEl.style.background = '#34d399'; wifiEl.style.color = '#064e3b'; }
+            else if(c.wifi.includes('Lambat')) { wifiEl.style.background = '#ef4444'; wifiEl.style.color = '#fff'; }
+            else { wifiEl.style.background = '#d4a373'; wifiEl.style.color = '#2b1d1a'; }
+        }
+
+        setTxt('viewCfCreated', "Added: " + c.createdAt);
+        setTxt('viewCfUpdated', "Last Update: " + c.updatedAt);
+
+        document.getElementById('cafeModalTitle').innerText = "Spot Details";
+        document.getElementById('cafeForm').classList.add('hidden');
+        document.getElementById('cafeDetailView').classList.remove('hidden');
+        document.getElementById('cafeFormActions').classList.add('hidden');
+        document.getElementById('cafeDetailActions').classList.remove('hidden');
+        document.getElementById('cafeModalOverlay').classList.add('active');
+    }
+
+    // 6. UTILS
+    function deleteCafe(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus tempat ini?")) {
+            cafes = cafes.filter(x => x.id !== id);
+            localStorage.setItem('myCafes', JSON.stringify(cafes));
+            renderCafe();
+            renderDashboard();
+        }
+    }
+    function duplicateCafe(id, e) {
+        e.stopPropagation();
+        const origin = cafes.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), name: origin.name + " (Copy)", createdAt: new Date().toLocaleString() };
+            cafes.push(copy);
+            localStorage.setItem('myCafes', JSON.stringify(cafes));
+            renderCafe();
+            renderDashboard();
+        }
+    }
+    function openCafeModal() {
+        document.getElementById('cafeForm').reset();
+        document.getElementById('cafeId').value = '';
+        document.getElementById('cafeModalTitle').innerText = "Add Spot";
+        document.getElementById('cafeForm').classList.remove('hidden');
+        document.getElementById('cafeDetailView').classList.add('hidden');
+        document.getElementById('cafeFormActions').classList.remove('hidden');
+        document.getElementById('cafeDetailActions').classList.add('hidden');
+        document.getElementById('cafeModalOverlay').classList.add('active');
+    }
+    function closeCafeModal() { document.getElementById('cafeModalOverlay').classList.remove('active'); }
+    function editCafe() {
+        const c = cafes.find(x => x.id === currentCafeId);
+        if(!c) return;
+        document.getElementById('cafeId').value = c.id;
+        document.getElementById('inpCfName').value = c.name;
+        document.getElementById('inpCfLoc').value = c.loc;
+        document.getElementById('inpCfCat').value = c.cat;
+        document.getElementById('inpCfMenu').value = c.menu;
+        document.getElementById('inpCfPrice').value = c.price;
+        document.getElementById('inpCfWifi').value = c.wifi;
+        document.getElementById('inpCfRating').value = c.rating;
+
+        document.getElementById('cafeModalTitle').innerText = "Edit Spot";
+        document.getElementById('cafeDetailView').classList.add('hidden');
+        document.getElementById('cafeForm').classList.remove('hidden');
+        document.getElementById('cafeDetailActions').classList.add('hidden');
+        document.getElementById('cafeFormActions').classList.remove('hidden');
+    }
+    // =========================================
+    // FITUR: MUSIC PLAYLIST (DISCOGRAPHY)
+    // =========================================
+
+    // 1. ASSETS GENRE (Cover Art Placeholder)
+    const musicGenreAssets = {
+        "Pop": "https://images.unsplash.com/photo-1514525253440-b393452e233e?w=800&q=80",
+        "Rock": "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?w=800&q=80",
+        "Jazz": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800&q=80",
+        "Hip Hop": "https://images.unsplash.com/photo-1601643157091-ce5c665179ab?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aGlwJTIwaG9wfGVufDB8fDB8fHww",
+        "Indie": "https://images.unsplash.com/photo-1587731556938-38755b4803a6?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWV8ZW58MHx8MHx8fDA%3D",
+        "Classical": "https://images.unsplash.com/photo-1616896730099-0e7fb38305db?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Q2xhc3NpY2FsfGVufDB8fDB8fHww",
+        "K-Pop": "https://images.unsplash.com/photo-1532452119098-a3650b3c46d3?w=800&q=80",
+        "R&B": "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80"
+    };
+
+    function getMusicImage(genre) {
+        return musicGenreAssets[genre] || musicGenreAssets["Lainnya"];
+    }
+
+    // Populate Dropdown
+    const msGenreSelect = document.getElementById('inpMusicGenre');
+    if(msGenreSelect) {
+        msGenreSelect.innerHTML = '';
+        Object.keys(musicGenreAssets).sort().forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g; opt.innerText = g;
+            msGenreSelect.appendChild(opt);
+        });
+    }
+
+    // 2. DATA
+    let musicList = JSON.parse(localStorage.getItem('myMusic')) || [];
+
+    // 3. RENDER MUSIC
+    function renderMusic() {
+        const container = document.getElementById('musicContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchMusic') ? document.getElementById('inpSearchMusic').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpMusicFilter') ? document.getElementById('inpMusicFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = musicList.filter(m => m.title.toLowerCase().includes(searchTerm) || m.artist.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => b.id - a.id);
+        if(filterVal === 'year_new') filtered.sort((a,b) => b.year - a.year);
+        if(filterVal.startsWith('genre_')) {
+            const g = filterVal.split('_')[1];
+            filtered = filtered.filter(m => m.genre.toLowerCase().includes(g));
+        }
+        if(filterVal.startsWith('mood_')) {
+            const mo = filterVal.split('_')[1];
+            // Simple mapping since mood text is descriptive
+            if(mo === 'happy') filtered = filtered.filter(m => m.mood.includes('Semangat'));
+            if(mo === 'sad') filtered = filtered.filter(m => m.mood.includes('Sedih'));
+            if(mo === 'chill') filtered = filtered.filter(m => m.mood.includes('Chill'));
+        }
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada lagu dikoleksi.</div>';
+            return;
+        }
+
+        filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'music-card';
+            
+            const bgImage = getMusicImage(item.genre);
+            
+            card.innerHTML = `
+                <div style="height:180px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicateMusic(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deleteMusic(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-music-genre" style="backdrop-filter:blur(4px);">${item.genre}</span>
+                    </div>
+
+                    
+<div class="card-play-btn">
+    <i class="ph ph-play-circle" style="color:#000; font-size:1.5rem;"></i>
+</div>
+                </div>
+                
+                <div class="music-card-body">
+                    <h3 style="font-size:1.2rem; margin-bottom:0.2rem; line-height:1.3; color:white; font-weight:700;">${item.title}</h3>
+                    
+                    <div style="color:#bbf7d0; font-size:0.9rem; margin-bottom:auto;">
+                        ${item.artist}
+                    </div>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <span style="font-size:0.8rem; color:#86efac; opacity:0.8;">${item.year}</span>
+                         <span style="font-size:0.75rem; color:#fff; opacity:0.6;">${item.mood.split(' ')[0]}</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openMusicDetail(item.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 4. SAVE MUSIC
+    function saveMusic() {
+        const id = document.getElementById('musicId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (musicList.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            title: document.getElementById('inpMusicTitle').value,
+            artist: document.getElementById('inpMusicArtist').value,
+            year: document.getElementById('inpMusicYear').value,
+            genre: document.getElementById('inpMusicGenre').value,
+            mood: document.getElementById('inpMusicMood').value,
+            link: document.getElementById('inpMusicLink').value
+        };
+
+        if(!dataObj.title) { alert("Judul lagu wajib diisi!"); return; }
+
+        if(id) {
+            const idx = musicList.findIndex(x => x.id == id);
+            musicList[idx] = dataObj;
+        } else {
+            musicList.push(dataObj);
+        }
+        localStorage.setItem('myMusic', JSON.stringify(musicList));
+        closeMusicModal();
+        renderMusic();
+        renderDashboard();
+    }
+
+    // 5. DETAIL VIEW
+    let currentMusicId = null;
+    function openMusicDetail(id) {
+        const m = musicList.find(x => x.id === id);
+        if(!m) return;
+        currentMusicId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        
+        // Image Logic
+        const imgSrc = getMusicImage(m.genre);
+        const imgCover = document.getElementById('viewMusicCover');
+        const imgBg = document.getElementById('viewMusicBg');
+        
+        if(imgCover) imgCover.src = imgSrc;
+        if(imgBg) imgBg.src = imgSrc;
+
+        setTxt('viewMusicTitle', m.title);
+        setTxt('viewMusicArtist', m.artist);
+        setTxt('viewMusicGenre', m.genre);
+        setTxt('viewMusicYear', m.year || "?");
+        setTxt('viewMusicMood', m.mood);
+
+        const lnk = document.getElementById('viewMusicLink');
+        if(lnk) { 
+            if(m.link) { 
+                lnk.href = m.link; 
+                lnk.style.display='flex'; 
+            } else { 
+                lnk.style.display='none'; 
+            } 
+        }
+
+        setTxt('viewMusicCreated', "Added: " + m.createdAt);
+        setTxt('viewMusicUpdated', "Last Update: " + m.updatedAt);
+
+        document.getElementById('musicModalTitle').innerText = "Track Details";
+        document.getElementById('musicForm').classList.add('hidden');
+        document.getElementById('musicDetailView').classList.remove('hidden');
+        document.getElementById('musicFormActions').classList.add('hidden');
+        document.getElementById('musicDetailActions').classList.remove('hidden');
+        document.getElementById('musicModalOverlay').classList.add('active');
+    }
+
+    // 6. UTILS
+    function deleteMusic(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus lagu ini?")) {
+            musicList = musicList.filter(x => x.id !== id);
+            localStorage.setItem('myMusic', JSON.stringify(musicList));
+            renderMusic();
+            renderDashboard();
+        }
+    }
+    function duplicateMusic(id, e) {
+        e.stopPropagation();
+        const origin = musicList.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), title: origin.title + " (Copy)", createdAt: new Date().toLocaleString() };
+            musicList.push(copy);
+            localStorage.setItem('myMusic', JSON.stringify(musicList));
+            renderMusic();
+            renderDashboard();
+        }
+    }
+    function openMusicModal() {
+        document.getElementById('musicForm').reset();
+        document.getElementById('musicId').value = '';
+        document.getElementById('musicModalTitle').innerText = "Add Track";
+        document.getElementById('musicForm').classList.remove('hidden');
+        document.getElementById('musicDetailView').classList.add('hidden');
+        document.getElementById('musicFormActions').classList.remove('hidden');
+        document.getElementById('musicDetailActions').classList.add('hidden');
+        document.getElementById('musicModalOverlay').classList.add('active');
+    }
+    function closeMusicModal() { document.getElementById('musicModalOverlay').classList.remove('active'); }
+    function editMusic() {
+        const m = musicList.find(x => x.id === currentMusicId);
+        if(!m) return;
+        document.getElementById('musicId').value = m.id;
+        document.getElementById('inpMusicTitle').value = m.title;
+        document.getElementById('inpMusicArtist').value = m.artist;
+        document.getElementById('inpMusicYear').value = m.year;
+        document.getElementById('inpMusicGenre').value = m.genre;
+        document.getElementById('inpMusicMood').value = m.mood;
+        document.getElementById('inpMusicLink').value = m.link;
+
+        document.getElementById('musicModalTitle').innerText = "Edit Track";
+        document.getElementById('musicDetailView').classList.add('hidden');
+        document.getElementById('musicForm').classList.remove('hidden');
+        document.getElementById('musicDetailActions').classList.add('hidden');
+        document.getElementById('musicFormActions').classList.remove('hidden');
+    }
+// =========================================
+    // FITUR: PASSWORD HINT (SECURITY)
+    // =========================================
+
+    // 1. ASSETS KATEGORI (Security Themed Images)
+    const passCatAssets = {
+        "Social Media": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
+        "Finance/Bank": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80",
+        "Work/Email": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&q=80",
+        "Shopping": "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80",
+        "Entertainment": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&q=80",
+        "Gov/Legal": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=800&q=80",
+        "Lainnya": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80" // Code/Matrix
+    };
+
+    function getPassImage(cat) {
+        return passCatAssets[cat] || passCatAssets["Lainnya"];
+    }
+
+    // Populate Dropdown
+    const psCatSelect = document.getElementById('inpPassCat');
+    if(psCatSelect) {
+        psCatSelect.innerHTML = '';
+        Object.keys(passCatAssets).sort().forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c; opt.innerText = c;
+            psCatSelect.appendChild(opt);
+        });
+    }
+
+    // 2. DATA
+    let passwords = JSON.parse(localStorage.getItem('myPasswords')) || [];
+
+    // 3. RENDER PASSWORD
+    function renderPass() {
+        const container = document.getElementById('passContainer');
+        if(!container) return;
+
+        const searchTerm = document.getElementById('inpSearchPass') ? document.getElementById('inpSearchPass').value.toLowerCase() : "";
+        const filterVal = document.getElementById('inpPassFilter') ? document.getElementById('inpPassFilter').value : "newest";
+        
+        container.innerHTML = '';
+        let filtered = passwords.filter(p => p.service.toLowerCase().includes(searchTerm) || p.username.toLowerCase().includes(searchTerm));
+
+        // Filter Logic
+        if(filterVal === 'newest') filtered.sort((a,b) => b.id - a.id);
+        if(filterVal === '2fa_active') filtered = filtered.filter(p => p.twoFA === 'Active');
+        if(filterVal === '2fa_inactive') filtered = filtered.filter(p => p.twoFA === 'Inactive');
+        if(filterVal === 'cat_social') filtered = filtered.filter(p => p.category === 'Social Media');
+        if(filterVal === 'cat_finance') filtered = filtered.filter(p => p.category === 'Finance/Bank');
+        if(filterVal === 'cat_work') filtered = filtered.filter(p => p.category === 'Work/Email');
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); padding:3rem;">Belum ada data tersimpan.</div>';
+            return;
+        }
+
+        filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'pass-card';
+            
+            const bgImage = getPassImage(item.category);
+            
+            // Logic 2FA Color
+            let faColor = '#fbbf24'; // Active (Gold)
+            let faText = '2FA ON';
+            if(item.twoFA === 'Inactive') {
+                faColor = '#ef4444'; // Red
+                faText = '2FA OFF';
+            }
+
+            card.innerHTML = `
+                <div style="height:160px; width:100%; position:relative;">
+                    <img src="${bgImage}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                    
+                    <div style="position:absolute; top:10px; right:10px; display:flex; gap:5px;">
+                         <button onclick="duplicatePass(${item.id}, event)" style="background:rgba(0,0,0,0.6); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-copy"></i></button>
+                         <button onclick="deletePass(${item.id}, event)" style="background:rgba(220, 38, 38, 0.8); color:white; border:none; width:28px; height:28px; border-radius:6px;"><i class="ph ph-trash"></i></button>
+                    </div>
+                    
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span class="badge-pill-pass-cat">${item.category}</span>
+                    </div>
+                </div>
+                
+                <div class="pass-card-body">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                        <span style="font-size:0.7rem; color:#bfdbfe;"><i class="ph ph-user"></i> ${item.username || '-'}</span>
+                        <span style="font-size:0.65rem; font-weight:bold; color:${faColor}; border:1px solid ${faColor}; padding:2px 6px; border-radius:4px;">${faText}</span>
+                    </div>
+                    
+                    <h3 style="font-size:1.3rem; margin-bottom:0.2rem; line-height:1.3; color:white;">${item.service}</h3>
+                    
+                    <p style="font-size:0.9rem; color:#93c5fd; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:auto; line-height:1.6;">
+                        <i class="ph ph-key"></i> Hint: **** (Click to view)
+                    </p>
+                    
+                    <div style="margin-top:1.5rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                         <span style="font-size:0.75rem; color:#64748b;">Recovery:</span>
+                         <span style="font-size:0.75rem; color:#e2e8f0;">${item.recovery || '-'}</span>
+                    </div>
+                </div>
+            `;
+            card.onclick = (e) => { if(!e.target.closest('button')) openPassDetail(item.id); };
+            container.appendChild(card);
+        });
+    }
+
+    // 4. SAVE PASSWORD
+    function savePass() {
+        const id = document.getElementById('passId').value;
+        const now = new Date().toLocaleString();
+        
+        const dataObj = {
+            id: id ? parseInt(id) : Date.now(),
+            createdAt: id ? (passwords.find(x=>x.id==id)?.createdAt || now) : now,
+            updatedAt: now,
+            
+            service: document.getElementById('inpPassService').value,
+            category: document.getElementById('inpPassCat').value,
+            username: document.getElementById('inpPassUser').value,
+            twoFA: document.getElementById('inpPass2FA').value,
+            recovery: document.getElementById('inpPassRecovery').value,
+            hint: document.getElementById('inpPassHint').value
+        };
+
+        if(!dataObj.service) { alert("Nama layanan wajib diisi!"); return; }
+
+        if(id) {
+            const idx = passwords.findIndex(x => x.id == id);
+            passwords[idx] = dataObj;
+        } else {
+            passwords.push(dataObj);
+        }
+        localStorage.setItem('myPasswords', JSON.stringify(passwords));
+        closePassModal();
+        renderPass();
+        renderDashboard();
+    }
+
+    // 5. DETAIL VIEW
+    let currentPassId = null;
+    function openPassDetail(id) {
+        const p = passwords.find(x => x.id === id);
+        if(!p) return;
+        currentPassId = id;
+
+        // Helper setters
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val || '-'; };
+        const setImg = (id, val) => { const el = document.getElementById(id); if(el) { el.src = val; } };
+
+        setImg('viewPassCover', getPassImage(p.category));
+        setTxt('viewPassService', p.service);
+        setTxt('viewPassUser', p.username);
+        setTxt('viewPassHint', p.hint || "Tidak ada petunjuk.");
+        setTxt('viewPassRecovery', p.recovery || "Belum diatur.");
+        
+        // 2FA Badge
+        const faEl = document.getElementById('viewPass2FA');
+        if(faEl) {
+            faEl.innerText = p.twoFA === 'Active' ? '2FA SECURE' : 'NO 2FA';
+            if(p.twoFA === 'Active') { faEl.style.background = '#fbbf24'; faEl.style.color = '#020617'; }
+            else { faEl.style.background = '#ef4444'; faEl.style.color = '#fff'; }
+        }
+
+        setTxt('viewPassCreated', "Added: " + p.createdAt);
+        setTxt('viewPassUpdated', "Last Update: " + p.updatedAt);
+
+        document.getElementById('passModalTitle').innerText = "Vault Entry Detail";
+        document.getElementById('passForm').classList.add('hidden');
+        document.getElementById('passDetailView').classList.remove('hidden');
+        document.getElementById('passFormActions').classList.add('hidden');
+        document.getElementById('passDetailActions').classList.remove('hidden');
+        document.getElementById('passModalOverlay').classList.add('active');
+    }
+
+    // 6. UTILS
+    function deletePass(id, e) {
+        e.stopPropagation();
+        if(confirm("Hapus data ini dari vault?")) {
+            passwords = passwords.filter(x => x.id !== id);
+            localStorage.setItem('myPasswords', JSON.stringify(passwords));
+            renderPass();
+            renderDashboard();
+        }
+    }
+    function duplicatePass(id, e) {
+        e.stopPropagation();
+        const origin = passwords.find(x => x.id === id);
+        if(origin) {
+            const copy = { ...origin, id: Date.now(), service: origin.service + " (Backup)", createdAt: new Date().toLocaleString() };
+            passwords.push(copy);
+            localStorage.setItem('myPasswords', JSON.stringify(passwords));
+            renderPass();
+            renderDashboard();
+        }
+    }
+    function openPassModal() {
+        document.getElementById('passForm').reset();
+        document.getElementById('passId').value = '';
+        document.getElementById('passModalTitle').innerText = "Add Vault Entry";
+        document.getElementById('passForm').classList.remove('hidden');
+        document.getElementById('passDetailView').classList.add('hidden');
+        document.getElementById('passFormActions').classList.remove('hidden');
+        document.getElementById('passDetailActions').classList.add('hidden');
+        document.getElementById('passModalOverlay').classList.add('active');
+    }
+    function closePassModal() { document.getElementById('passModalOverlay').classList.remove('active'); }
+    function editPass() {
+        const p = passwords.find(x => x.id === currentPassId);
+        if(!p) return;
+        document.getElementById('passId').value = p.id;
+        document.getElementById('inpPassService').value = p.service;
+        document.getElementById('inpPassCat').value = p.category;
+        document.getElementById('inpPassUser').value = p.username;
+        document.getElementById('inpPass2FA').value = p.twoFA;
+        document.getElementById('inpPassRecovery').value = p.recovery;
+        document.getElementById('inpPassHint').value = p.hint;
+
+        document.getElementById('passModalTitle').innerText = "Edit Entry";
+        document.getElementById('passDetailView').classList.add('hidden');
+        document.getElementById('passForm').classList.remove('hidden');
+        document.getElementById('passDetailActions').classList.add('hidden');
+        document.getElementById('passFormActions').classList.remove('hidden');
+    }
     renderWatchlist()
 renderIdeas();    // Render kartu Ideas
     renderPlans();    // Render kartu Plans
@@ -9898,3 +12826,13 @@ renderVideoIdeas();
 renderCrm();
 renderEvent();
 renderMeeting();
+renderJob();
+renderClient();
+renderCourse();
+renderThesis();
+renderMeds();
+renderSkin();
+renderVehicle();
+renderCafe();
+renderMusic();
+renderPass();
