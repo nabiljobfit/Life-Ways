@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
      <link rel="stylesheet" href="style.css">
 
+
     </head>
 <body>
 
@@ -47,6 +48,12 @@
                     </a>
                     <a href="#" class="menu-item" onclick="navigate('meeting', this)">
                 <i class="ph ph-presentation-chart"></i> Meeting Log
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('client', this)">
+                <i class="ph ph-handshake"></i> Client Manager
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('password', this)">
+                <i class="ph ph-shield-check"></i> Password Hints
             </a>
                 </nav>
             </div>
@@ -93,6 +100,16 @@
             <a href="#" class="menu-item" onclick="navigate('video_ideas', this)">
                 <i class="ph ph-youtube-logo"></i> Video Scripting
             </a>
+            <a href="#" class="menu-item" onclick="navigate('job', this)">
+                <i class="ph ph-briefcase"></i> Job Applications
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('course', this)">
+                <i class="ph ph-graduation-cap"></i> Learning Hub
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('thesis', this)">
+                <i class="ph ph-books"></i> Research & Thesis
+            </a>
+            
                     
                 </nav>
             </div>
@@ -120,6 +137,21 @@
             </a>
             <a href="#" class="menu-item" onclick="navigate('event', this)">
                 <i class="ph ph-confetti"></i> Event Organizer
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('meds', this)">
+                <i class="ph ph-pill"></i> Supplement & Meds
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('skin', this)">
+                <i class="ph ph-sparkle"></i> Skincare Routine
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('vehicle', this)">
+                <i class="ph ph-car-profile"></i> Vehicle Maintenance
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('cafe', this)">
+                <i class="ph ph-coffee"></i> Cafe Hunt
+            </a>
+            <a href="#" class="menu-item" onclick="navigate('music', this)">
+                <i class="ph ph-music-notes"></i> Music Playlist
             </a>
           
                     
@@ -207,6 +239,37 @@
             <div id="dashboardContainer" class="cards-grid">
                 </div>
         </div>
+        <div id="page-skin" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #f472b6, #fbcfe8, #fde68a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Glow & Care.</h1>
+                <p style="color:#fce7f3;">Rangkaian perawatan wajah, urutan pemakaian, dan review produk.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openSkinModal()" style="background: linear-gradient(135deg, #be185d 0%, #9d174d 100%); box-shadow: 0 4px 15px rgba(190, 24, 93, 0.4); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-magic-wand"></i> Add Product
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchSkin" placeholder="Cari nama produk / brand..." oninput="renderSkin()">
+                     </div>
+
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpSkinFilter" onchange="renderSkin()">
+                            <option value="step_order">Urutan Pemakaian</option>
+                            <option value="rating_high">Rating Tertinggi</option>
+                            <hr>
+                            <option value="time_am">Routine: Pagi (AM)</option>
+                            <option value="time_pm">Routine: Malam (PM)</option>
+                            <option value="type_serum">Hanya Serum</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="skinContainer" class="cards-grid"></div>
+        </div>
         <div id="page-reading" class="content-section hidden">
             <header class="header">
                 <h1 style="background: linear-gradient(to right, #d97706, #fcd34d); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Library.</h1>
@@ -237,6 +300,38 @@
             </header>
 
             <div id="readingContainer" class="cards-grid"></div>
+        </div>
+        <div id="page-password" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #1e3a8a, #3b82f6, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Secure Vault.</h1>
+                <p style="color:#bfdbfe;">Simpan petunjuk akun, email pemulihan, dan status keamanan.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openPassModal()" style="background: linear-gradient(135deg, #172554 0%, #1e40af 100%); box-shadow: 0 4px 15px rgba(30, 58, 138, 0.5); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-lock-key"></i> Add Entry
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchPass" placeholder="Cari layanan / email..." oninput="renderPass()">
+                     </div>
+
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpPassFilter" onchange="renderPass()">
+                            <option value="newest">Baru Ditambahkan</option>
+                            <option value="2fa_active">2FA: Aktif (Secure)</option>
+                            <option value="2fa_inactive">2FA: Non-Aktif (Risk)</option>
+                            <hr>
+                            <option value="cat_social">Social Media</option>
+                            <option value="cat_finance">Finance/Bank</option>
+                            <option value="cat_work">Work/Email</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="passContainer" class="cards-grid"></div>
         </div>
         <div id="page-habit" class="content-section hidden">
             <header class="header">
@@ -329,7 +424,132 @@
 
             <div id="eventContainer" class="cards-grid"></div>
         </div>
+        <div id="page-course" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #60a5fa, #93c5fd, #fcd34d); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Knowledge Base.</h1>
+                <p style="color:#bfdbfe;">Pantau progress belajar, selesaikan kurikulum, dan raih sertifikat.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openCourseModal()" style="background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); box-shadow: 0 4px 15px rgba(30, 58, 138, 0.4); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-book-open"></i> Enroll New
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchCourse" placeholder="Cari materi / platform..." oninput="renderCourse()">
+                     </div>
 
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpCourseFilter" onchange="renderCourse()">
+                            <option value="newest">Baru Diambil</option>
+                            <option value="progress_high">Progress Tertinggi</option>
+                            <hr>
+                            <option value="stat_completed">Selesai (100%)</option>
+                            <option value="stat_ongoing">Sedang Belajar</option>
+                            <option value="plat_udemy">Udemy</option>
+                            <option value="plat_coursera">Coursera</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="courseContainer" class="cards-grid"></div>
+        </div>
+<div id="page-client" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #34d399, #10b981, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Freelance Biz.</h1>
+                <p style="color:#a7f3d0;">Kelola proyek, pantau pembayaran, dan database klien.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openClientModal()" style="background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); box-shadow: 0 4px 15px rgba(6, 78, 59, 0.4); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-plus-circle"></i> New Project
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchClient" placeholder="Cari klien / proyek..." oninput="renderClient()">
+                     </div>
+
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpClientFilter" onchange="renderClient()">
+                            <option value="newest">Terbaru</option>
+                            <option value="value_high">Nilai Kontrak Tertinggi</option>
+                            <hr>
+                            <option value="stat_dp">Status: DP Received</option>
+                            <option value="stat_paid">Status: Lunas</option>
+                            <option value="stat_pending">Status: Pending</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="clientContainer" class="cards-grid"></div>
+        </div>
+        <div id="page-thesis" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #78350f, #9a3412, #c2410c); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Literature Review.</h1>
+                <p style="color:#fdba74;">Koleksi jurnal, referensi skripsi, dan catatan riset.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openThesisModal()" style="background: linear-gradient(135deg, #451a03 0%, #7c2d12 100%); box-shadow: 0 4px 15px rgba(124, 45, 18, 0.4); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-plus-circle"></i> Add Reference
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchThesis" placeholder="Cari judul / penulis..." oninput="renderThesis()">
+                     </div>
+
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpThesisFilter" onchange="renderThesis()">
+                            <option value="newest">Baru Ditambahkan</option>
+                            <option value="year_new">Tahun Terbit Terbaru</option>
+                            <hr>
+                            <option value="stat_unread">Belum Dibaca</option>
+                            <option value="stat_reading">Sedang Dibaca</option>
+                            <option value="stat_cited">Sudah Dikutip</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="thesisContainer" class="cards-grid"></div>
+        </div>
+        <div id="page-cafe" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #d4a373, #faedcd, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Culinary Spots.</h1>
+                <p style="color:#e9edc9;">Koleksi tempat nongkrong, kerja, dan kuliner favorit.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openCafeModal()" style="background: linear-gradient(135deg, #432818 0%, #6f4e37 100%); box-shadow: 0 4px 15px rgba(67, 40, 24, 0.5); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-storefront"></i> Add Spot
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchCafe" placeholder="Cari cafe / menu..." oninput="renderCafe()">
+                     </div>
+
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpCafeFilter" onchange="renderCafe()">
+                            <option value="newest">Baru Ditambahkan</option>
+                            <option value="rating_high">Rating Tertinggi</option>
+                            <option value="wifi_fast">WiFi Kencang</option>
+                            <option value="price_low">Harga Terjangkau</option>
+                            <hr>
+                            <option value="cat_coffee">Coffee Shop</option>
+                            <option value="cat_resto">Restoran</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="cafeContainer" class="cards-grid"></div>
+        </div>
         <div id="page-plans" class="content-section hidden">
             <header class="header">
                 <h1 style="background: linear-gradient(to right, #a78bfa, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Weekly Plans.</h1>
@@ -463,6 +683,37 @@
 
             <div id="journalsContainer" class="cards-grid">
                 </div>
+        </div>
+        <div id="page-vehicle" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #ef4444, #b91c1c, #52525b); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Garage Log.</h1>
+                <p style="color:#a1a1aa;">Riwayat servis, ganti oli, dan perawatan mesin kendaraan.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openVehicleModal()" style="background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%); box-shadow: 0 4px 15px rgba(127, 29, 29, 0.4); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-wrench"></i> Catat Servis
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchVehicle" placeholder="Cari kendaraan / servis..." oninput="renderVehicle()">
+                     </div>
+
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpVehicleFilter" onchange="renderVehicle()">
+                            <option value="newest">Terbaru Diservis</option>
+                            <option value="km_high">KM Tertinggi</option>
+                            <option value="cost_high">Biaya Tertinggi</option>
+                            <hr>
+                            <option value="type_car">Hanya Mobil</option>
+                            <option value="type_moto">Hanya Motor</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="vehicleContainer" class="cards-grid"></div>
         </div>
         <div id="page-notulensi" class="content-section hidden">
             <header class="header">
@@ -620,6 +871,68 @@
             </header>
 
             <div id="vacationContainer" class="cards-grid"></div>
+        </div>
+        <div id="page-meds" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #2dd4bf, #06b6d4, #e0f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Health Monitor.</h1>
+                <p style="color:#ccfbf1;">Jadwal rutin vitamin, obat, dan pemantauan stok.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openMedModal()" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); box-shadow: 0 4px 15px rgba(13, 148, 136, 0.4); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-first-aid-kit"></i> Tambah Obat
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchMed" placeholder="Cari nama obat / kegunaan..." oninput="renderMeds()">
+                     </div>
+
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpMedFilter" onchange="renderMeds()">
+                            <option value="all">Semua Obat</option>
+                            <option value="stock_low">Stok Menipis (< 5)</option>
+                            <option value="time_morning">Jadwal Pagi</option>
+                            <option value="time_night">Jadwal Malam</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="medContainer" class="cards-grid"></div>
+        </div>
+        <div id="page-music" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #1db954, #4ade80, #ffffff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">My Discography.</h1>
+                <p style="color:#bbf7d0;">Koleksi album, lagu favorit, dan playlist kurasi.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openMusicModal()" style="background: linear-gradient(135deg, #064e3b 0%, #14532d 100%); box-shadow: 0 4px 15px rgba(20, 83, 45, 0.5); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-vinyl-record"></i> Add Track
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchMusic" placeholder="Cari judul / artis..." oninput="renderMusic()">
+                     </div>
+
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpMusicFilter" onchange="renderMusic()">
+                            <option value="newest">Baru Ditambahkan</option>
+                            <option value="year_new">Rilis Terbaru</option>
+                            <hr>
+                            <option value="mood_happy">Mood: Happy/Semangat</option>
+                            <option value="mood_sad">Mood: Sad/Galau</option>
+                            <option value="mood_chill">Mood: Chill/Relax</option>
+                            <option value="genre_pop">Genre: Pop</option>
+                            <option value="genre_rock">Genre: Rock</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <div id="musicContainer" class="cards-grid"></div>
         </div>
         <div id="page-worship" class="content-section hidden">
             <header class="header">
@@ -870,6 +1183,108 @@
 
             <div id="investContainer" class="cards-grid"></div>
         </div>
+        <div class="modal-overlay" id="clientModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #022c22, #064e3b); border: 1px solid rgba(16, 185, 129, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="clientModalTitle" style="color: #34d399;">Project Deal</h3>
+                <button class="btn-icon" onclick="closeClientModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="clientForm">
+                    <input type="hidden" id="clientId">
+                    
+                    <h4 class="form-section-title" style="color:#34d399; border-color:rgba(52, 211, 153, 0.3);">Detail Proyek</h4>
+                    <div class="form-group"><label>Nama Proyek</label><input type="text" id="inpCliProject" placeholder="Contoh: Redesign Website UMKM" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Nama Klien</label><input type="text" id="inpCliName" placeholder="Nama Perusahaan / Orang"></div>
+                        <div class="form-group"><label>Industri / Kategori</label><select id="inpCliInd"></select> </div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#fbbf24; border-color:rgba(251, 191, 36, 0.3); margin-top:1.5rem;">Keuangan (IDR)</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Nilai Kontrak (Angka)</label><input type="number" id="inpCliValue" placeholder="10000000"></div>
+                        <div class="form-group"><label>Status Pembayaran</label><select id="inpCliStatus"><option>Pending</option><option>DP Received</option><option>Lunas (Paid)</option><option>Overdue</option></select></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Deadline</label><input type="date" id="inpCliDeadline"></div>
+                        <div class="form-group"><label>No. WhatsApp Klien</label><input type="text" id="inpCliWa" placeholder="0812..."></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#a7f3d0; border-color:rgba(167, 243, 208, 0.3); margin-top:1.5rem;">Brief & Notes</h4>
+                    <div class="form-group"><label>Deskripsi Singkat / Brief</label><textarea id="inpCliNotes" style="height:80px;" placeholder="Lingkup kerja, catatan revisi, dll..."></textarea></div>
+                </form>
+
+                <div id="clientDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:200px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(16, 185, 129, 0.3); background:#065f46; position:relative;">
+                        <img id="viewCliCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
+                        
+                        <div style="position:absolute; bottom:-30px; left:30px; width:80px; height:80px; background:#022c22; border:2px solid #10b981; border-radius:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(0,0,0,0.6); z-index:10; font-size:2rem; font-weight:bold; color:#fff;" id="viewCliAvatar">
+                            AB
+                        </div>
+
+                        <div style="position:absolute; top:20px; right:20px; z-index:10;">
+                            <span id="viewCliStatus" class="badge-pill-client-stat" style="font-size:0.9rem; padding:6px 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(16, 185, 129, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewCliProject" style="margin:0; font-size:2rem; line-height:1.2; background: linear-gradient(to right, #fff, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#a7f3d0; font-size:1.1rem; margin-top:5px; font-weight:500;">
+                            Client: <span id="viewCliName" style="color:#fff; font-weight:bold;"></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="background:linear-gradient(135deg, rgba(6, 78, 59, 0.6), rgba(2, 44, 34, 0.6)); border:1px solid #10b981; margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                         <div>
+                             <small style="color:#6ee7b7; text-transform:uppercase; letter-spacing:1px;">Total Contract Value</small>
+                             <div id="viewCliValue" style="color:#fbbf24; font-size:1.8rem; font-weight:bold; margin-top:5px;">Rp 0</div>
+                         </div>
+                         <div style="font-size:2.5rem; color:#10b981; opacity:0.8;"><i class="ph ph-wallet"></i></div>
+                    </div>
+
+                    <div class="detail-grid-box" style="grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1.5rem; background:rgba(255,255,255,0.02);">
+                        <div>
+                            <small style="color:#64748b;">Deadline</small>
+                            <div id="viewCliDeadline" style="color:#e2e8f0; font-weight:600;">-</div>
+                        </div>
+                        <div>
+                            <small style="color:#64748b;">Industry</small>
+                            <div id="viewCliInd" style="color:#e2e8f0; font-weight:600;">-</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem;">
+                         <div class="detail-section-label" style="color:#34d399;"><i class="ph ph-text-align-left"></i> Brief / Notes</div>
+                         <p id="viewCliNotes" class="detail-text-content" style="color:#d1fae5; white-space:pre-line;"></p>
+                    </div>
+                    
+                    <a id="viewCliWaLink" href="#" target="_blank" class="detail-content-box" style="margin:0; display:flex; align-items:center; gap:10px; text-decoration:none; justify-content:center; background:#25d366; border:none;">
+                        <i class="ph ph-whatsapp-logo" style="font-size:1.5rem; color:#fff;"></i>
+                        <span style="color:#fff; font-weight:bold;">Hubungi via WhatsApp</span>
+                    </a>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#64748b; display:flex; justify-content:space-between;">
+                        <span id="viewCliCreated"></span>
+                        <span id="viewCliUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(16, 185, 129, 0.2); margin-top:auto;">
+                <div id="clientFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeClientModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveClient()" style="background: linear-gradient(135deg, #059669, #10b981);">Save Deal</button>
+                </div>
+                <div id="clientDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editClient()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closeClientModal()" style="background: linear-gradient(135deg, #059669, #10b981);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <div id="page-skill" class="content-section hidden">
             <header class="header">
                 <h1 style="background: linear-gradient(to right, #22d3ee, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Skill Upgrade.</h1>
@@ -994,110 +1409,38 @@
 
             <div id="videoContainer" class="cards-grid"></div>
         </div>
-        <div class="modal-overlay" id="eventModalOverlay">
-        <div class="modal-box" style="background: linear-gradient(145deg, #4a044e, #2e1065); border: 1px solid rgba(232, 121, 249, 0.3); max-width: 950px;">
-            
-            <div class="modal-header">
-                <h3 id="eventModalTitle" style="color: #e879f9;">Plan Event</h3>
-                <button class="btn-icon" onclick="closeEventModal()"><i class="ph ph-x"></i></button>
-            </div>
+        <div id="page-job" class="content-section hidden">
+            <header class="header">
+                <h1 style="background: linear-gradient(to right, #94a3b8, #cbd5e1, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Career Path.</h1>
+                <p style="color:#cbd5e1;">Lacak lamaran kerja, jadwal interview, dan penawaran gaji.</p>
+                
+                <div class="actions" style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem;">
+                     <button class="btn-primary" onclick="openJobModal()" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); box-shadow: 0 4px 15px rgba(30, 41, 59, 0.4); border:1px solid rgba(255,255,255,0.1);">
+                        <i class="ph ph-briefcase-metal"></i> Track Job
+                     </button>
+                     
+                     <div class="search-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" id="inpSearchJob" placeholder="Cari posisi / perusahaan..." oninput="renderJob()">
+                     </div>
 
-            <div class="modal-body">
-                <form id="eventForm">
-                    <input type="hidden" id="eventId">
-                    
-                    <h4 class="form-section-title" style="color:#e879f9; border-color:rgba(232, 121, 249, 0.3);">Konsep Acara</h4>
-                    <div class="form-group"><label>Nama Acara</label><input type="text" id="inpEvName" placeholder="Contoh: Sweet 17th Party" required></div>
-                    
-                    <div class="form-row">
-                        <div class="form-group"><label>Jenis Acara</label><select id="inpEvType"></select> </div>
-                        <div class="form-group"><label>Lokasi / Venue</label><input type="text" id="inpEvLoc" placeholder="Hotel, Rumah, Outdoor..."></div>
-                    </div>
-
-                    <h4 class="form-section-title" style="color:#f472b6; border-color:rgba(244, 114, 182, 0.3); margin-top:1.5rem;">Logistik</h4>
-                    <div class="form-row">
-                        <div class="form-group"><label>Tanggal Acara</label><input type="date" id="inpEvDate"></div>
-                        <div class="form-group"><label>Jam Mulai</label><input type="time" id="inpEvTime"></div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Jumlah Tamu (Pax)</label><input type="number" id="inpEvGuest" placeholder="0"></div>
-                        <div class="form-group"><label>Status Persiapan</label><select id="inpEvStatus"><option>Concepting</option><option>Booking Vendors</option><option>Ready</option><option>Completed</option></select></div>
-                    </div>
-
-                    <h4 class="form-section-title" style="color:#c084fc; border-color:rgba(192, 132, 252, 0.3); margin-top:1.5rem;">Budgeting & Vendor</h4>
-                    <div class="form-group"><label>Total Budget (Estimasi)</label><input type="number" id="inpEvBudget" placeholder="Rp 0"></div>
-                    <div class="form-group"><label>Daftar Vendor (Katering, Dekor, dll)</label><textarea id="inpEvVendors" style="height:80px;" placeholder="Tulis list vendor di sini..."></textarea></div>
-                </form>
-
-                <div id="eventDetailView" class="hidden detail-view">
-                    
-                    <div style="margin-top:1rem; width:100%; height:220px; border-radius:16px; overflow:hidden; margin-bottom:1.5rem; border:1px solid rgba(232, 121, 249, 0.3); background:#4a044e; position:relative;">
-                        <img id="viewEvCover" src="" style="width:100%; height:100%; object-fit:cover;">
-                        
-                        <div style="position:absolute; bottom:20px; left:20px; background:rgba(0,0,0,0.7); padding:8px 16px; border-radius:20px; border:1px solid #e879f9; backdrop-filter:blur(5px); display:flex; align-items:center; gap:8px;">
-                            <i class="ph ph-calendar-check" style="color:#f472b6; font-size:1.2rem;"></i>
-                            <span id="viewEvDateBadge" style="color:#fff; font-size:1.1rem; font-weight:800;">-</span>
-                        </div>
-                        
-                        <div style="position:absolute; top:20px; right:20px; background:rgba(219, 39, 119, 0.8); padding:5px 15px; border-radius:20px; color:white; font-weight:bold; font-size:0.9rem;">
-                            <span id="viewEvCountdown">- Hari Lagi</span>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom:1.5rem; border-bottom:1px solid rgba(232, 121, 249, 0.2); padding-bottom:1rem;">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <div>
-                                <div style="display:flex; gap:8px; margin-bottom:0.5rem;">
-                                    <span id="viewEvType" class="badge-pill-event-type"></span>
-                                    <span id="viewEvStatus" class="badge-pill-event-stat"></span>
-                                </div>
-                                <h2 id="viewEvName" style="margin-top:0.5rem; font-size:2rem; line-height:1.2; background: linear-gradient(to right, #fff, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
-                                <div style="color:#fbcfe8; font-size:1rem; margin-top:0.5rem; font-weight:500;">
-                                    <i class="ph ph-map-pin"></i> <span id="viewEvLoc"></span>
-                                </div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div id="viewEvGuest" style="font-weight:800; color:#e879f9; font-size:1.3rem;">0</div>
-                                <div style="font-size:0.75rem; color:#9ca3af; margin-top:5px;">TAMU UNDANGAN</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="detail-grid-box" style="border-color:rgba(219, 39, 119, 0.3); background:rgba(80, 7, 36, 0.3); grid-template-columns: 1fr 1fr;">
-                        <div>
-                            <small style="color:#fbcfe8;">Estimasi Budget</small>
-                            <div id="viewEvBudget" style="color:#fff; font-size:1.2rem; font-weight:bold;">Rp 0</div>
-                        </div>
-                        <div>
-                            <small style="color:#fbcfe8;">Jam Mulai</small>
-                            <div id="viewEvTime" style="color:#fff; font-size:1.2rem; font-weight:bold;">-</div>
-                        </div>
-                    </div>
-
-                    <div class="detail-content-box" style="margin-top:1.5rem; background:transparent; border:1px dashed rgba(232, 121, 249, 0.3);">
-                         <div class="detail-section-label" style="color:#e879f9;"><i class="ph ph-storefront"></i> Vendors & Notes</div>
-                         <p id="viewEvVendors" class="detail-text-content" style="color:#f5d0fe; white-space:pre-line;"></p>
-                    </div>
-
-                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#9ca3af; display:flex; justify-content:space-between;">
-                        <span id="viewEvCreated"></span>
-                        <span id="viewEvUpdated"></span>
+                     <div class="filter-box-wrapper" style="background: rgba(255,255,255,0.05);">
+                        <i class="ph ph-faders filter-icon"></i>
+                        <select id="inpJobFilter" onchange="renderJob()">
+                            <option value="newest">Terbaru Applied</option>
+                            <option value="salary_high">Gaji Tertinggi</option>
+                            <hr>
+                            <option value="stat_interview">Status: Interview</option>
+                            <option value="stat_offer">Status: Offer</option>
+                            <option value="stat_rejected">Status: Rejected</option>
+                        </select>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            <div class="modal-footer" style="border-top-color: rgba(232, 121, 249, 0.2); margin-top:auto;">
-                <div id="eventFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
-                    <button type="button" class="btn-cancel" onclick="closeEventModal()">Cancel</button>
-                    <button type="button" class="btn-save" onclick="saveEvent()" style="background: linear-gradient(135deg, #be185d, #a21caf);">Create Event</button>
-                </div>
-                <div id="eventDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
-                    <button type="button" class="btn-cancel" onclick="editEvent()">Edit</button>
-                    <button type="button" class="btn-save" onclick="closeEventModal()" style="background: linear-gradient(135deg, #be185d, #a21caf);">Close</button>
-                </div>
-            </div>
+            <div id="jobContainer" class="cards-grid"></div>
         </div>
-    </div>
+       
     </main>
     <div class="modal-overlay" id="educationModalOverlay">
         <div class="modal-box" style="background: linear-gradient(145deg, #0c4a6e, #1e1b4b); border: 1px solid rgba(56, 189, 248, 0.2); max-width: 1000px;">
@@ -1290,6 +1633,203 @@
             </div>
         </div>
     </div>
+    <div class="modal-overlay" id="courseModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #0f172a, #1e3a8a); border: 1px solid rgba(251, 191, 36, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="courseModalTitle" style="color: #fcd34d;">Course Enrollment</h3>
+                <button class="btn-icon" onclick="closeCourseModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="courseForm">
+                    <input type="hidden" id="courseId">
+                    
+                    <h4 class="form-section-title" style="color:#60a5fa; border-color:rgba(96, 165, 250, 0.3);">Detail Materi</h4>
+                    <div class="form-group"><label>Nama Kursus / Materi</label><input type="text" id="inpCoName" placeholder="Contoh: The Complete Python Bootcamp" required></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Platform Belajar</label><select id="inpCoPlat"></select> </div>
+                        <div class="form-group"><label>Total Jam (Estimasi)</label><input type="number" id="inpCoHours" placeholder="20"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#fcd34d; border-color:rgba(252, 211, 77, 0.3); margin-top:1.5rem;">Progress Tracker</h4>
+                    <div class="form-group">
+                        <label>Persentase Selesai (%)</label>
+                        <input type="range" id="inpCoProgressSlider" min="0" max="100" value="0" oninput="document.getElementById('progVal').innerText = this.value + '%'" style="width:100%; accent-color:#fcd34d;">
+                        <div style="text-align:right; font-weight:bold; color:#fcd34d; margin-top:5px;" id="progVal">0%</div>
+                        <input type="hidden" id="inpCoProgress"> </div>
+
+                    <h4 class="form-section-title" style="color:#bfdbfe; border-color:rgba(191, 219, 254, 0.3); margin-top:1.5rem;">Assets & Notes</h4>
+                    <div class="form-group"><label>Link Sertifikat / Materi</label><input type="text" id="inpCoLink"></div>
+                    <div class="form-group"><label>Catatan Penting (Key Takeaways)</label><textarea id="inpCoNotes" style="height:80px;" placeholder="Apa yang dipelajari? Bab sulit?"></textarea></div>
+                </form>
+
+                <div id="courseDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:200px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(252, 211, 77, 0.3); background:#172554; position:relative;">
+                        <img id="viewCoCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
+                        
+                        <div style="position:absolute; bottom:-40px; right:30px; width:100px; height:100px; background:#0f172a; border-radius:50%; border:3px solid #fcd34d; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(0,0,0,0.6); z-index:10;">
+                            <span id="viewCoProgressNum" style="font-size:1.8rem; font-weight:800; color:#fcd34d;">0%</span>
+                            <span style="font-size:0.6rem; color:#bfdbfe; text-transform:uppercase;">Complete</span>
+                        </div>
+
+                        <div style="position:absolute; top:20px; left:20px; z-index:10;">
+                            <span id="viewCoPlat" class="badge-pill-course-plat"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2.5rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(252, 211, 77, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewCoName" style="margin:0; font-size:2rem; line-height:1.2; background: linear-gradient(to right, #fff, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#bfdbfe; font-size:1rem; margin-top:8px; display:flex; align-items:center; gap:8px;">
+                            <i class="ph ph-clock"></i> Total Durasi: <span id="viewCoHours" style="color:#fcd34d; font-weight:bold;">0 Jam</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="background:rgba(30, 58, 138, 0.3); border:none; padding-bottom:0.5rem; margin-bottom:1.5rem;">
+                         <div style="display:flex; justify-content:space-between; color:#bfdbfe; font-size:0.8rem; margin-bottom:5px;">
+                             <span>Learning Progress</span>
+                             <span id="viewCoStatusText">Ongoing</span>
+                         </div>
+                         <div style="width:100%; height:10px; background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden;">
+                             <div id="viewCoProgressBar" style="width:0%; height:100%; background:linear-gradient(90deg, #f59e0b, #fcd34d); transition:width 0.5s;"></div>
+                         </div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem;">
+                         <div class="detail-section-label" style="color:#60a5fa;"><i class="ph ph-notebook"></i> Key Takeaways</div>
+                         <p id="viewCoNotes" class="detail-text-content" style="color:#dbeafe; white-space:pre-line;"></p>
+                    </div>
+                    
+                    <a id="viewCoLink" href="#" target="_blank" class="detail-content-box" style="margin:0; display:flex; align-items:center; gap:10px; text-decoration:none; justify-content:center; background:linear-gradient(135deg, #b45309, #d97706); border:none; box-shadow: 0 4px 15px rgba(180, 83, 9, 0.3);">
+                        <i class="ph ph-certificate" style="font-size:1.5rem; color:#fff;"></i>
+                        <span style="color:#fff; font-weight:bold;">Lihat Sertifikat / Materi</span>
+                    </a>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#64748b; display:flex; justify-content:space-between;">
+                        <span id="viewCoCreated"></span>
+                        <span id="viewCoUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(252, 211, 77, 0.2); margin-top:auto;">
+                <div id="courseFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeCourseModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveCourse()" style="background: linear-gradient(135deg, #1e40af, #2563eb);">Enroll Course</button>
+                </div>
+                <div id="courseDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editCourse()">Update Progress</button>
+                    <button type="button" class="btn-save" onclick="closeCourseModal()" style="background: linear-gradient(135deg, #1e40af, #2563eb);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal-overlay" id="eventModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #4a044e, #2e1065); border: 1px solid rgba(232, 121, 249, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="eventModalTitle" style="color: #e879f9;">Plan Event</h3>
+                <button class="btn-icon" onclick="closeEventModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="eventForm">
+                    <input type="hidden" id="eventId">
+                    
+                    <h4 class="form-section-title" style="color:#e879f9; border-color:rgba(232, 121, 249, 0.3);">Konsep Acara</h4>
+                    <div class="form-group"><label>Nama Acara</label><input type="text" id="inpEvName" placeholder="Contoh: Sweet 17th Party" required></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Jenis Acara</label><select id="inpEvType"></select> </div>
+                        <div class="form-group"><label>Lokasi / Venue</label><input type="text" id="inpEvLoc" placeholder="Hotel, Rumah, Outdoor..."></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#f472b6; border-color:rgba(244, 114, 182, 0.3); margin-top:1.5rem;">Logistik</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Tanggal Acara</label><input type="date" id="inpEvDate"></div>
+                        <div class="form-group"><label>Jam Mulai</label><input type="time" id="inpEvTime"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Jumlah Tamu (Pax)</label><input type="number" id="inpEvGuest" placeholder="0"></div>
+                        <div class="form-group"><label>Status Persiapan</label><select id="inpEvStatus"><option>Concepting</option><option>Booking Vendors</option><option>Ready</option><option>Completed</option></select></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#c084fc; border-color:rgba(192, 132, 252, 0.3); margin-top:1.5rem;">Budgeting & Vendor</h4>
+                    <div class="form-group"><label>Total Budget (Estimasi)</label><input type="number" id="inpEvBudget" placeholder="Rp 0"></div>
+                    <div class="form-group"><label>Daftar Vendor (Katering, Dekor, dll)</label><textarea id="inpEvVendors" style="height:80px;" placeholder="Tulis list vendor di sini..."></textarea></div>
+                </form>
+
+                <div id="eventDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:220px; border-radius:16px; overflow:hidden; margin-bottom:1.5rem; border:1px solid rgba(232, 121, 249, 0.3); background:#4a044e; position:relative;">
+                        <img id="viewEvCover" src="" style="width:100%; height:100%; object-fit:cover;">
+                        
+                        <div style="position:absolute; bottom:20px; left:20px; background:rgba(0,0,0,0.7); padding:8px 16px; border-radius:20px; border:1px solid #e879f9; backdrop-filter:blur(5px); display:flex; align-items:center; gap:8px;">
+                            <i class="ph ph-calendar-check" style="color:#f472b6; font-size:1.2rem;"></i>
+                            <span id="viewEvDateBadge" style="color:#fff; font-size:1.1rem; font-weight:800;">-</span>
+                        </div>
+                        
+                        <div style="position:absolute; top:20px; right:20px; background:rgba(219, 39, 119, 0.8); padding:5px 15px; border-radius:20px; color:white; font-weight:bold; font-size:0.9rem;">
+                            <span id="viewEvCountdown">- Hari Lagi</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:1.5rem; border-bottom:1px solid rgba(232, 121, 249, 0.2); padding-bottom:1rem;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div>
+                                <div style="display:flex; gap:8px; margin-bottom:0.5rem;">
+                                    <span id="viewEvType" class="badge-pill-event-type"></span>
+                                    <span id="viewEvStatus" class="badge-pill-event-stat"></span>
+                                </div>
+                                <h2 id="viewEvName" style="margin-top:0.5rem; font-size:2rem; line-height:1.2; background: linear-gradient(to right, #fff, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                                <div style="color:#fbcfe8; font-size:1rem; margin-top:0.5rem; font-weight:500;">
+                                    <i class="ph ph-map-pin"></i> <span id="viewEvLoc"></span>
+                                </div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div id="viewEvGuest" style="font-weight:800; color:#e879f9; font-size:1.3rem;">0</div>
+                                <div style="font-size:0.75rem; color:#9ca3af; margin-top:5px;">TAMU UNDANGAN</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-grid-box" style="border-color:rgba(219, 39, 119, 0.3); background:rgba(80, 7, 36, 0.3); grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <small style="color:#fbcfe8;">Estimasi Budget</small>
+                            <div id="viewEvBudget" style="color:#fff; font-size:1.2rem; font-weight:bold;">Rp 0</div>
+                        </div>
+                        <div>
+                            <small style="color:#fbcfe8;">Jam Mulai</small>
+                            <div id="viewEvTime" style="color:#fff; font-size:1.2rem; font-weight:bold;">-</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-top:1.5rem; background:transparent; border:1px dashed rgba(232, 121, 249, 0.3);">
+                         <div class="detail-section-label" style="color:#e879f9;"><i class="ph ph-storefront"></i> Vendors & Notes</div>
+                         <p id="viewEvVendors" class="detail-text-content" style="color:#f5d0fe; white-space:pre-line;"></p>
+                    </div>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#9ca3af; display:flex; justify-content:space-between;">
+                        <span id="viewEvCreated"></span>
+                        <span id="viewEvUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(232, 121, 249, 0.2); margin-top:auto;">
+                <div id="eventFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeEventModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveEvent()" style="background: linear-gradient(135deg, #be185d, #a21caf);">Create Event</button>
+                </div>
+                <div id="eventDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editEvent()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closeEventModal()" style="background: linear-gradient(135deg, #be185d, #a21caf);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal-overlay" id="investModalOverlay">
         <div class="modal-box" style="background: linear-gradient(145deg, #0c4a6e, #064e3b); border: 1px solid rgba(14, 165, 233, 0.2); max-width: 950px;">
             
@@ -1421,6 +1961,94 @@
                 <div id="investDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
                     <button type="button" class="btn-cancel" onclick="editInvestment()">Edit</button>
                     <button type="button" class="btn-save" onclick="closeInvestModal()" style="background: linear-gradient(135deg, #0369a1, #15803d);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="vehicleModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #09090b, #18181b); border: 1px solid rgba(220, 38, 38, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="vehicleModalTitle" style="color: #ef4444;">Service Record</h3>
+                <button class="btn-icon" onclick="closeVehicleModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="vehicleForm">
+                    <input type="hidden" id="vehicleId">
+                    
+                    <h4 class="form-section-title" style="color:#ef4444; border-color:rgba(239, 68, 68, 0.3);">Data Kendaraan</h4>
+                    <div class="form-group"><label>Nama Kendaraan (Plat Nomor)</label><input type="text" id="inpVeName" placeholder="Contoh: Pajero Sport (B 1234 CD)" required></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Jenis Kendaraan</label><select id="inpVeType"><option>Mobil (Car)</option><option>Motor (Bike)</option><option>Truck/Heavy</option><option>Sepeda Listrik</option></select></div>
+                        <div class="form-group"><label>Kilometer (Odometer)</label><input type="number" id="inpVeKm" placeholder="KM saat ini"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#a1a1aa; border-color:rgba(161, 161, 170, 0.3); margin-top:1.5rem;">Pengerjaan</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Tanggal Servis</label><input type="date" id="inpVeDate"></div>
+                        <div class="form-group"><label>Bengkel / Lokasi</label><input type="text" id="inpVeShop" placeholder="Auto2000, Ahass, dll..."></div>
+                    </div>
+                    <div class="form-group"><label>Tindakan (Ganti Oli, Tune Up, dll)</label><textarea id="inpVeAction" style="height:80px;" placeholder="Rincian perbaikan..."></textarea></div>
+
+                    <h4 class="form-section-title" style="color:#f87171; border-color:rgba(248, 113, 113, 0.3); margin-top:1.5rem;">Biaya</h4>
+                    <div class="form-group"><label>Total Biaya (Rp)</label><input type="number" id="inpVeCost" placeholder="0"></div>
+                </form>
+
+                <div id="vehicleDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:220px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(220, 38, 38, 0.3); background:#18181b; position:relative;">
+                        <img id="viewVeCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px; opacity:0.8;">
+                        <div style="position:absolute; inset:0; background:linear-gradient(to top, #09090b, transparent);"></div>
+                        
+                        <div style="position:absolute; bottom:-30px; left:30px; min-width:120px; height:60px; background:#09090b; border:2px solid #ef4444; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(220, 38, 38, 0.2); z-index:10;">
+                            <span style="font-size:0.65rem; color:#ef4444; text-transform:uppercase; letter-spacing:1px;">ODOMETER</span>
+                            <span id="viewVeKmBadge" style="font-size:1.2rem; font-weight:800; color:#fff;">0 KM</span>
+                        </div>
+
+                        <div style="position:absolute; top:20px; right:20px; z-index:10; background:rgba(0,0,0,0.6); padding:10px; border-radius:50%; border:1px solid #7f1d1d;">
+                            <i id="viewVeIcon" class="ph ph-car" style="font-size:1.5rem; color:#f87171;"></i>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2.5rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(220, 38, 38, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewVeName" style="margin:0; font-size:2rem; line-height:1.2; background: linear-gradient(to right, #fff, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#a1a1aa; font-size:1rem; margin-top:8px; font-weight:500; display:flex; align-items:center; gap:8px;">
+                            <i class="ph ph-calendar-check" style="color:#ef4444;"></i> <span id="viewVeDate"></span>
+                            <span style="color:#52525b;">|</span>
+                            <i class="ph ph-storefront" style="color:#ef4444;"></i> <span id="viewVeShop"></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="background:rgba(127, 29, 29, 0.2); border:1px solid rgba(220, 38, 38, 0.4); margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                         <div>
+                             <small style="color:#f87171; text-transform:uppercase; letter-spacing:1px;">Total Cost</small>
+                             <div id="viewVeCost" style="color:#fff; font-size:1.8rem; font-weight:bold; margin-top:5px; text-shadow: 0 0 10px rgba(239,68,68,0.5);">Rp 0</div>
+                         </div>
+                         <div style="font-size:2.5rem; color:#ef4444;"><i class="ph ph-receipt"></i></div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem; background:linear-gradient(145deg, #18181b, #09090b); border-left:4px solid #ef4444;">
+                         <div class="detail-section-label" style="color:#ef4444;"><i class="ph ph-wrench"></i> Service Actions</div>
+                         <p id="viewVeAction" class="detail-text-content" style="color:#d4d4d8; white-space:pre-line; font-family:'Courier New', monospace;"></p>
+                    </div>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#52525b; display:flex; justify-content:space-between;">
+                        <span id="viewVeCreated"></span>
+                        <span id="viewVeUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(220, 38, 38, 0.2); margin-top:auto;">
+                <div id="vehicleFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeVehicleModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveVehicle()" style="background: linear-gradient(135deg, #991b1b, #dc2626);">Save Record</button>
+                </div>
+                <div id="vehicleDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editVehicle()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closeVehicleModal()" style="background: linear-gradient(135deg, #991b1b, #dc2626);">Close</button>
                 </div>
             </div>
         </div>
@@ -2037,6 +2665,177 @@
                 <div id="foodDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
                     <button type="button" class="btn-cancel" onclick="editFood()">Edit</button>
                     <button type="button" class="btn-save" onclick="closeFoodModal()" style="background: linear-gradient(135deg, #ea580c, #db2777);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="thesisModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #271308, #431407); border: 1px solid rgba(251, 146, 60, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="thesisModalTitle" style="color: #fdba74;">Reference Entry</h3>
+                <button class="btn-icon" onclick="closeThesisModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="thesisForm">
+                    <input type="hidden" id="thesisId">
+                    
+                    <h4 class="form-section-title" style="color:#fdba74; border-color:rgba(253, 186, 116, 0.3);">Identitas Literatur</h4>
+                    <div class="form-group"><label>Judul Jurnal / Artikel</label><input type="text" id="inpThTitle" placeholder="Contoh: The Impact of AI on Education" required></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Penulis (Author)</label><input type="text" id="inpThAuthor" placeholder="Smith, J. et al."></div>
+                        <div class="form-group"><label>Tahun Terbit</label><input type="number" id="inpThYear" placeholder="2024"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#fb923c; border-color:rgba(251, 146, 60, 0.3); margin-top:1.5rem;">Akses & Status</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Status Baca</label><select id="inpThStatus"><option>Belum Dibaca</option><option>Sedang Dibaca</option><option>Selesai Dibaca</option><option>Dikutip (Cited)</option></select></div>
+                        <div class="form-group"><label>Link PDF / DOI</label><input type="text" id="inpThLink" placeholder="https://doi.org/..."></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#fed7aa; border-color:rgba(254, 215, 170, 0.3); margin-top:1.5rem;">Ringkasan</h4>
+                    <div class="form-group"><label>Abstrak / Poin Penting</label><textarea id="inpThAbstract" style="height:100px;" placeholder="Tempel abstrak atau tulis poin penting riset ini..."></textarea></div>
+                </form>
+
+                <div id="thesisDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:200px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(251, 146, 60, 0.3); background:#431407; position:relative;">
+                        <img id="viewThCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px; opacity:0.8;">
+                        <div style="position:absolute; inset:0; background:linear-gradient(to top, #271308, transparent);"></div>
+                        
+                        <div style="position:absolute; bottom:-25px; left:30px; width:70px; height:70px; background:#271308; border:2px solid #fdba74; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(0,0,0,0.6); z-index:10; flex-direction:column;">
+                            <span style="font-size:0.6rem; color:#fed7aa; text-transform:uppercase;">YEAR</span>
+                            <span id="viewThYearBadge" style="font-size:1.4rem; font-weight:bold; color:#fff;">-</span>
+                        </div>
+
+                        <div style="position:absolute; top:20px; right:20px; z-index:10;">
+                            <span id="viewThStatus" class="badge-pill-thesis-stat" style="font-size:0.9rem; padding:6px 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2.5rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(251, 146, 60, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewThTitle" style="margin:0; font-size:1.8rem; line-height:1.3; background: linear-gradient(to right, #fff, #fdba74); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#fdba74; font-size:1.1rem; margin-top:10px; font-weight:500; font-style:italic;">
+                            By <span id="viewThAuthor" style="color:#fff;"></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem; background:rgba(67, 20, 7, 0.4); border-left: 4px solid #ea580c;">
+                         <div class="detail-section-label" style="color:#fdba74;"><i class="ph ph-text-align-justify"></i> Abstract / Summary</div>
+                         <p id="viewThAbstract" class="detail-text-content" style="color:#fed7aa; white-space:pre-line; text-align:justify; line-height:1.8;"></p>
+                    </div>
+                    
+                    <a id="viewThLink" href="#" target="_blank" class="detail-content-box" style="margin:0; display:flex; align-items:center; gap:10px; text-decoration:none; justify-content:center; background:linear-gradient(135deg, #7c2d12, #9a3412); border:none; box-shadow: 0 4px 15px rgba(124, 45, 18, 0.3);">
+                        <i class="ph ph-file-pdf" style="font-size:1.5rem; color:#fff;"></i>
+                        <span style="color:#fff; font-weight:bold;">Buka Dokumen PDF</span>
+                    </a>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#9ca3af; display:flex; justify-content:space-between;">
+                        <span id="viewThCreated"></span>
+                        <span id="viewThUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(251, 146, 60, 0.2); margin-top:auto;">
+                <div id="thesisFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeThesisModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveThesis()" style="background: linear-gradient(135deg, #9a3412, #c2410c);">Save Reference</button>
+                </div>
+                <div id="thesisDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editThesis()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closeThesisModal()" style="background: linear-gradient(135deg, #9a3412, #c2410c);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="medModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #042f2e, #115e59); border: 1px solid rgba(45, 212, 191, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="medModalTitle" style="color: #5eead4;">Prescription Entry</h3>
+                <button class="btn-icon" onclick="closeMedModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="medForm">
+                    <input type="hidden" id="medId">
+                    
+                    <h4 class="form-section-title" style="color:#5eead4; border-color:rgba(94, 234, 212, 0.3);">Informasi Obat</h4>
+                    <div class="form-group"><label>Nama Obat / Vitamin</label><input type="text" id="inpMdName" placeholder="Contoh: Vitamin C 500mg" required></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Bentuk</label><select id="inpMdType"></select> </div>
+                        <div class="form-group"><label>Kegunaan (Indikasi)</label><input type="text" id="inpMdPurpose" placeholder="Daya tahan tubuh, Sakit kepala..."></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#22d3ee; border-color:rgba(34, 211, 238, 0.3); margin-top:1.5rem;">Aturan Pakai</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Dosis</label><input type="text" id="inpMdDose" placeholder="1 Tablet / 1 Sendok"></div>
+                        <div class="form-group"><label>Waktu Minum</label><input type="text" id="inpMdTime" placeholder="Pagi (Sesudah Makan)"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#ccfbf1; border-color:rgba(204, 251, 241, 0.3); margin-top:1.5rem;">Inventory & Sumber</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Stok Tersisa</label><input type="number" id="inpMdStock" placeholder="10"></div>
+                        <div class="form-group"><label>Dokter / Sumber (Opsional)</label><input type="text" id="inpMdDoc" placeholder="Dr. Budi / Apotek"></div>
+                    </div>
+                </form>
+
+                <div id="medDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:200px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(45, 212, 191, 0.3); background:#134e4a; position:relative;">
+                        <img id="viewMdCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
+                        
+                        <div style="position:absolute; bottom:-30px; left:30px; width:80px; height:80px; background:#042f2e; border:2px solid #5eead4; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(0,0,0,0.6); z-index:10;">
+                            <i class="ph ph-heartbeat" style="font-size:2.5rem; color:#5eead4;"></i>
+                        </div>
+
+                        <div style="position:absolute; top:20px; right:20px; z-index:10;">
+                            <span id="viewMdStockBadge" class="badge-pill-med-stock" style="font-size:0.9rem; padding:6px 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2.5rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(45, 212, 191, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewMdName" style="margin:0; font-size:2rem; line-height:1.2; background: linear-gradient(to right, #fff, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#99f6e4; font-size:1.1rem; margin-top:8px; font-weight:500;">
+                            <i class="ph ph-info"></i> <span id="viewMdPurpose"></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-grid-box" style="grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1.5rem; background:rgba(17, 94, 89, 0.4); border:1px solid rgba(45, 212, 191, 0.2);">
+                        <div>
+                            <small style="color:#5eead4; text-transform:uppercase;">Dosis</small>
+                            <div id="viewMdDose" style="color:#fff; font-weight:bold; font-size:1.1rem;">-</div>
+                        </div>
+                        <div>
+                            <small style="color:#5eead4; text-transform:uppercase;">Waktu</small>
+                            <div id="viewMdTime" style="color:#fff; font-weight:bold; font-size:1.1rem;">-</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem; border-left:4px solid #2dd4bf;">
+                         <div class="detail-section-label" style="color:#ccfbf1;"><i class="ph ph-user-md"></i> Prescribed By / Source</div>
+                         <p id="viewMdDoc" class="detail-text-content" style="color:#fff; font-weight:500;"></p>
+                    </div>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#9ca3af; display:flex; justify-content:space-between;">
+                        <span id="viewMdCreated"></span>
+                        <span id="viewMdUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(45, 212, 191, 0.2); margin-top:auto;">
+                <div id="medFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeMedModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveMed()" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">Save Meds</button>
+                </div>
+                <div id="medDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editMed()">Refill / Edit</button>
+                    <button type="button" class="btn-save" onclick="closeMedModal()" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">Close</button>
                 </div>
             </div>
         </div>
@@ -2810,7 +3609,101 @@
             </div>
         </div>
     </div>
-    
+    <div class="modal-overlay" id="jobModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #020617, #1e293b); border: 1px solid rgba(148, 163, 184, 0.2); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="jobModalTitle" style="color: #cbd5e1;">Job Entry</h3>
+                <button class="btn-icon" onclick="closeJobModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="jobForm">
+                    <input type="hidden" id="jobId">
+                    
+                    <h4 class="form-section-title" style="color:#94a3b8; border-color:rgba(148, 163, 184, 0.3);">Detail Pekerjaan</h4>
+                    <div class="form-group"><label>Posisi / Role</label><input type="text" id="inpJoRole" placeholder="Contoh: UI/UX Designer" required></div>
+                    <div class="form-group"><label>Nama Perusahaan</label><input type="text" id="inpJoComp" placeholder="PT. Mencari Cinta Sejati"></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Platform</label><select id="inpJoPlat"></select> </div>
+                        <div class="form-group"><label>Lokasi Kantor</label><input type="text" id="inpJoLoc" placeholder="Jakarta / Remote / Hybrid"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#60a5fa; border-color:rgba(96, 165, 250, 0.3); margin-top:1.5rem;">Progress & Offer</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Status Lamaran</label><select id="inpJoStatus"><option>Applied</option><option>Screening</option><option>Interview HR</option><option>Interview User</option><option>Offer</option><option>Rejected</option><option>Ghosted</option></select></div>
+                        <div class="form-group"><label>Tanggal Applied</label><input type="date" id="inpJoDate"></div>
+                    </div>
+                    <div class="form-group"><label>Penawaran Gaji (Estimasi/Fix)</label><input type="text" id="inpJoSalary" placeholder="Rp 10.000.000 / Negotiable"></div>
+
+                    <h4 class="form-section-title" style="color:#e2e8f0; border-color:rgba(226, 232, 240, 0.3); margin-top:1.5rem;">Data Tambahan</h4>
+                    <div class="form-group"><label>Link Lowongan (URL)</label><input type="text" id="inpJoLink"></div>
+                    <div class="form-group"><label>Catatan / Feedback</label><textarea id="inpJoNotes" style="height:80px;" placeholder="Catatan interview, benefit, atau alasan reject..."></textarea></div>
+                </form>
+
+                <div id="jobDetailView" class="hidden detail-view">
+                    
+                   <div style="margin-top:1rem; width:100%; height:200px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(148, 163, 184, 0.3); background:#1e293b; position:relative;">
+                        
+                        <img id="viewJoCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
+                        
+                        <div style="position:absolute; bottom:-30px; left:30px; width:80px; height:80px; background:#0f172a; border:2px solid #64748b; border-radius:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(0,0,0,0.6); z-index: 10;">
+                            <i class="ph ph-buildings" style="font-size:2.5rem; color:#cbd5e1;"></i>
+                        </div>
+
+                        <div style="position:absolute; top:15px; right:15px; z-index: 10;">
+                            <span id="viewJoStatus" class="badge-pill-job-stat" style="font-size:0.85rem; padding:6px 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(148, 163, 184, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewJoRole" style="margin:0; font-size:2rem; line-height:1.2; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#60a5fa; font-size:1.1rem; margin-top:5px; font-weight:600;">
+                            at <span id="viewJoComp"></span>
+                        </div>
+                        <div style="color:#94a3b8; font-size:0.9rem; margin-top:5px;">
+                            <i class="ph ph-map-pin"></i> <span id="viewJoLoc"></span> • <i class="ph ph-globe"></i> <span id="viewJoPlat"></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.3); margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                         <div>
+                             <small style="color:#6ee7b7; text-transform:uppercase;">Salary Offer / Range</small>
+                             <div id="viewJoSalary" style="color:#fff; font-size:1.3rem; font-weight:bold;">-</div>
+                         </div>
+                         <div style="font-size:2rem; color:#10b981; opacity:0.8;"><i class="ph ph-money"></i></div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem;">
+                         <div class="detail-section-label" style="color:#94a3b8;"><i class="ph ph-notebook"></i> Notes & Progress</div>
+                         <p id="viewJoNotes" class="detail-text-content" style="color:#cbd5e1; white-space:pre-line;"></p>
+                    </div>
+                    
+                    <a id="viewJoLink" href="#" target="_blank" class="detail-content-box" style="margin:0; display:flex; align-items:center; gap:10px; text-decoration:none; justify-content:center; border:1px dashed #60a5fa; background:transparent;">
+                        <i class="ph ph-arrow-square-out" style="font-size:1.2rem; color:#60a5fa;"></i>
+                        <span style="color:#60a5fa;">Lihat Lowongan Asli</span>
+                    </a>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#64748b; display:flex; justify-content:space-between;">
+                        <span id="viewJoCreated"></span>
+                        <span id="viewJoUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(148, 163, 184, 0.2); margin-top:auto;">
+                <div id="jobFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeJobModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveJob()" style="background: linear-gradient(135deg, #334155, #475569);">Save Application</button>
+                </div>
+                <div id="jobDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editJob()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closeJobModal()" style="background: linear-gradient(135deg, #334155, #475569);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal-overlay" id="journalModalOverlay">
         <div class="modal-box" style="background: linear-gradient(145deg, #450a0a, #7f1d1d); border: 1px solid rgba(251, 113, 133, 0.2);">
             <div class="modal-header">
@@ -4547,6 +5440,350 @@
                 <div id="meetDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
                     <button type="button" class="btn-cancel" onclick="editMeeting()">Edit</button>
                     <button type="button" class="btn-save" onclick="closeMeetModal()" style="background: linear-gradient(135deg, #b45309, #d97706);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="skinModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #500724, #831843); border: 1px solid rgba(244, 114, 182, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="skinModalTitle" style="color: #fbcfe8;">Beauty Product</h3>
+                <button class="btn-icon" onclick="closeSkinModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="skinForm">
+                    <input type="hidden" id="skinId">
+                    
+                    <h4 class="form-section-title" style="color:#fbcfe8; border-color:rgba(251, 207, 232, 0.3);">Informasi Produk</h4>
+                    <div class="form-group">
+                        <label>Nama Produk / Brand</label>
+                        <input type="text" id="inpSkinProductName" placeholder="Contoh: Niacinamide 10% Serum" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Jenis Produk</label><select id="inpSkType"></select> </div>
+                        <div class="form-group"><label>Urutan Pakai (Step)</label><input type="number" id="inpSkStep" placeholder="1, 2, 3..."></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#fde68a; border-color:rgba(253, 230, 138, 0.3); margin-top:1.5rem;">Penggunaan</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Waktu Pemakaian</label><select id="inpSkTime"><option>Pagi & Malam</option><option>Pagi (AM)</option><option>Malam (PM)</option><option>Mingguan</option></select></div>
+                        <div class="form-group"><label>Tanggal Buka (Open Date)</label><input type="date" id="inpSkDate"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#f9a8d4; border-color:rgba(249, 168, 212, 0.3); margin-top:1.5rem;">Review Efektivitas</h4>
+                    <div class="form-group"><label>Rating (1-5)</label><input type="number" id="inpSkRating" min="1" max="5" placeholder="5"></div>
+                    <div class="form-group"><label>Catatan / Efek di Kulit</label><textarea id="inpSkNotes" style="height:80px;" placeholder="Mencerahkan, melembabkan, atau bikin breakout?"></textarea></div>
+                </form>
+
+                <div id="skinDetailView" class="hidden detail-view">
+                    
+                  <div style="margin-top:1rem; width:100%; height:200px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(244, 114, 182, 0.3); background:#831843; position:relative;">
+                        
+                        <img id="viewSkCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px;" onerror="this.style.display='none'">
+                        
+                        <div style="position:absolute; bottom:-35px; left:30px; width:90px; height:90px; background:#500724; border:2px solid #fbcfe8; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(0,0,0,0.6); z-index:10;">
+                            <span style="font-size:0.65rem; color:#fbcfe8; text-transform:uppercase;">STEP</span>
+                            <span id="viewSkStep" style="font-size:2rem; font-weight:bold; color:#fff;">1</span>
+                        </div>
+
+                        <div style="position:absolute; top:20px; right:20px; z-index:10;">
+                            <span id="viewSkTime" class="badge-pill-skin-time" style="font-size:0.9rem; padding:6px 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2.5rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(244, 114, 182, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewSkName" style="margin:0; font-size:2rem; line-height:1.2; background: linear-gradient(to right, #fff, #fbcfe8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#fde68a; font-size:1.1rem; margin-top:8px; font-weight:500; display:flex; align-items:center; gap:8px;">
+                            <i class="ph ph-drop"></i> <span id="viewSkType"></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="background:rgba(251, 207, 232, 0.1); border:1px solid rgba(244, 114, 182, 0.3); margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                         <div>
+                             <small style="color:#fbcfe8; text-transform:uppercase; letter-spacing:1px;">Opened Since</small>
+                             <div id="viewSkOpenDate" style="color:#fff; font-weight:bold; font-size:1.1rem; margin-top:3px;">-</div>
+                         </div>
+                         <div style="text-align:right;">
+                             <small style="color:#fbcfe8;">Duration</small>
+                             <div id="viewSkDuration" style="color:#fde68a; font-size:1.4rem; font-weight:bold;">0 Days</div>
+                         </div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem; border-left:4px solid #f472b6;">
+                         <div class="detail-section-label" style="color:#fbcfe8;"><i class="ph ph-star"></i> Review & Effect</div>
+                         <div style="margin-bottom:8px; color:#fbbf24; font-size:1.2rem;" id="viewSkStars"></div>
+                         <p id="viewSkNotes" class="detail-text-content" style="color:#fce7f3; white-space:pre-line; font-style:italic;"></p>
+                    </div>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#fbcfe8; opacity:0.7; display:flex; justify-content:space-between;">
+                        <span id="viewSkCreated"></span>
+                        <span id="viewSkUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(244, 114, 182, 0.2); margin-top:auto;">
+                <div id="skinFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeSkinModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveSkin()" style="background: linear-gradient(135deg, #be185d, #db2777);">Add to Routine</button>
+                </div>
+                <div id="skinDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editSkin()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closeSkinModal()" style="background: linear-gradient(135deg, #be185d, #db2777);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="cafeModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #2b1d1a, #3e2723); border: 1px solid rgba(212, 163, 115, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="cafeModalTitle" style="color: #faedcd;">Spot Details</h3>
+                <button class="btn-icon" onclick="closeCafeModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="cafeForm">
+                    <input type="hidden" id="cafeId">
+                    
+                    <h4 class="form-section-title" style="color:#d4a373; border-color:rgba(212, 163, 115, 0.3);">Informasi Tempat</h4>
+                    <div class="form-group"><label>Nama Tempat</label><input type="text" id="inpCfName" placeholder="Contoh: Filosofi Kopi" required></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Lokasi / Area</label><input type="text" id="inpCfLoc" placeholder="Jaksel / Jl. Braga..."></div>
+                        <div class="form-group"><label>Kategori</label><select id="inpCfCat"></select> </div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#faedcd; border-color:rgba(250, 237, 205, 0.3); margin-top:1.5rem;">Menu & Budget</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Menu Andalan</label><input type="text" id="inpCfMenu" placeholder="Kopi Susu Gula Aren"></div>
+                        <div class="form-group"><label>Harga Rata-rata (per orang)</label><input type="number" id="inpCfPrice" placeholder="50000"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#e9edc9; border-color:rgba(233, 237, 201, 0.3); margin-top:1.5rem;">Experience</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Koneksi WiFi</label><select id="inpCfWifi"><option>Kencang (Fast)</option><option>Lumayan (Average)</option><option>Lambat (Slow)</option><option>Tidak Ada</option></select></div>
+                        <div class="form-group"><label>Rating Suasana (1-5)</label><input type="number" id="inpCfRating" min="1" max="5" placeholder="5"></div>
+                    </div>
+                </form>
+
+                <div id="cafeDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:220px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(212, 163, 115, 0.3); background:#3e2723; position:relative;">
+                        <img id="viewCfCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px; opacity:0.9;" onerror="this.style.display='none'">
+                        
+                        <div style="position:absolute; bottom:-35px; left:30px; width:80px; height:80px; background:#2b1d1a; border:2px solid #d4a373; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(0,0,0,0.6); z-index:10;">
+                            <i class="ph ph-star-fill" style="color:#d4a373; font-size:1.2rem; margin-bottom:2px;"></i>
+                            <span id="viewCfRatingNum" style="font-size:1.6rem; font-weight:bold; color:#fff;">-</span>
+                        </div>
+
+                        <div style="position:absolute; top:20px; right:20px; z-index:10;">
+                            <span id="viewCfWifi" class="badge-pill-cafe-wifi" style="font-size:0.9rem; padding:6px 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2.5rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(212, 163, 115, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewCfName" style="margin:0; font-size:2.2rem; line-height:1.2; background: linear-gradient(to right, #fff, #faedcd); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#d4a373; font-size:1.1rem; margin-top:8px; font-weight:500; display:flex; align-items:center; gap:8px;">
+                            <i class="ph ph-map-pin"></i> <span id="viewCfLoc"></span>
+                            <span style="color:#6f4e37;">•</span>
+                            <span id="viewCfCat" style="text-transform:uppercase; letter-spacing:1px; font-size:0.9rem;"></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-grid-box" style="grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1.5rem; background:rgba(67, 40, 24, 0.4); border:1px solid rgba(212, 163, 115, 0.2);">
+                        <div>
+                            <small style="color:#d4a373; text-transform:uppercase;">Avg. Price</small>
+                            <div id="viewCfPrice" style="color:#fff; font-weight:bold; font-size:1.2rem;">-</div>
+                        </div>
+                        <div>
+                            <small style="color:#d4a373; text-transform:uppercase;">Signature</small>
+                            <div id="viewCfMenu" style="color:#fff; font-weight:bold; font-size:1.1rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">-</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#8d6e63; display:flex; justify-content:space-between;">
+                        <span id="viewCfCreated"></span>
+                        <span id="viewCfUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(212, 163, 115, 0.2); margin-top:auto;">
+                <div id="cafeFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeCafeModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveCafe()" style="background: linear-gradient(135deg, #6f4e37, #8d6e63);">Save Spot</button>
+                </div>
+                <div id="cafeDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editCafe()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closeCafeModal()" style="background: linear-gradient(135deg, #6f4e37, #8d6e63);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="musicModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #000000, #022c22); border: 1px solid rgba(34, 197, 94, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="musicModalTitle" style="color: #4ade80;">Track Details</h3>
+                <button class="btn-icon" onclick="closeMusicModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="musicForm">
+                    <input type="hidden" id="musicId">
+                    
+                    <h4 class="form-section-title" style="color:#22c55e; border-color:rgba(34, 197, 94, 0.3);">Informasi Lagu</h4>
+                    <div class="form-group"><label>Judul Lagu / Album</label><input type="text" id="inpMusicTitle" placeholder="Contoh: Bohemian Rhapsody" required></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Artis / Band</label><input type="text" id="inpMusicArtist" placeholder="Queen"></div>
+                        <div class="form-group"><label>Tahun Rilis</label><input type="number" id="inpMusicYear" placeholder="1975"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#86efac; border-color:rgba(134, 239, 172, 0.3); margin-top:1.5rem;">Vibe & Kategori</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Genre</label><select id="inpMusicGenre"></select> </div>
+                        <div class="form-group"><label>Mood</label><select id="inpMusicMood"><option>Semangat (Energetic)</option><option>Sedih (Sad/Galau)</option><option>Chill (Relax)</option><option>Fokus (Study)</option><option>Romantis (Love)</option></select></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#bbf7d0; border-color:rgba(187, 247, 208, 0.3); margin-top:1.5rem;">Streaming</h4>
+                    <div class="form-group"><label>Link Spotify / YouTube</label><input type="text" id="inpMusicLink" placeholder="https://open.spotify.com/track/..."></div>
+                </form>
+
+                <div id="musicDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:250px; border-radius:16px; overflow:hidden; margin-bottom:2rem; border:1px solid rgba(34, 197, 94, 0.2); position:relative; background:#000;">
+                        <img id="viewMusicBg" src="" style="width:100%; height:100%; object-fit:cover; opacity:0.3; filter:blur(20px); transform:scale(1.2);">
+                        
+                        <div style="position:absolute; inset:0; display:flex; align-items:center; padding:30px; gap:25px; z-index:10; background:linear-gradient(to right, rgba(0,0,0,0.8), transparent);">
+                            <img id="viewMusicCover" src="" style="width:160px; height:160px; object-fit:cover; border-radius:8px; box-shadow:0 15px 30px rgba(0,0,0,0.8);">
+                            
+                            <div style="flex:1;">
+                                <span id="viewMusicType" style="font-size:0.75rem; color:#4ade80; text-transform:uppercase; letter-spacing:2px; font-weight:bold;">SINGLE / ALBUM</span>
+                                <h2 id="viewMusicTitle" style="margin:5px 0; font-size:2.5rem; line-height:1.1; color:#fff; font-weight:800;"></h2>
+                                <div style="color:#bbf7d0; font-size:1.2rem; margin-top:5px; font-weight:500;">
+                                    <i class="ph ph-microphone-stage"></i> <span id="viewMusicArtist"></span>
+                                </div>
+                                <div style="margin-top:15px; display:flex; gap:10px;">
+                                    <span id="viewMusicGenre" class="badge-pill-music-genre"></span>
+                                    <span id="viewMusicYear" style="color:#86efac; font-size:0.9rem; align-self:center;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem; border-left:4px solid #1db954; background:rgba(20, 83, 45, 0.3);">
+                         <div class="detail-section-label" style="color:#4ade80;"><i class="ph ph-smiley"></i> Mood & Vibe</div>
+                         <p id="viewMusicMood" class="detail-text-content" style="color:#fff; font-size:1.1rem; font-weight:500;"></p>
+                    </div>
+                    
+                    <a id="viewMusicLink" href="#" target="_blank" class="detail-content-box" style="margin:0; display:flex; align-items:center; gap:10px; text-decoration:none; justify-content:center; background:#1db954; border:none; border-radius:30px; transition:transform 0.2s;">
+                        <i class="ph ph-play-circle" style="font-size:1.8rem; color:#000;"></i>
+                        <span style="color:#000; font-weight:800; text-transform:uppercase; letter-spacing:1px;">Listen Now</span>
+                    </a>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#4b5563; display:flex; justify-content:space-between;">
+                        <span id="viewMusicCreated"></span>
+                        <span id="viewMusicUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(34, 197, 94, 0.2); margin-top:auto;">
+                <div id="musicFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closeMusicModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="saveMusic()" style="background: linear-gradient(135deg, #15803d, #16a34a);">Save Track</button>
+                </div>
+                <div id="musicDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editMusic()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closeMusicModal()" style="background: linear-gradient(135deg, #15803d, #16a34a);">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="passModalOverlay">
+        <div class="modal-box" style="background: linear-gradient(145deg, #020617, #172554); border: 1px solid rgba(251, 191, 36, 0.3); max-width: 950px;">
+            
+            <div class="modal-header">
+                <h3 id="passModalTitle" style="color: #fbbf24;">Vault Entry</h3>
+                <button class="btn-icon" onclick="closePassModal()"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="passForm">
+                    <input type="hidden" id="passId">
+                    
+                    <h4 class="form-section-title" style="color:#60a5fa; border-color:rgba(96, 165, 250, 0.3);">Detail Akun</h4>
+                    <div class="form-group"><label>Nama Layanan / Website</label><input type="text" id="inpPassService" placeholder="Contoh: Instagram, BCA Mobile, Gmail" required></div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Kategori</label><select id="inpPassCat"></select> </div>
+                        <div class="form-group"><label>Username / Email Utama</label><input type="text" id="inpPassUser" placeholder="user@example.com"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#fbbf24; border-color:rgba(251, 191, 36, 0.3); margin-top:1.5rem;">Security Check</h4>
+                    <div class="form-row">
+                        <div class="form-group"><label>Status 2FA (Otentikasi 2 Langkah)</label><select id="inpPass2FA"><option value="Active">Aktif (Aman)</option><option value="Inactive">Belum Aktif (Berisiko)</option></select></div>
+                        <div class="form-group"><label>Email / No. HP Pemulihan</label><input type="text" id="inpPassRecovery" placeholder="0812... / recovery@gmail.com"></div>
+                    </div>
+
+                    <h4 class="form-section-title" style="color:#bfdbfe; border-color:rgba(191, 219, 254, 0.3); margin-top:1.5rem;">Password Hint</h4>
+                    <div class="form-group">
+                        <label style="color:#f87171;"><i class="ph ph-warning"></i> JANGAN TULIS PASSWORD ASLI!</label>
+                        <textarea id="inpPassHint" style="height:80px; background:rgba(0,0,0,0.3);" placeholder="Contoh: Tanggal jadian + Nama Kucing (Huruf Besar semua)"></textarea>
+                    </div>
+                </form>
+
+                <div id="passDetailView" class="hidden detail-view">
+                    
+                    <div style="margin-top:1rem; width:100%; height:200px; border-radius:16px; overflow:visible; margin-bottom:2.5rem; border:1px solid rgba(251, 191, 36, 0.3); background:#1e3a8a; position:relative;">
+                        <img id="viewPassCover" src="" style="width:100%; height:100%; object-fit:cover; border-radius:16px; opacity:0.6;">
+                        <div style="position:absolute; inset:0; background:linear-gradient(to top, #020617, transparent);"></div>
+                        
+                        <div style="position:absolute; bottom:-35px; left:30px; width:90px; height:90px; background:#020617; border:2px solid #fbbf24; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 10px 25px rgba(0,0,0,0.8); z-index:10;">
+                            <i class="ph ph-shield-check" style="font-size:2.5rem; color:#fbbf24;"></i>
+                        </div>
+
+                        <div style="position:absolute; top:20px; right:20px; z-index:10;">
+                            <span id="viewPass2FA" class="badge-pill-pass-2fa" style="font-size:0.9rem; padding:6px 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);"></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:2.5rem; margin-bottom:1.5rem; border-bottom:1px solid rgba(251, 191, 36, 0.2); padding-bottom:1rem; padding-left:5px;">
+                        <h2 id="viewPassService" style="margin:0; font-size:2.2rem; line-height:1.2; background: linear-gradient(to right, #fff, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></h2>
+                        <div style="color:#93c5fd; font-size:1.1rem; margin-top:8px; font-weight:500; display:flex; align-items:center; gap:8px;">
+                            <i class="ph ph-user-circle"></i> <span id="viewPassUser"></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem; background:rgba(30, 58, 138, 0.2); border:1px dashed #fbbf24;">
+                         <div class="detail-section-label" style="color:#fbbf24;"><i class="ph ph-key"></i> Password Hint</div>
+                         <p id="viewPassHint" class="detail-text-content" style="color:#fff; font-family:'Courier New', monospace; font-size:1.1rem; letter-spacing:0.5px;"></p>
+                    </div>
+
+                    <div class="detail-content-box" style="margin-bottom:1.5rem; border-left:4px solid #3b82f6;">
+                         <div class="detail-section-label" style="color:#60a5fa;"><i class="ph ph-life-buoy"></i> Recovery Contact</div>
+                         <p id="viewPassRecovery" class="detail-text-content" style="color:#dbeafe; font-weight:500;"></p>
+                    </div>
+
+                    <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); font-size:0.75rem; color:#64748b; display:flex; justify-content:space-between;">
+                        <span id="viewPassCreated"></span>
+                        <span id="viewPassUpdated"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top-color: rgba(251, 191, 36, 0.2); margin-top:auto;">
+                <div id="passFormActions" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="closePassModal()">Cancel</button>
+                    <button type="button" class="btn-save" onclick="savePass()" style="background: linear-gradient(135deg, #b45309, #d97706);">Lock in Vault</button>
+                </div>
+                <div id="passDetailActions" class="hidden" style="width:100%; display:flex; justify-content:flex-end; gap:1rem;">
+                    <button type="button" class="btn-cancel" onclick="editPass()">Edit</button>
+                    <button type="button" class="btn-save" onclick="closePassModal()" style="background: linear-gradient(135deg, #b45309, #d97706);">Close</button>
                 </div>
             </div>
         </div>
