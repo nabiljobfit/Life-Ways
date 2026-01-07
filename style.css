@@ -1738,3 +1738,287 @@
         color: rgba(255,255,255,0.02);
         pointer-events: none;
     }
+    /* --- STYLE JOB APPLICATION (CORPORATE SLATE THEME) --- */
+    .job-card {
+        /* Gradient Dark Slate to Midnight */
+        background: linear-gradient(160deg, #1e293b 0%, #0f172a 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 300px;
+    }
+    .job-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(96, 165, 250, 0.5); /* Blue Glow */
+        box-shadow: 0 15px 40px -10px rgba(15, 23, 42, 0.7);
+    }
+    .job-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-slate { color: #94a3b8; font-weight:700; }
+    
+    .badge-pill-job-stat { background: rgba(148, 163, 184, 0.15); color:#cbd5e1; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(148, 163, 184, 0.3); text-transform:uppercase; font-weight:700; letter-spacing:0.5px; }
+    .badge-pill-job-plat { background: rgba(255,255,255,0.05); color:#94a3b8; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.1); }
+    
+    .badge-src-job { background: rgba(51, 65, 85, 0.9); } /* Slate for Dashboard */
+    /* --- STYLE CLIENT MANAGEMENT (SUCCESS GREEN THEME) --- */
+    .client-card {
+        /* Gradient Dark Green to Black */
+        background: linear-gradient(160deg, #022c22 0%, #064e3b 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .client-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(52, 211, 153, 0.6); /* Emerald Glow */
+        box-shadow: 0 15px 40px -10px rgba(6, 78, 59, 0.7);
+    }
+    .client-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-green { color: #34d399; font-weight:700; }
+    
+    .badge-pill-client-stat { background: rgba(6, 78, 59, 0.3); color:#a7f3d0; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(16, 185, 129, 0.3); text-transform:uppercase; font-weight:700; letter-spacing:0.5px; backdrop-filter:blur(5px); }
+    
+    .badge-src-client { background: rgba(4, 120, 87, 0.9); } /* Green for Dashboard */
+    /* --- STYLE ONLINE COURSE (ACADEMIC BLUE THEME) --- */
+    .course-card {
+        /* Gradient Royal Blue to Navy */
+        background: linear-gradient(160deg, #172554 0%, #1e3a8a 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(252, 211, 77, 0.2); /* Gold border subtle */
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .course-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(252, 211, 77, 0.6); /* Gold Glow */
+        box-shadow: 0 15px 40px -10px rgba(30, 58, 138, 0.7);
+    }
+    .course-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-gold { color: #fcd34d; font-weight:700; }
+    
+    .badge-pill-course-plat { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); text-transform:uppercase; font-weight:700; letter-spacing:0.5px; backdrop-filter:blur(5px); }
+    
+    /* Progress Bar Kecil di Card */
+    .mini-progress-track {
+        width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: auto;
+    }
+    .mini-progress-fill {
+        height: 100%; border-radius: 10px; transition: width 0.5s ease;
+    }
+    
+    .badge-src-course { background: rgba(30, 58, 138, 0.9); } /* Blue for Dashboard */
+    /* --- STYLE RESEARCH & THESIS (LIBRARY WOOD THEME) --- */
+    .thesis-card {
+        /* Gradient Deep Wood to Brick Red */
+        background: linear-gradient(160deg, #271308 0%, #431407 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(251, 146, 60, 0.2); /* Orange/Wood border */
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .thesis-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(251, 146, 60, 0.6); /* Orange Glow */
+        box-shadow: 0 15px 40px -10px rgba(124, 45, 18, 0.6);
+    }
+    .thesis-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-wood { color: #fdba74; font-weight:700; }
+    
+    .badge-pill-thesis-stat { background: rgba(154, 52, 18, 0.3); color:#fdba74; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(251, 146, 60, 0.3); text-transform:uppercase; font-weight:700; letter-spacing:0.5px; backdrop-filter:blur(5px); }
+    
+    .badge-src-thesis { background: rgba(124, 45, 18, 0.9); } /* Wood/Brown for Dashboard */
+    /* --- STYLE SUPPLEMENT & MEDS (MEDICAL TEAL THEME) --- */
+    .med-card {
+        /* Gradient Dark Teal to Deep Ocean */
+        background: linear-gradient(160deg, #115e59 0%, #0f766e 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(45, 212, 191, 0.3);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 300px;
+    }
+    .med-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(94, 234, 212, 0.6); /* Cyan Glow */
+        box-shadow: 0 15px 40px -10px rgba(13, 148, 136, 0.6);
+    }
+    .med-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-teal { color: #5eead4; font-weight:700; }
+    
+    .badge-pill-med-stock { background: rgba(45, 212, 191, 0.15); color:#ccfbf1; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(45, 212, 191, 0.3); font-weight:700; }
+    .badge-pill-med-type { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); text-transform:uppercase; font-weight:600; }
+    
+    .badge-src-med { background: rgba(15, 118, 110, 0.9); } /* Teal for Dashboard */
+    /* --- STYLE SKINCARE ROUTINE (GLOW SKIN THEME) --- */
+    .skin-card {
+        /* Gradient Deep Rose to Soft Mauve */
+        background: linear-gradient(160deg, #831843 0%, #9d174d 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(244, 114, 182, 0.3);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .skin-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(251, 207, 232, 0.6); /* Pink Glow */
+        box-shadow: 0 15px 40px -10px rgba(157, 23, 77, 0.6);
+    }
+    .skin-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-glow { color: #fbcfe8; font-weight:700; }
+    
+    .badge-pill-skin-time { background: rgba(255, 255, 255, 0.1); color:#fde68a; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(253, 230, 138, 0.3); font-weight:700; letter-spacing:0.5px; backdrop-filter:blur(5px); }
+    .badge-pill-skin-type { background: rgba(244, 114, 182, 0.2); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(244, 114, 182, 0.3); text-transform:uppercase; font-weight:600; }
+    
+    .badge-src-skin { background: rgba(157, 23, 77, 0.9); } /* Rose for Dashboard */
+    /* --- STYLE VEHICLE MAINTENANCE (AUTOMOTIVE CARBON THEME) --- */
+    .vehicle-card {
+        /* Gradient Carbon Black to Dark Red */
+        background: linear-gradient(160deg, #18181b 0%, #09090b 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(220, 38, 38, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .vehicle-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(239, 68, 68, 0.6); /* Red Glow */
+        box-shadow: 0 15px 40px -10px rgba(127, 29, 29, 0.6);
+    }
+    
+    /* Mesh Pattern Overlay (Carbon Fiber Effect) */
+    .vehicle-card::before {
+        content: '';
+        position: absolute; top:0; left:0; width:100%; height:100%;
+        background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 4px 4px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .vehicle-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; position:relative; z-index:1; }
+
+    .text-highlight-carbon { color: #ef4444; font-weight:700; }
+    
+    .badge-pill-ve-type { background: rgba(255,255,255,0.05); color:#d4d4d8; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.1); text-transform:uppercase; font-weight:700; letter-spacing:0.5px; }
+    
+    .badge-src-ve { background: rgba(127, 29, 29, 0.9); } /* Dark Red for Dashboard */
+    /* --- STYLE CAFE/RESTO HUNT (COFFEE BEAN THEME) --- */
+    .cafe-card {
+        /* Gradient Espresso to Mocha */
+        background: linear-gradient(160deg, #3e2723 0%, #2b1d1a 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(212, 163, 115, 0.25);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .cafe-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(250, 237, 205, 0.5); /* Cream Glow */
+        box-shadow: 0 15px 40px -10px rgba(62, 39, 35, 0.8);
+    }
+    .cafe-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-coffee { color: #d4a373; font-weight:700; }
+    
+    .badge-pill-cafe-wifi { background: rgba(255,255,255,0.1); color:#faedcd; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(250, 237, 205, 0.3); font-weight:700; letter-spacing:0.5px; backdrop-filter:blur(5px); }
+    .badge-pill-cafe-cat { background: rgba(62, 39, 35, 0.8); color:#d4a373; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(212, 163, 115, 0.3); text-transform:uppercase; font-weight:600; }
+    
+    .badge-src-cafe { background: rgba(67, 40, 24, 0.9); } /* Coffee Brown for Dashboard */
+    /* --- STYLE MUSIC PLAYLIST (SPOTIFY GREEN THEME) --- */
+    .music-card {
+        /* Gradient Deep Black to Dark Green */
+        background: linear-gradient(160deg, #022c22 0%, #000000 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 320px;
+    }
+    .music-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(74, 222, 128, 0.6); /* Neon Green Glow */
+        box-shadow: 0 15px 40px -10px rgba(20, 83, 45, 0.8);
+    }
+    .music-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-spotify { color: #1db954; font-weight:700; }
+    
+    .badge-pill-music-genre { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:12px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); text-transform:uppercase; font-weight:600; letter-spacing:0.5px; }
+    
+    .badge-src-music { background: rgba(6, 78, 59, 0.9); } /* Forest Green for Dashboard */
+
+    /* Play Button Hover on Card */
+    .card-play-btn {
+        opacity: 0; transform: translateY(10px); transition: all 0.3s ease;
+        position: absolute; bottom: 15px; right: 15px;
+        width: 45px; height: 45px; background: #1db954; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 5;
+    }
+    .music-card:hover .card-play-btn { opacity: 1; transform: translateY(0); }
+    /* --- STYLE PASSWORD HINT (SECURITY SHIELD THEME) --- */
+    .pass-card {
+        /* Gradient Dark Navy to Midnight */
+        background: linear-gradient(160deg, #020617 0%, #172554 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(251, 191, 36, 0.2);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex; flex-direction: column; min-height: 280px;
+    }
+    .pass-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(251, 191, 36, 0.6); /* Gold Glow */
+        box-shadow: 0 15px 40px -10px rgba(30, 58, 138, 0.8);
+    }
+    .pass-card-body { padding: 1.2rem; flex: 1; display:flex; flex-direction:column; }
+
+    .text-highlight-gold { color: #fbbf24; font-weight:700; }
+    
+    .badge-pill-pass-2fa { background: rgba(255,255,255,0.1); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(255,255,255,0.2); text-transform:uppercase; font-weight:700; letter-spacing:0.5px; backdrop-filter:blur(5px); }
+    .badge-pill-pass-cat { background: rgba(251, 191, 36, 0.15); color:#fbbf24; padding:4px 10px; border-radius:4px; font-size:0.7rem; border:1px solid rgba(251, 191, 36, 0.3); text-transform:uppercase; font-weight:600; }
+    
+    .badge-src-pass { background: rgba(30, 58, 138, 0.9); } /* Navy for Dashboard */
